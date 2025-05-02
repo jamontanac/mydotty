@@ -1,5 +1,6 @@
 ## Setting up theme
-theme = light:rose-pine-dawn,dark:rose-pine
+#theme = light:rose-pine-dawn,dark:rose-pine
+theme = rose-pine
 
 # font configuration
 
@@ -27,7 +28,7 @@ window-inherit-working-directory = false
 working-directory = home
 
 # keymaps
-keybind = global:cmd+`=toggle_quick_terminal
+keybind = global:cmd+´=toggle_quick_terminal
 #keybind = shift+ctrl+left_bracket=previous_tab
 #keybind = shift+ctrl+right_bracket=next_tab
 keybind = shift+ctrl+physical:left=move_tab:0
