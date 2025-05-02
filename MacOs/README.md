@@ -112,7 +112,7 @@ spark.executor.extraClassPath             $HOME/spark-3.5.5-bin-hadoop3/jars/*
 # spark.executor.extraJavaOptions         -Dcom.amazonaws.services.s3.enableV4=true
 # spark.driver.extraJavaOptions           -Dcom.amazonaws.services.s3.enableV4=true
 # spark.sql.catalogImplementation         hive
-# spark.jars                              /Users/pereijoo/spark-3.4.2-bin-hadoop3/jars/*
+# spark.jars                              $HOME/spark-3.4.2-bin-hadoop3/jars/*
 
 # Delta
 #spark.jars.packages                       io.delta:delta-core_2.13:2.4.0
