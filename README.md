@@ -1,20 +1,10 @@
-███╗   ███╗██╗   ██╗    ██████╗  ██████╗ ████████╗    ███████╗██╗██╗     ███████╗███████╗
-████╗ ████║╚██╗ ██╔╝    ██╔══██╗██╔═══██╗╚══██╔══╝    ██╔════╝██║██║     ██╔════╝██╔════╝
-██╔████╔██║ ╚████╔╝     ██║  ██║██║   ██║   ██║       █████╗  ██║██║     █████╗  ███████╗
-██║╚██╔╝██║  ╚██╔╝      ██║  ██║██║   ██║   ██║       ██╔══╝  ██║██║     ██╔══╝  ╚════██║
-██║ ╚═╝ ██║   ██║       ██████╔╝╚██████╔╝   ██║       ██║     ██║███████╗███████╗███████║
-╚═╝     ╚═╝   ╚═╝       ╚═════╝  ╚═════╝    ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝
-   _________
-    / ======= \
-   / __________\
-  | ___________ |
-  | | -       | |
-  | |         | |
-  | |_________| |________________________
-  \=____________/   Jose A. Montana C.   )
-  / """"""""""" \                       /
- / ::::::::::::: \                  =D-'
-(_________________)
+███╗   ███╗██╗   ██╗    ██████╗  ██████╗ ████████╗
+████╗ ████║╚██╗ ██╔╝    ██╔══██╗██╔═══██╗╚══██╔══╝
+██╔████╔██║ ╚████╔╝     ██║  ██║██║   ██║   ██║   
+██║╚██╔╝██║  ╚██╔╝      ██║  ██║██║   ██║   ██║   
+██║ ╚═╝ ██║   ██║       ██████╔╝╚██████╔╝   ██║   
+╚═╝     ╚═╝   ╚═╝       ╚═════╝  ╚═════╝    ╚═╝   
+                                                  
                                                                                          
 This project repository was created with the end of replicate my own environemnt across servers and other machines. I constantly strugglued with the fact that either from work or from my personal laptops i did not have the same setup and everytime i was changing something in one machine it did not replicated across my other setups.
 ## Setting up my own environment
@@ -34,3 +24,15 @@ sudo xcodebuild -license accept 
 5. Download home brew 
 6. Download the Ghostty terminal, this emulator helps with performance, easy configuration and supports many other interesting features. https://ghostty.org/download
 
+
+     _________
+    / ======= \
+   / __________\
+  | ___________ |
+  | | -       | |
+  | |         | |
+  | |_________| |________________________
+  \=____________/   Jose A. Montana C.   )
+  / """"""""""" \                       /
+ / ::::::::::::: \                  =D-'
+(_________________)
