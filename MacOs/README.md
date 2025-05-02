@@ -52,6 +52,34 @@ Install lazy git, this is a program i came upon some time ago and since then i h
 brew install lazygit
 ```
 # Python & Spark
+## Python
+Install [pyenv](https://github.com/pyenv/pyenv), this allows to keep different versions of python and also allows to create virtual environments with different versions of python. This is something i personally like since it allows me to keep the system clean and also allows to have different versions of python for different projects.
+
+```bash
+brew install pyenv pyenv-virtualenv
+```
+
+check if pyenv is installed correctly
+```bash
+pyenv --version
+```
+
+And install a python verision of your choice, in this case i am going to install python 3.11 and set it as the local version of python
+```bash
+pyenv install 3.11
+pyenv local 3.11
+```
+
+Also i like to use poetry as a package manager, however, i always encounter the issue of getting environemnts outside of the project folder, so after the installation of poetry i like to set the following configuration
+
+```bash
+pip install poetry
+poetry config virtualenvs.in-project true
+poetry install
+```
+
+This will create a `.venv` folder inside the project folder and all the packages will be installed there.
+
 ## Spark:
 In order to install spark to run distributed inference or perhaps managing a large amount of data in a local setup. You can install it using Homebrew or downloding directly java from the source. How ever, i do not suggest you install the latest version since spark does no runs well on every version of spark, in mi experience with the 17 version works fine and it still has a good support, so go for that, but in the future perhaps change to a newer one.
 
@@ -121,6 +149,35 @@ spark.executor.extraClassPath             $HOME/spark-3.5.5-bin-hadoop3/jars/*
 ```
 
 </details>
+
+```bash
+mv spark-defaults.conf ~/spark-3.5.5/conf/spark-defaults.conf
+```
+now test if everything is working by running the following command
+```bash
+pyspark
+```
+
+it should display something like this
+
+```bash
+Type "help", "copyright", "credits" or "license" for more information.
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /__ / .__/\_,_/_/ /_/\_\   version 3.5.5
+      /_/
+
+Spark context Web UI available at http://localhost:4040
+Spark context available as 'sc'
+SparkSession available as 'spark'.
+```
+
+
 
 
 # Styling with conf files
