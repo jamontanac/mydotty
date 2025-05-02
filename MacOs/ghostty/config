@@ -1,0 +1,39 @@
+## Setting up theme
+theme = light:rose-pine-dawn,dark:rose-pine
+
+# font configuration
+
+font-size = 14
+font-family = "0x Proto Nerd Font"
+
+## italics
+font-family-italic = "caskaydiaCove Nerd Font"
+window-title-font-family = " 0x Proto Nerd Font"
+
+alpha-blending = linear-corrected
+
+macos-titlebar-style = tabs
+macos-titlebar-proxy-icon = visible
+#macos-titlebar-proxy-icon = hidden
+#macos-option-as-alt = true
+
+background = 000000
+background-opacity = 0.90
+background-blur-radius = 10
+
+mouse-hide-while-typing = true
+
+window-inherit-working-directory = false
+working-directory = home
+
+# keymaps
+keybind = global:cmd+`=toggle_quick_terminal
+#keybind = shift+ctrl+left_bracket=previous_tab
+#keybind = shift+ctrl+right_bracket=next_tab
+keybind = shift+ctrl+physical:left=move_tab:0
+keybind = shift+ctrl+physical:right=move_tab:+1
+
+# shader
+# custom-shader =
+# custom-shader-animation = false
+
