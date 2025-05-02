@@ -29,6 +29,12 @@ Remember that not all the MAC have the arm architecture, some of them could have
 [here](https://github.com/orgs/Homebrew/discussions/3223) there is some information related with this issue.
 </details>
 
+## Oh-my-zsh
+Install [oh-my-zsh](https://ohmyz.sh) this is personally one of my favourite frameworks to manage zsh configuration, it comes with bunch of helpers, functions, plugins and themes to customize the reminal as much as you want.
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
 # Install conf files
 ## Fonts:
 
@@ -41,7 +47,7 @@ bash fonts/fonts.sh
 ## Lazygit
 Install lazy git, this is a program i came upon some time ago and since then i have been motivated to perform more complicated operations over my git projects. This is something i personally like.
 ```
-brew install lazygit  
+brew install lazygit
 ```
 ## Ghostty
 When using a terminal i am always keen on using something that i could tweak as much as i would like. The main reason is because i spend almost all day in the terminal and the fact that i know it is fast and looks great produce me some kind of pleasure when working.
