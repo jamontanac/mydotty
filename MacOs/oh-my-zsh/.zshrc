@@ -71,12 +71,14 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git dotenv ssh aws command-time battery-prc)
+plugins=(git dotenv ssh aws command-time)
+# detect if the system is running on a Mac
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  plugins+=(battery-prc)
+  RPROMPT='%F{#31748f}$(battery_pct_prompt) %F{#f6c177}⏰[%D{%T}]%f'
+fi
 
-RPROMPT='%F{#31748f}$(battery_pct_prompt) %F{#f6c177}⏰[%D{%T}]%f'
-### RPROMPT='%F{#31748f}$(battery_pct_prompt) %F{#f6c177}⏰[%D{%T}] %F{#9ccfd8}%f'
-### RPROMPT='🔋$(battery_pct_prompt)🕰️%{$fg[yellow]%}[%D{%T}] $CMD_DURATION'
-
+RPROMPT='%F{#f6c177}⏰[%D{%T}]%f'
 ## -------------------
 # configuration for the plugin of command-time
 # If command execution time above min. time, plugins will not output time.
@@ -93,10 +95,10 @@ ZSH_COMMAND_TIME_EXCLUDE=(vim nvim)
 ### ---------------
 # Configure the plugin for the battery
 #ZSH_BATTERY_CHARGING="⚡️"
-ZSH_BATTERY_DISCHARGING="🔋"
+#ZSH_BATTERY_DISCHARGING="🔋
 #ZSH_BATTERY_CHARGED="✅"
 #ZSH_BATTERY_UNKNOWN="❓"
-ZSH_BATTERY_ESTIMATING="..."
+#ZSH_BATTERY_ESTIMATING="..."
 
 
 source $ZSH/oh-my-zsh.sh
