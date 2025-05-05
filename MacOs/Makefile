@@ -5,7 +5,7 @@ homebrew:
 	@bash homebrew/install.sh
 # Terminal utilities section
 ghostty fonts lazygit: homebrew
-    @bash $@/install.sh
+	@bash $@/install.sh
 oh-my-zsh:
 	@bash oh-my-zsh/install.sh
 # Group target for terminal utilities
@@ -13,7 +13,7 @@ terminal-utils: ghostty fonts oh-my-zsh lazygit
 	@echo "All terminal utilities have been installed."
 # Python utilities section
 pyenv spark: homebrew
-    @bash python/$@/install.sh
+	@bash python/$@/install.sh
 
 python-utils: pyenv spark
 	@echo "All Python utilities have been installed."
