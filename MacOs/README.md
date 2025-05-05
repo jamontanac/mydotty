@@ -47,7 +47,6 @@ At the end of the file you should have something like this:
 plugins=(git dotenv ssh aws docker clock battery-pcr)
 ```
 
-```bash
 ## Ghostty
 When using a terminal i am always keen on using something that i could tweak as much as i would like. The main reason is because i spend almost all day in the terminal and the fact that i know it is fast and looks great produce me some kind of pleasure when working.
 That is the case of [Ghostty](https://ghostty.org/) this terminal was developed by someone who is quite an interesting developper and has many properties that is suppose to replace many multiplexers that you can find out there.
