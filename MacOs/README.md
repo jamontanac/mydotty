@@ -215,8 +215,10 @@ Spark context available as 'sc'
 SparkSession available as 'spark'.
 ```
 
+# Editors.
 
-
+### VScode
+This particular IDE supports a sync feature that allows you to sync your settings, extensions and keybindings across different machines by just signing in in your github/microsoft account. But from time to time I have experienced some issues with this feature, so I just simply leave the setting I like in to use in the [vscode folder](./vscode/)
 
 
 
