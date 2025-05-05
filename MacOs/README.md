@@ -197,7 +197,7 @@ SparkSession available as 'spark'.
 * __Setup__: [Download](https://www.nerdfonts.com/font-downloads) the '0xProto' Nerd Font, and then set it for the rest of the project. 
 * Run the script to download the fonts
 ```bash
-bash fonts/fonts.sh
+bash fonts/install.sh
 ```
 
 

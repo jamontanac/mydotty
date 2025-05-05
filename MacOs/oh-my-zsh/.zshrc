@@ -76,9 +76,10 @@ plugins=(git dotenv ssh aws command-time)
 if [[ "$OSTYPE" == "darwin"* ]]; then
   plugins+=(battery-prc)
   RPROMPT='%F{#31748f}$(battery_pct_prompt) %F{#f6c177}⏰[%D{%T}]%f'
+else
+  RPROMPT='%F{#f6c177}⏰[%D{%T}]%f'
 fi
 
-RPROMPT='%F{#f6c177}⏰[%D{%T}]%f'
 ## -------------------
 # configuration for the plugin of command-time
 # If command execution time above min. time, plugins will not output time.
