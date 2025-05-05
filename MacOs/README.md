@@ -8,15 +8,23 @@
                                             
 ```
 
-# Install tooling
-## Xcode
+# Install terminal tooling
+For installing the all the tooling you can simply run
+```bash
+make terminal-utils
+```
+
+this will install all the tools mentioned below.
+## Specific details
+### Xcode
 Install Xcode commandline tools:
 
 ```bash
 xcode-select --install
 sudo xcodebuild -license accept
 ```
-## Homebrew
+
+### Homebrew
 Install [Homebrew](https://brew.sh/):
 
 ```bash
@@ -29,7 +37,7 @@ Remember that not all the MAC have the arm architecture, some of them could have
 [here](https://github.com/orgs/Homebrew/discussions/3223) there is some information related with this issue.
 </details>
 
-## Oh-my-zsh
+### Oh-my-zsh
 Install [oh-my-zsh](https://ohmyz.sh) this is personally one of my favourite frameworks to manage zsh configuration, it comes with bunch of helpers, functions, plugins and themes to customize the reminal as much as you want.
 
 ```bash
@@ -47,7 +55,7 @@ At the end of the file you should have something like this:
 plugins=(git dotenv ssh aws docker clock battery-pcr)
 ```
 
-## Ghostty
+### Ghostty
 When using a terminal i am always keen on using something that i could tweak as much as i would like. The main reason is because i spend almost all day in the terminal and the fact that i know it is fast and looks great produce me some kind of pleasure when working.
 That is the case of [Ghostty](https://ghostty.org/) this terminal was developed by someone who is quite an interesting developper and has many properties that is suppose to replace many multiplexers that you can find out there.
 To Download the Ghostty terminal go [here](https://ghostty.org/download) or run
@@ -56,14 +64,31 @@ To Download the Ghostty terminal go [here](https://ghostty.org/download) or run
 brew install --cask ghostty
 ```
 
-## Lazygit
+### Lazygit
 Install lazy git, this is a program i came upon some time ago and since then i have been motivated to perform more complicated operations over my git projects. This is something i personally like.
 
 ```bash
 brew install lazygit
 ```
-# Python & Spark
-## Python
+
+
+## Fonts:
+ When you search for fonts you could probably find over $10^8$ different options, some of them have [ligatures](https://en.wikipedia.org/wiki/Ligature_(writing)#:~:text=In%20writing%20and%20typography%2C%20a,joined%20for%20the%20second%20ligature.) and allows us to display some parts of the code with more style. At the end it does not really matter what font you use but how flexible it is to diplay different things in across programs. After some research i found that one of the best option to go with is a font that supports [glyphs](https://en.wikipedia.org/wiki/Glyph#:~:text=In%20typography%2C%20a%20glyph%20is,an%20element%20of%20written%20language.) and one of the best options is to go to a [NerdFont](https://www.nerdfonts.com/).
+* __Setup__: [Download](https://www.nerdfonts.com/font-downloads) the '0xProto' Nerd Font, and then set it for the rest of the project. 
+* Run the script to download the fonts
+
+```bash
+make fonts
+```
+here the script of install contains the name of the fonts to install, feel free to modify it and re run the `make`command.
+# Python utils
+To install python and spark you can run the following command
+```bash
+make python-utils
+```
+This will install the tools mentioned below.
+## Details
+### Pyenv
 Install [pyenv](https://github.com/pyenv/pyenv), this allows to keep different versions of python and also allows to create virtual environments with different versions of python. This is something i personally like since it allows me to keep the system clean and also allows to have different versions of python for different projects.
 
 ```bash
@@ -91,7 +116,7 @@ poetry install
 
 This will create a `.venv` folder inside the project folder and all the packages will be installed there.
 
-## Spark:
+### Spark:
 In order to install spark to run distributed inference or perhaps managing a large amount of data in a local setup. You can install it using Homebrew or downloding directly java from the source. How ever, i do not suggest you install the latest version since spark does no runs well on every version of spark, in mi experience with the 17 version works fine and it still has a good support, so go for that, but in the future perhaps change to a newer one.
 
 ```bash
@@ -108,7 +133,9 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 ' >> ~/.zshrc
 ```
+
 Download and unpack the spark binaries
+
 ```bash
 curl -o ~/spark-3.5.5.tgz https://archive.apache.org/dist/spark/spark-3.5.5/spark-3.5.5-bin-hadoop3.tgz
 tar -xvzf ~/spark-3.5.5.tgz -C ~/ && mv spark-3.5.5-bin-hadoop3 spark-3.5.5 && rm spark-3.5.5.tgz
@@ -191,14 +218,7 @@ SparkSession available as 'spark'.
 
 
 
-# Styling with conf files
-## Fonts:
- When you search for fonts you could probably find over $10^8$ different options, some of them have [ligatures](https://en.wikipedia.org/wiki/Ligature_(writing)#:~:text=In%20writing%20and%20typography%2C%20a,joined%20for%20the%20second%20ligature.) and allows us to display some parts of the code with more style. At the end it does not really matter what font you use but how flexible it is to diplay different things in across programs. After some research i found that one of the best option to go with is a font that supports [glyphs](https://en.wikipedia.org/wiki/Glyph#:~:text=In%20typography%2C%20a%20glyph%20is,an%20element%20of%20written%20language.) and one of the best options is to go to a [NerdFont](https://www.nerdfonts.com/).
-* __Setup__: [Download](https://www.nerdfonts.com/font-downloads) the '0xProto' Nerd Font, and then set it for the rest of the project. 
-* Run the script to download the fonts
-```bash
-make fonts
-```
+
 
 
 
