@@ -36,6 +36,18 @@ Install [oh-my-zsh](https://ohmyz.sh) this is personally one of my favourite fra
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
+Once installed it is time to take a look at the plugings that are available, I like to use the following ones:
+```bash
+plugins=(git dotenv ssh aws docker)
+```
+However I am a person who gets too into the terminal and i often lose track of time, how much time some command takes to run or if i am running out of battery. For taht reason i modified the `~/.zshrc` file to add some extra features that i like to have in my terminal.
+First, i like to have a clock that shows me the time in the terminal, for that i added the following line to the `~/.zshrc` file and i developed 2 [plugins](./oh-my-zsh/plugins/) that i use to show the time of excecution and the battery level. You could take a look at them and configure them as you like.
+At the end of the file you should have something like this:
+```bash
+plugins=(git dotenv ssh aws docker clock battery-pcr)
+```
+
+```bash
 ## Ghostty
 When using a terminal i am always keen on using something that i could tweak as much as i would like. The main reason is because i spend almost all day in the terminal and the fact that i know it is fast and looks great produce me some kind of pleasure when working.
 That is the case of [Ghostty](https://ghostty.org/) this terminal was developed by someone who is quite an interesting developper and has many properties that is suppose to replace many multiplexers that you can find out there.
