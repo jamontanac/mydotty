@@ -38,5 +38,9 @@ keybind = shift+ctrl+physical:right=move_tab:+1
 # custom-shader-animation = false
 
 #window sizes
-window-height = 25
-window-width = 120 
+window-height = 20
+window-width = 110
+
+window-padding-x = 8
+window-padding-y = 10
+
