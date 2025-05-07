@@ -115,6 +115,7 @@ poetry install
 ```
 
 This will create a `.venv` folder inside the project folder and all the packages will be installed there.
+
 ### UV
 Recently i got into the package [uv](https://github.com/astral-sh/uv), which is a package manager made in rust that provides speed and flexibility to manage python versions as well as packages and project dependencies. It is like pyenv combined with poetry but with a better performance. 
 
