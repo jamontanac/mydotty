@@ -1,9 +1,10 @@
 {
     "workbench.colorTheme": "Rosé Pine",
     "workbench.sideBar.location": "right",
+    "workbench.iconTheme": "rose-pine-icons",
     "editor.fontFamily": "'0x Proto Nerd', 'Cascadia Code','Cascadia Code PL', Monaco, 'Courier New', monospace",
-    "editor.tabSize": 3,
-    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "editor.fontSize": 16,
     "editor.fontLigatures": true,
     "files.autoSave": "onFocusChange",
     "[json]": {
@@ -14,34 +15,12 @@
     },
     "python.analysis.extraPaths": [],
     "databricks.lastActiveConnection": "Databricks Extension",
-    "vim.hlsearch": true,
-    "vim.incsearch": true,
-    "vim.leader": "<Space>",
-    "vim.useCtrlKeys": true,
     "editor.lineNumbers": "relative",
+    "vim.vimrc.enable": true,
+    "vim.useCtrlKeys": true,
     "vim.insertModeKeyBindings": [
         { "before": ["j", "k"], "after": ["<ESC>"] },
         { "before": ["k", "j"], "after": ["<ESC>"] },
-        // diable arrow keys
-        // { "before": ["<Up>"], "after": [] },
-        // { "before": ["<Down>"], "after": [] },
-        // { "before": ["<Left>"], "after": [] },
-        // { "before": ["<Right>"], "after": [] }
-    ],
-    "vim.normalModeKeyBindings": [
-        //disable arrow keys
-        { "before": ["<Up>"], "after": [] },
-        { "before": ["<Down>"], "after": [] },
-        { "before": ["<Left>"], "after": [] },
-        { "before": ["<Right>"], "after": [] },
-        // remap <Esc><Esc> to command ":noh"
-        { "before": ["<Esc>", "<Esc>"], "command": [":noh"] }
-    ],
-    "vim.visualModeKeyBindings": [
-        { "before": ["<Up>"], "after": [] },
-        { "before": ["<Down>"], "after": [] },
-        { "before": ["<Left>"], "after": [] },
-        { "before": ["<Right>"], "after": [] }
     ],
     "github.copilot.enable": {
         "*": true,
@@ -50,5 +29,4 @@
         "scminput": false
     },
     "github.copilot.nextEditSuggestions.enabled": true,
-
 }
