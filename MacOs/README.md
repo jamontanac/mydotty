@@ -115,7 +115,10 @@ poetry install
 ```
 
 This will create a `.venv` folder inside the project folder and all the packages will be installed there.
+### UV
+Recently i got into the package [uv](https://github.com/astral-sh/uv), which is a package manager made in rust that provides speed and flexibility to manage python versions as well as packages and project dependencies. It is like pyenv combined with poetry but with a better performance. 
 
+```bash
 ### Spark:
 In order to install spark to run distributed inference or perhaps managing a large amount of data in a local setup. You can install it using Homebrew or downloding directly java from the source. How ever, i do not suggest you install the latest version since spark does no runs well on every version of spark, in mi experience with the 17 version works fine and it still has a good support, so go for that, but in the future perhaps change to a newer one.
 
@@ -189,7 +192,7 @@ spark.executor.extraClassPath             $HOME/spark-3.5.5-bin-hadoop3/jars/*
 </details>
 
 ```bash
-mv spark-defaults.conf ~/spark-3.5.5/conf/spark-defaults.conf
+mv python/spark/spark-defaults.conf ~/spark-3.5.5/conf/spark-defaults.conf
 ```
 now test if everything is working by running the following command
 ```bash
@@ -218,9 +221,8 @@ SparkSession available as 'spark'.
 # Editors.
 
 ### VScode
-This particular IDE supports a sync feature that allows you to sync your settings, extensions and keybindings across different machines by just signing in in your github/microsoft account. But from time to time I have experienced some issues with this feature, so I just simply leave the setting I like in to use in the [vscode folder](./vscode/)
+This particular IDE supports a sync feature that allows you to sync your settings, extensions and keybindings across different machines by just signing in in your github/microsoft account. But from time to time I have experienced some issues with this feature, so I just simply leave the setting I like in to use in the [vscode folder](./vscode/).
+Since i use a lot vim keybindings, take a look at the ``.vimrc`` file which is being used in these settings.
 
 
-
-
-
+## VIM
