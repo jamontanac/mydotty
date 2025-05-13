@@ -1,3 +1,14 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
+"               
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║     
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║     
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""   
+
 " Basic Settings ---------------------------------------------------------------- {{{
 
  
@@ -106,12 +117,19 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-abolish'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-endwise'
+    Plug 'junegunn/vim-easy-align'
     Plug 'rose-pine/vim'
-    "Plug 'dense-analysis/ale'
+    Plug 'dense-analysis/ale'
+    Plug 'preservim/vim-indent-guides'
+    Plug 'mbbill/undotree'
     "Plug 'preservim/nerdtree'
 
 call plug#end()
 
+let g:indent_guides_enable_on_vim_startup = 1
 " }}}
 
 
@@ -148,7 +166,10 @@ nnoremap <c-l> <c-w>l
 if has('clipboard')
   noremap gy "+y
   noremap gp "+p
+  noremap <leader>gp o<esc>"+p
 endif
+" exiting current buffer
+nnoremap <leader>q :bd<CR>
 " }}}
 
 
@@ -272,8 +293,16 @@ endif
 " Status bar code goes here.
 
 " Enable status bar
+" Clear status line when vimrc is reloaded.
+set statusline=
+" Status line left side.
+set statusline+=\ %F\ %M\ %Y\ %R
+" Use a divider to separate the left side from the right side.
+set statusline+=%=
+" Status line right side.
+set statusline+=\ Ascii:\ %b\ Hex:\ 0x%B\ Row:\ %l\ Col:\ %c\ [%p%%]
 set laststatus=2
-set statusline=%f\ %m%r%h%w\ %=Ln\ %l:\ Col\ %c\ %p%%\ %y\ 
+" set statusline=%f\ %m%r%h%w\ %=Ln\ %l:\ Col\ %c\ %p%%\ %b\ %y\ 
 " set statusline=%f\ %m%r%h%w\ %=%{&ff}\ Ln\ %l:\ Col\ %c\ %p%%
 
 "%f - Shows the relative path to the file being edited
