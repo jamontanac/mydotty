@@ -71,7 +71,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git dotenv ssh aws command-time)
+plugins=(git dotenv ssh aws docker command-time)
 # detect if the system is running on a Mac
 if [[ "$OSTYPE" == "darwin"* ]]; then
   plugins+=(battery-prc)
