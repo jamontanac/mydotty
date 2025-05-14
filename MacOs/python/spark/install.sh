@@ -30,3 +30,4 @@ mv ./python/spark/spark.default.conf ~/spark-3.5.5/conf/spark-defaults.conf
 
 echo "Configuration files moved successfully."
 echo $(pyspark --version)
+/bin/zsh -c "source ~/.zshrc"
