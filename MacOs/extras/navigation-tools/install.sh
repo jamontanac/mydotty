@@ -68,6 +68,7 @@ fi
 cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
     --style full \
+    --multi \
     --height 80% \
     --border --padding 1,2 \
     --border-label=🔍👀🔎 --input-label ' Search ' --header-label '📚 File Type 📚' \
@@ -82,3 +83,37 @@ cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 alias fzfbat="fzf --preview 'bat --style=numbers --color=always --line-range:500 {}'"
 EOF
 
+# Create a function to search strings in files
+
+cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
+# Interactive ripgrep with dynamic search
+fzfsearch() {
+  local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+  local INITIAL_QUERY="${*:-}"
+  fzf --ansi --disabled --query "$INITIAL_QUERY" --multi \
+      --bind "start:reload:$RG_PREFIX {q}" \
+      --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --bind 'enter:become(vim {+1})'
+}
+
+# fzfopen [FUZZY PATTERN] - Open the selected file with the default application
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+#   - Use bat for previewing the file
+#   - Use open to open the file with the default application (ONLY FOR MACOS)
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  fzfopen() {
+    IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0 --preview="bat --color=always {}"))
+    [[ -n "$files" ]] && open "${files[@]}"
+  }
+else
+  fzfopen() {
+    IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0 --preview="bat --color=always {}"))
+    [[ -n "$files" ]] && xdg-open "${files[@]}"
+  }
+fi
+
+EOF
