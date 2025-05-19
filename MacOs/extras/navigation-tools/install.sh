@@ -19,12 +19,6 @@ else
         eval <(fzf --bash)
     ' >> ~/.bash_profile
 fi 
-if brew list tmux &>/dev/null; then
-    echo "tmux already installed"
-else
-    echo "Installing tmux..."
-    brew install tmux
-fi
 if brew list jq &>/dev/null; then
     echo "jq already installed"
 else
@@ -64,17 +58,27 @@ alias lt='eza --tree --level=2 --color=always --group-directories-first --icons'
 #List only hidden files in the current directory
 alias l.="eza -a | grep -E '^\.'"
 EOF
+
 cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 if type rg &>/dev/null; then
     # set ripgrep for fzf as default 
     export FZF_DEFAULT_COMMAND="rg --files"
 fi
 # Style fzf
+cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
-    --tmux center \
-    --border=rounded \ 
-    --border-label=🔍👀🔎 --border-label-pos=0 --preview-window=border-rounded \
-    --padding=1 --margin=1 --prompt=» --marker=🔦 \
-    --pointer=✸ --separator=📚 --scrollbar=| --layout=reverse-list \
-    --info=right --style full --bind 'focus:transform-header:file --brief {}'"
+    --style full \
+    --height 80% \
+    --border --padding 1,2 \
+    --border-label=🔍👀🔎 --input-label ' Search ' --header-label '📚 File Type 📚' \
+    --bind 'focus:+transform-header:file --brief {} || echo \"No file selected\"' \
+    --prompt=» --marker=🔦 \
+    --pointer=✸"
 EOF
+
+# Style bat with fuzzy finder
+cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
+# Use bat with fzf
+alias fzfbat="fzf --preview 'bat --style=numbers --color=always --line-range:500 {}'"
+EOF
+
