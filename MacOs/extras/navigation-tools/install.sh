@@ -49,7 +49,7 @@ cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 #Makes the default directory listing more readable and visually informative.
 alias ls='eza --color=always --group-directories-first --icons'
 # Detailed listing of all files with group info, directories at the top
-alias la='eza --la --group --octal-permissions --group-directories-first --icons'
+alias la='eza -la --group --octal-permissions --group-directories-first --icons'
 #Extremely detailed listing with all metadata, color scales, icons, and Git status
 alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale --color=always --group-directories-first --icons'
 
@@ -115,5 +115,12 @@ else
     [[ -n "$files" ]] && xdg-open "${files[@]}"
   }
 fi
+
+# fzfhistory [FUZZY PATTERN]- search and rerun a command from the history
+# this only works in zsh terminal
+# fh - repeat history
+fzfhistory() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
 
 EOF
