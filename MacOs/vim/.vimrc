@@ -341,20 +341,33 @@ if !has('nvim')
   let &t_EI = "\<Esc>[2 q"
 endif
 
-"Set a function to highlight what we yank
-" function! FlashYankedText()
-"   let g:idTemporaryHighlight = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
-"   call timer_start(250, 'DeleteTemporaryMatch')
-" endfunction
 
-" function! DeleteTemporaryMatch(timerId)
-"   call matchdelete(g:idTemporaryHighlight)
-" endfunction
+function! FlashYankedText()
+    if mode() =~ '[iR]' || &buftype != ''
+        return
+    endif
+    let l:start = getpos("'[")
+    let l:end = getpos("']")
+    if l:start[1] == l:end[1]
+        let g:idTemporaryHighlight = matchaddpos('IncSearch', [[l:start[1], l:start[2], l:end[2] - l:start[2] + 1]])
+    else
+        let g:idTemporaryHighlight = matchadd('IncSearch', '\%>' . (l:start[1]-1) . 'l\%<' . (l:end[1]+1) . 'l')
+    endif
+    call timer_start(150, 'DeleteTemporaryMatch')
+endfunction
 
-" augroup highlightYankedText
-"   autocmd!
-"   autocmd TextYankPost * call FlashYankedText()
-" augroup END
+function! DeleteTemporaryMatch(timerId)
+  " Check if the highlight ID exists and is valid
+  if exists('g:idTemporaryHighlight') && type(g:idTemporaryHighlight) == v:t_number
+    silent! call matchdelete(g:idTemporaryHighlight)
+    unlet! g:idTemporaryHighlight
+  endif
+endfunction
+
+augroup highlightYankedText
+  autocmd!
+  autocmd TextYankPost * call FlashYankedText()
+augroup END
 
 
 " }}}
