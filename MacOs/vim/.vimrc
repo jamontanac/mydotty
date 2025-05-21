@@ -8,10 +8,9 @@
 "                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 "               
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""   
+"------------------------------------------------------------------------------
 
 " Basic Settings ---------------------------------------------------------------- {{{
-
- 
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
 
@@ -103,9 +102,12 @@ set wildmode=list:longest
 " Wildmenu will ignore files with these extensions.
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
+" " Fix delay when exiting insert mode
+set ttimeoutlen=10
 " Improve terminal title
 set title
 let &titlestring = "vim: %F %r%m"
+
 " }}}
 
 
@@ -120,17 +122,70 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-abolish'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-endwise'
+    Plug 'tpope/vim-vinegar'
     Plug 'junegunn/vim-easy-align'
     Plug 'rose-pine/vim'
-    Plug 'dense-analysis/ale'
+    " Plug 'dense-analysis/ale'
     Plug 'preservim/vim-indent-guides'
     Plug 'mbbill/undotree'
+    Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " Plug 'lukhio/vim-mapping-conflicts' # this does not work
     "Plug 'preservim/nerdtree'
 
 call plug#end()
 
+""Get the style of the undo tree
+let g:undotree_WindowLayout = 2
+""Map de undo tree
+nnoremap <Leader><C-U> :UndotreeToggle<CR>
+" enable the indend guides
 let g:indent_guides_enable_on_vim_startup = 1
-" }}}
+" finding Files
+"nnoremap <silent> <C-f> :Files<CR>
+""" Finding in Files
+nnoremap <silent> <Leader>f :Rg<CR>
+""Search between buffers
+"nnoremap <silent> <Leader>b :Buffers<CR>
+""Search in lines between buffers
+nnoremap <silent> <Leader><C-l> :BLines<CR>
+"" Search between marks
+"nnoremap <silent> <Leader>' :Marks<CR>
+""Search between Commits
+"nnoremap <silent> <Leader>g :Commits<CR>
+""Search for help
+" nnoremap <silent> <Leader><C-h>:Helptags<CR>
+""Search between command history, it allows to rerun comands
+"nnoremap <silent> <Leader>hh :History<CR>
+""list all the history commands done by :
+nnoremap <silent> <Leader>h. :History:<CR>
+"""search in the history of searches
+nnoremap <silent> <Leader>h/ :History/<CR>
+
+
+
+" setup grepprg so that the :grep Vim command uses ripgrep.
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+
+"Search and Replace in Multiple Files
+""Modern text editors like VSCode makes it very easy to search and replace a string across multiple files. In this section, I will show you two different methods to easily do that in Vim.
+"
+"The first method is to replace all matching phrases in your project. You will need to use :grep. If you want to replace all instances of 'pizza' with 'donut', here's what you do:
+"
+":grep 'pizza'
+":cfdo %s/pizza/donut/g | update
+"Let's break down the commands:
+"
+":grep pizza uses ripgrep to search for all instances of 'pizza' (by the way, this would still work even if you didn't reassign grepprg to use ripgrep. You would have to do :grep 'pizza' . -R instead of :grep 'pizza').
+":cfdo executes any command you pass to all files in your quickfix list. In this case, your command is the substitution command %s/pizza/donut/g. The pipe (|) is a chain operator. The update command saves each file after substitution. I will cover the substitute command in more depth in a later chapter.
+"The second method is to search and replace in selected files. With this method, you can manually choose which files you want to perform select-and-replace on. Here is what you do:
+"
+"Clear your buffers first. It is imperative that your buffer list contains only the files you want to apply the replace on. You can either restart Vim or run :%bd | e# command (%bd deletes all the buffers and e# opens the file you were just on).
+"Run :Files.
+"Select all files you want to perform search-and-replace on. To select multiple files, use <Tab> / <Shift-Tab>. This is only possible if you have the multiple flag (-m) in FZF_DEFAULT_OPTS.
+"Run :bufdo %s/pizza/donut/g | update. The command :bufdo %s/pizza/donut/g | update looks similar to the earlier :cfdo %s/pizza/donut/g | update command. The difference is instead of substituting all quickfix entries (:cfdo), you are substituting all buffer entries (:bufdo).
+"" }}}
 
 
 " MAPPINGS --------------------------------------------------------------- {{{
@@ -169,9 +224,13 @@ if has('clipboard')
   noremap <leader>gp o<esc>"+p
 endif
 " exiting current buffer
-nnoremap <leader>q :bd<CR>
+nnoremap <leader>q :bdelete<CR>
+map <leader>n :bnext<CR>
+map <leader>p :bprevious<CR>
+" mapping the backspace to delete as expected
+inoremap <Char-0x07F> <BS>
+nnoremap <Char-0x07F> <BS>
 " }}}
-
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
 
@@ -251,13 +310,13 @@ if has('gui_running')
         \endif<CR>
 else
     " Terminal-specific settings
-    
+   
     " Enable 256 colors in the terminal
     set t_Co=256
-    
+   
     " Set the background tone for terminal
     set background=dark
-    
+   
     " Try to use the same colorscheme as GUI if available
     colorscheme rosepine
     " try
@@ -271,10 +330,8 @@ else
     "         colorscheme default
     "     endtry
     " endtry
-    
-    " " Fix delay when exiting insert mode
-    " set ttimeoutlen=10
-    
+   
+   
 endif
 " In Vim, Change the shape of cursor in insert mode
 " for VTE compatible terminals
@@ -284,6 +341,22 @@ if !has('nvim')
   let &t_EI = "\<Esc>[2 q"
 endif
 
+"Set a function to highlight what we yank
+" function! FlashYankedText()
+"   let g:idTemporaryHighlight = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
+"   call timer_start(250, 'DeleteTemporaryMatch')
+" endfunction
+
+" function! DeleteTemporaryMatch(timerId)
+"   call matchdelete(g:idTemporaryHighlight)
+" endfunction
+
+" augroup highlightYankedText
+"   autocmd!
+"   autocmd TextYankPost * call FlashYankedText()
+" augroup END
+
+
 " }}}
 
 
@@ -291,16 +364,29 @@ endif
 
 
 " Status bar code goes here.
+" Rosé Pine colors for terminal (cterm)
+highlight User1 ctermbg=235  ctermfg=108  cterm=bold  " Pine (green) on muted background
+highlight User2 ctermbg=none ctermfg=168  cterm=bold  " Love (pink/red)
+highlight User3 ctermbg=none ctermfg=216  cterm=bold  " Gold (peach)
+highlight User4 ctermbg=none ctermfg=109  cterm=bold  " Foam (cyan)
+highlight User5 ctermbg=none ctermfg=139              " Iris (lavender)
 
-" Enable status bar
-" Clear status line when vimrc is reloaded.
 set statusline=
-" Status line left side.
-set statusline+=\ %F\ %M\ %Y\ %R
-" Use a divider to separate the left side from the right side.
-set statusline+=%=
-" Status line right side.
-set statusline+=\ Ascii:\ %b\ Hex:\ 0x%B\ Row:\ %l\ Col:\ %c\ [%p%%]
+" Left side: File info (Pine)
+set statusline+=%1*\ %F\                              " Full file path (User1: Pine)
+set statusline+=%2*%M%3*%Y%4*%R%*                     " Flags: Modified, Filetype, Read-only (Users 2-4)
+" Right side: Position/encoding (Foam/Iris)
+set statusline+=%=%5*\|%{&fileencoding?&fileencoding:&encoding}\|\ ASCII:\ %b\ \ Hex:\ 0x%B\      " ASCII/Hex (User5: Iris)
+set statusline+=%4*◼︎\ Row:\ %l\ Col:\ %c\ [%p%%]     " Position (User4: Foam)
+" " Enable status bar
+" " Clear status line when vimrc is reloaded.
+" set statusline=
+" " Status line left side.
+" set statusline+=\ %F\ %M\ %Y\ %R
+" " Use a divider to separate the left side from the right side.
+" set statusline+=%=
+" " Status line right side.
+" set statusline+=\ Ascii:\ %b\ Hex:\ 0x%B\ Row:\ %l\ Col:\ %c\ [%p%%]
 set laststatus=2
 " set statusline=%f\ %m%r%h%w\ %=Ln\ %l:\ Col\ %c\ %p%%\ %b\ %y\ 
 " set statusline=%f\ %m%r%h%w\ %=%{&ff}\ Ln\ %l:\ Col\ %c\ %p%%
@@ -340,4 +426,23 @@ set laststatus=2
 ""set statusline+=\ 
 
 " }}}
+
+
+
+
+" Netrw ------------------------------------------------------------ {{{
+" let g:netrw_liststyle = 3
+""No banner
+"let g:netrw_banner = 0
+"" How files are opened
+"" 1 - open files in a new horizontal split
+"" 2 - open files in a new vertical split
+"" 3 - open files in a new tab
+"" 4 - open in previous window
+"let g:netrw_browse_split = 1
+"" Set the width of the window to 25%
+let g:netrw_winsize = 25
+" use gh to toggle the hidden files
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+"}}}
 
