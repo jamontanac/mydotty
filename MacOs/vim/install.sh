@@ -10,7 +10,12 @@ mkdir -p ~/.vim ~/.vim/autoload ~/.vim/backup ~/.vim/colors ~/.vim/plugged
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # check with brew if each package is installed and install it if not
-
+if brew list node &>/dev/null; then
+    echo "node already installed"
+else
+    echo "Installing node..."
+    brew install node
+fi
 # copy the vimrc file to ~/.vimrc
 cp vim/.vimrc ~/.vimrc
 # set ripgrep for fzf as default 
