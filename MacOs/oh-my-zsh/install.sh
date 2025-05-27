@@ -3,9 +3,9 @@
 echo "Installing oh-my-zsh..."
 #check if oh-my-zsh is already installed
 if [ -d "$HOME/.oh-my-zsh" ]; then
-   echo "oh-my-zsh is already installed. Skipping installation."
-   else
-   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  echo "oh-my-zsh is already installed. Skipping installation."
+else
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 #add the plugins to the plugins folder
 echo "Adding plugins to"
