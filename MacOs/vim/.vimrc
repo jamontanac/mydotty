@@ -97,7 +97,8 @@ set wildmenu
 
 " " Make wildmenu behave like similar to Bash completion.
 " set wildmode=list:longest
-set wildmode=list:full
+" set wildmode=list:full
+set wildmode=list:longest,list:full
 
 set wildchar=<Tab> 
 " set wildchar=<Tab>  wildmode=full
@@ -144,6 +145,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
     " Plug 'lukhio/vim-mapping-conflicts' # this does not work
     "Plug 'preservim/nerdtree'
 
@@ -340,6 +342,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
 
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " " Formatting selected code
 " xmap <leader>f  <Plug>(coc-format-selected)
 " nmap <leader>f  <Plug>(coc-format-selected)
