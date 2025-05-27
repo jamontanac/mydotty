@@ -18,5 +18,10 @@ else
 fi
 # copy the vimrc file to ~/.vimrc
 cp vim/.vimrc ~/.vimrc
-# set ripgrep for fzf as default 
 /bin/zsh -c "source ~/.vimrc"
+
+# install vim plugins
+# vim -c 'PlugInstall|q|q'
+vim +PlugInstall +qall
+# install coc.nvim
+vim +CocInstall coc-json coc-clangd coc-docker coc-yaml @yaegassy/coc-pylsp coc-sh coc-sql coc-toml coc-yank @yaegassy/coc-ruff coc-lua +qall
