@@ -7,3 +7,4 @@ else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     echo "Homebrew installed successfully."
 fi
+echo "Homebrew version: $(brew --version)"
