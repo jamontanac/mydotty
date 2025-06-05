@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               "{{{}}}
 "               
 "               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
 "               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
@@ -146,6 +146,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
+    Plug 'jmattaa/regedit.vim'
     " Plug 'lukhio/vim-mapping-conflicts' # this does not work
     "Plug 'preservim/nerdtree'
 
@@ -220,6 +221,17 @@ nnoremap <leader>q :bdelete<CR>
 " mapping the backspace to delete as expected
 " inoremap <Char-0x07F> <BS>
 " nnoremap <Char-0x07F> <BS>
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  call histadd('/', substitute(@/, '[?/]', '\="\\%d".char2nr(submatch(0))', 'g'))
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
+
 
 
 " }}}
@@ -254,9 +266,14 @@ nnoremap <silent> <leader><C-l> :BLines<CR>
 nnoremap <silent> <leader>h. :History:<CR>
 """search in the history of searches
 nnoremap <silent> <leader>h/ :History/<CR>
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 "
 " }}}
-
 
 
 
@@ -558,7 +575,7 @@ function! FlashYankedText()
     else
         let g:idTemporaryHighlight = matchadd('IncSearch', '\%>' . (l:start[1]-1) . 'l\%<' . (l:end[1]+1) . 'l')
     endif
-    call timer_start(100, 'DeleteTemporaryMatch')
+    call timer_start(10, 'DeleteTemporaryMatch')
 endfunction
 
 function! DeleteTemporaryMatch(timerId)
@@ -573,7 +590,7 @@ augroup highlightYankedText
   autocmd!
   autocmd TextYankPost * call FlashYankedText()
 augroup END
-
+" let g:highlightedyank_highlight_duration = 5
 
 " }}}
 
@@ -665,4 +682,6 @@ let g:netrw_winsize = 25
 " use gh to toggle the hidden files
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 "}}}
+"
+"
 
