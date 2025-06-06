@@ -49,11 +49,11 @@ set relativenumber
 " Highlight cursor line underneath the cursor horizontally.
 set cursorline
 
-" Set shift width to 4 spaces.
-set shiftwidth=4
+" Set shift width to 2 spaces.
+set shiftwidth=2
 
-" Set tab width to 4 columns.
-set tabstop=4
+" Set tab width to 2 columns.
+set tabstop=2
 
 " Use space characters instead of tabs.
 set expandtab
@@ -138,7 +138,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/vim-peekaboo'
     Plug 'rose-pine/vim'
     " Plug 'dense-analysis/ale'
-    Plug 'preservim/vim-indent-guides'
+    " Plug 'preservim/vim-indent-guides'
+    Plug 'Yggdroot/indentLine'
     Plug 'mbbill/undotree'
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -155,7 +156,7 @@ call plug#end()
 " let g:airline_theme='base16-spacemacs'
 " setup grepprg so that the :grep Vim command uses ripgrep.
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 "Search and Replace in Multiple Files
 ""Modern text editors like VSCode makes it very easy to search and replace a string across multiple files. In this section, I will show you two different methods to easily do that in Vim.
 "
@@ -245,7 +246,7 @@ let g:undotree_WindowLayout = 1
 ""Map de undo tree
 nnoremap <F4> :UndotreeToggle<CR>
 " enable the indend guides
-let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_enable_on_vim_startup = 1
 " finding Files
 "nnoremap <silent> <C-f> :Files<CR>
 """ Finding in Files
@@ -455,6 +456,7 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 augroup filetype_vim
         autocmd!
         autocmd FileType vim setlocal foldmethod=marker
+        autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
 augroup END
 
 " If Vim version is equal to or greater than 7.3 enable undofile.
