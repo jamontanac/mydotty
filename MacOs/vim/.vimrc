@@ -156,7 +156,7 @@ call plug#end()
 " let g:airline_theme='base16-spacemacs'
 " setup grepprg so that the :grep Vim command uses ripgrep.
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
 "Search and Replace in Multiple Files
 ""Modern text editors like VSCode makes it very easy to search and replace a string across multiple files. In this section, I will show you two different methods to easily do that in Vim.
 "
@@ -180,13 +180,14 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " MAPPINGS --------------------------------------------------------------- {{{
 
 " Mappings code goes here.
-" Set <Space> as the leader key
-let mapleader = "\<Space>"
+" Set Space as the leader key
+nnoremap <SPACE> <Nop>
+let mapleader = " " 
 " Set easy exit          
 inoremap jj <esc>
 inoremap jk <esc>
 "turn off search highlight by using esc esc
-nnoremap <esc><esc> :nohlsearch<CR>
+nnoremap <leader><esc><esc> :nohlsearch<CR>
 
 " Center the cursor vertically when moving to the next word during a search.
 nnoremap n nzz
@@ -217,6 +218,8 @@ if has('clipboard')
 endif
 " exiting current buffer
 nnoremap <leader>q :bdelete<CR>
+" exiting vim with warnings
+nnoremap <leader><leader>q :q<CR>
 " map <leader><TAB> :bnext<CR>
 " map <leader> :bprevious<CR>
 " mapping the backspace to delete as expected
@@ -241,6 +244,17 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 "
 " mapping the plugings
 "
+
+"  configuration for the indentLine plugin 
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:vim_json_conceal = 0
+let g:markdown_syntax_conceal = 0
+" let g:indentLine_char = '⦙'
+" let g:indentLine_setColors = 0
+let g:indentLine_enabled = 0
+
+nnoremap <silent> .<Tab> :IndentLinesToggle<CR>
+
 ""Get the style of the undo tree
 let g:undotree_WindowLayout = 1
 ""Map de undo tree
@@ -250,23 +264,20 @@ nnoremap <F4> :UndotreeToggle<CR>
 " finding Files
 "nnoremap <silent> <C-f> :Files<CR>
 """ Finding in Files
-nnoremap <silent> <leader>f :Rg<CR>
+nnoremap <silent> <leader><leader>f :Rg<CR>
 ""Search between buffers
-nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader><leader>b :Buffers<CR>
 ""Search in lines between buffers
-nnoremap <silent> <leader><C-l> :BLines<CR>
+nnoremap <silent> <leader><C-f> :BLines<CR>
 "" Search between marks
-"nnoremap <silent> <Leader>' :Marks<CR>
-""Search between Commits
-"nnoremap <silent> <Leader>g :Commits<CR>
 ""Search for help
-" nnoremap <silent> <Leader><C-h>:Helptags<CR>
+nnoremap <silent> <leader><C-h> :Helptags<CR>
 ""Search between command history, it allows to rerun comands
 "nnoremap <silent> <Leader>hh :History<CR>
 ""list all the history commands done by :
-nnoremap <silent> <leader>h. :History:<CR>
+nnoremap <silent> <leader><leader>h. :History:<CR>
 """search in the history of searches
-nnoremap <silent> <leader>h/ :History/<CR>
+nnoremap <silent> <leader><leader>h/ :History/<CR>
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)

@@ -227,3 +227,8 @@ Since i use a lot vim keybindings, take a look at the ``.vimrc`` file which is b
 
 
 ## VIM
+I have some feelings about vim, i honestly love it but not the editor itself but everything that is behind it, the motions, the way of custoimise the keybindings. It is all about productivity but more over to know the tools you use daily. here i share my vimrc file with the mappings and plugins i use.
+
+You can find it [here](./vim/.vimrc)
+
+## Nvim

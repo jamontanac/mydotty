@@ -11,6 +11,8 @@ fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh 
 oh-my-zsh:
 	@bash oh-my-zsh/install.sh
+vim: homebrew fonts navigation-tools
+	@bash vim/install.sh
 # Group target for terminal utilities
 terminal-utils: ghostty oh-my-zsh lazygit
 	@echo "All terminal utilities have been installed."
