@@ -24,4 +24,4 @@ pyenv spark uv: homebrew
 
 python-utils: pyenv spark
 	@echo "All Python utilities have been installed."
-.PHONY: ghostty fonts oh-my-zsh lazygit docker terminal-utils pyenv spark uv homebrew python-utils
+.PHONY: ghostty fonts oh-my-zsh lazygit docker terminal-utils pyenv spark uv homebrew python-utils vim

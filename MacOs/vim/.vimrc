@@ -253,7 +253,7 @@ let g:markdown_syntax_conceal = 0
 " let g:indentLine_setColors = 0
 let g:indentLine_enabled = 0
 
-nnoremap <silent> .<Tab> :IndentLinesToggle<CR>
+nnoremap <silent> ,<Tab> :IndentLinesToggle<CR>
 
 ""Get the style of the undo tree
 let g:undotree_WindowLayout = 1
