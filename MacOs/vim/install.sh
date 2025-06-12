@@ -24,7 +24,7 @@ cp vim/.vimrc ~/.vimrc
 # vim -c 'PlugInstall|q|q'
 vim +PlugInstall +qall
 # install coc.nvim
-vim +CocInstall coc-json coc-clangd coc-docker coc-yaml coc-jedi coc-sh coc-sql coc-toml coc-yank @yaegassy/coc-ruff coc-lua +qall
+# vim +CocInstall coc-json coc-clangd coc-docker coc-yaml coc-jedi coc-sh coc-sql coc-toml coc-yank @yaegassy/coc-ruff coc-lua +qall
 
 # install copilot
 git clone --depth=1 https://github.com/github/copilot.vim.git \
