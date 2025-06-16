@@ -37,38 +37,6 @@ end
 local function strip_ansi_codes(s)
   return s:gsub("[\27\155][][()#;?%d]*[0-9A-Za-z]", "")
 end
--- local function capture(cmd, raw)
--- 	local f = assert(io.popen(cmd, "r"))
--- 	local s = assert(f:read("*a"))
--- 	f:close()
--- 	if raw then
--- 		return s
--- 	end
--- 	s = string.gsub(s, "^%s+", "")
--- 	s = string.gsub(s, "%s+$", "")
--- 	s = string.gsub(s, "[\n\r]+", " ")
--- 	return s
--- end
---
--- local function split(source, sep)
--- 	local result, i = {}, 1
--- 	while true do
--- 		local a, b = source:find(sep)
--- 		if not a then
--- 			break
--- 		end
--- 		local candidat = source:sub(1, a - 1)
--- 		if candidat ~= "" then
--- 			result[i] = candidat
--- 		end
--- 		i = i + 1
--- 		source = source:sub(b + 1)
--- 	end
--- 	if source ~= "" then
--- 		result[i] = source
--- 	end
--- 	return result
--- end
 
 return {
   "goolord/alpha-nvim",
@@ -79,7 +47,6 @@ return {
   init = false,
   enabled = true,
   opts = function()
-    -- local header_content = read_lines(vim.fn.expand("~/.config/nvim/lua/files/neovim_dashboard.txt"))
     local static_header_content = read_lines(vim.fn.expand("~/.config/nvim/lua/files/wave_dashboard.txt"))
 
     local dashboard = require("alpha.themes.dashboard")
@@ -130,6 +97,8 @@ return {
     end
 
     require("alpha").setup(dashboard.opts)
+    local static_header = dashboard.section.header.val
+    -- require("alpha").setup(dashboard.opts)
     -- adding the autocmd group for dynamic header
     vim.api.nvim_create_augroup("alpha_dynamic_header", { clear = true })
 
@@ -138,35 +107,44 @@ return {
       pattern = "AlphaReady",
       callback = function()
         if vim.fn.executable("onefetch") == 1 then
-          local handle = io.popen("onefetch 2>/dev/null")
-          local output = handle:read("*a")
+          -- Check if we're in a Git repo first
+          local handle = io.popen("git rev-parse --is-inside-work-tree 2>/dev/null")
+          local is_git = handle:read("*a") ~= ""
           handle:close()
-          output = strip_ansi_codes(output)
-          local header = vim.split(output:gsub("\n\n+", "\n"), "\n")
-          -- for line in output:gmatch("([^\n]*)\n?") do
-          -- 	table.insert(header, line)
-          -- end
-          if next(header) ~= nil then
-            dashboard.section.header.val = header
+
+          if is_git then
+            local handle = io.popen("onefetch 2>/dev/null")
+            local output = handle:read("*a")
+            handle:close()
+            output = strip_ansi_codes(output)
+            local header = vim.split(output:gsub("\n\n+", "\n"), "\n")
+            if #header > 3 then -- Ensure valid onefetch output
+              dashboard.section.header.val = header
+              pcall(vim.cmd.AlphaRedraw)
+            end
+          else
+            dashboard.section.header.val = static_header
             pcall(vim.cmd.AlphaRedraw)
-            -- require("alpha").redraw()
           end
         end
       end,
       once = true,
     })
+
+    --
     -- vim.api.nvim_create_autocmd({ "User" }, {
     --   group = "alpha_dynamic_header",
     --   pattern = "AlphaReady",
     --   callback = function()
     --     if vim.fn.executable("onefetch") == 1 then
-    --       local header = split(
-    --         capture(
-    --           [[onefetch 2>/dev/null | sed 's/\x1B[@A-Z\\\]^_]\|\x1B\[[0-9:;<=>?]*[-!"#$%&'"'"'()*+,.\/]*[][\\@A-Z^_`a-z{|}~]//g']],
-    --           true
-    --         ),
-    --         "\n"
-    --       )
+    --       -- Check if we're in a Git repo first
+    --       local handle = io.popen("git rev-parse --is-inside-work-tree 2>/dev/null")
+    --       local is_git = handle:read("*a") ~= ""
+    --       local handle = io.popen("onefetch 2>/dev/null")
+    --       local output = handle:read("*a")
+    --       handle:close()
+    --       output = strip_ansi_codes(output)
+    --       local header = vim.split(output:gsub("\n\n+", "\n"), "\n")
     --       if next(header) ~= nil then
     --         dashboard.section.header.val = header
     --         pcall(vim.cmd.AlphaRedraw)
@@ -175,7 +153,6 @@ return {
     --   end,
     --   once = true,
     -- })
-    --
     vim.api.nvim_create_autocmd("User", {
       once = true,
       pattern = "LazyVimStarted",
