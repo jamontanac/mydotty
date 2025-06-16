@@ -33,7 +33,7 @@ vim.o.wildmenu = true -- Enable wildmenu
 vim.o.wildmode = 'list:longest,list:full' -- Command-line completion mode
 vim.o.wildignore = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"
 vim.o.wildignorecase = true -- Ignore case in wildmenu
-vim.o.ttimeoutlen = 10 -- Time to wait for a mapped sequence to complete
+-- vim.o.ttimeoutlen = 10 -- Time to wait for a mapped sequence to complete
 vim.o.title = true -- Set the terminal title
 vim.o.titlestring = 'NVIM - %F [%{&filetype}]' -- Set the terminal title string
 vim.o.hidden = true -- Allow switching to another buffer even if the current one has unsaved changes
@@ -44,7 +44,7 @@ vim.opt.runtimepath:remove ('~/.vim/') -- Remove the default runtime path for Vi
 vim.o.signcolumn = 'yes'-- Keep signcolumn on by default
 vim.o.updatetime = 250-- Decrease update time
 vim.o.timeoutlen = 300-- Decrease mapped sequence wait time
-
+vim.o.autowrite = true
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -68,4 +68,3 @@ vim.o.directory = backup_dir
 vim.o.undofile = true -- Enable persistent undo
 vim.o.backup = true -- Disable backup files
 vim.opt.undoreload = 500
-
