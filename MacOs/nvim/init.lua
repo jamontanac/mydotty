@@ -31,6 +31,8 @@ require('lazy').setup {
     require 'plugins.colortheme',
     require 'plugins.telescope',
     require 'plugins.bufferline',
+    -- This particular plugins has problems when loading icons
+    -- require 'plugins.new_bufferline',
     require 'plugins.lualine',
     require 'plugins.treesitter',
     require 'plugins.todo-comments',

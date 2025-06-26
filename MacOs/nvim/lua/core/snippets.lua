@@ -111,10 +111,10 @@ vim.api.nvim_exec(
 --
 
 -- my little plugin
-local M = {}
-M.state = { floating = { buf = -1, win = -1 }, job_id = 0 }
+local floatingTerm = {}
+floatingTerm.state = { floating = { buf = -1, win = -1 }, job_id = 0 }
 
-function M.create_floating_window(opts)
+function floatingTerm.create_floating_window(opts)
     opts = opts or {}
     local width = opts.width or math.floor(vim.o.columns * 0.6)
     local height = opts.height or math.floor(vim.o.lines * 0.6)
@@ -137,39 +137,39 @@ function M.create_floating_window(opts)
     }
 end
 
-function M.toggle_terminal()
-    if vim.api.nvim_win_is_valid(M.state.floating.win) then
-        vim.api.nvim_win_hide(M.state.floating.win)
-        M.state.floating.win = -1
+function floatingTerm.toggle_terminal()
+    if vim.api.nvim_win_is_valid(floatingTerm.state.floating.win) then
+        vim.api.nvim_win_hide(floatingTerm.state.floating.win)
+        floatingTerm.state.floating.win = -1
         return
     end
 
-    M.state.floating = M.create_floating_window { buf = M.state.floating.buf }
-    if vim.bo[M.state.floating.buf].buftype ~= 'terminal' then
+    floatingTerm.state.floating = floatingTerm.create_floating_window { buf = floatingTerm.state.floating.buf }
+    if vim.bo[floatingTerm.state.floating.buf].buftype ~= 'terminal' then
         vim.cmd.terminal()
-        M.state.job_id = vim.bo[M.state.floating.buf].channel
+        floatingTerm.state.job_id = vim.bo[floatingTerm.state.floating.buf].channel
     end
 end
 
-function M.send_command(cmd)
+function floatingTerm.send_command(cmd)
     -- Add job_id validation
-    if not M.state.job_id then
+    if not floatingTerm.state.job_id then
         vim.notify('No terminal job ID available', vim.log.levels.ERROR)
         return
     end
 
-    if not vim.api.nvim_win_is_valid(M.state.floating.win) then
+    if not vim.api.nvim_win_is_valid(floatingTerm.state.floating.win) then
         vim.notify('Terminal not active', vim.log.levels.WARN)
         return
     end
 
-    local buf = M.state.floating.buf
+    local buf = floatingTerm.state.floating.buf
     if not (vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == 'terminal') then
         vim.notify('Invalid terminal buffer', vim.log.levels.ERROR)
         return
     end
 
-    vim.fn.chansend(M.state.job_id, { cmd .. '\r' })
+    vim.fn.chansend(floatingTerm.state.job_id, { cmd .. '\r' })
 end
 
 vim.api.nvim_create_autocmd('TermOpen', {
@@ -184,11 +184,17 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Command and key mappings
-vim.api.nvim_create_user_command('FloatTerminal', M.toggle_terminal, {})
-vim.keymap.set({ 'n', 't' }, '<leader>tt', M.toggle_terminal, { desc = 'Toggle floating terminal' })
-vim.keymap.set('n', '<leader>ch', function()
-    M.send_command 'poetry run pre-commit run -a'
+vim.api.nvim_create_user_command('FloatTerminal', floatingTerm.toggle_terminal, {})
+vim.keymap.set({ 'n', 't' }, '<leader>tt', floatingTerm.toggle_terminal, { desc = 'Toggle floating terminal' })
+vim.keymap.set({ 'n', 't' }, '<leader>rpc', function()
+    floatingTerm.send_command 'poetry run pre-commit run -a'
 end, { desc = 'Run poetry python' })
+vim.keymap.set({ 'n', 't' }, '<leader>rc', function()
+    floatingTerm.send_command 'pre-commit run -a'
+end, { desc = 'Run poetry python' })
+-- vim.keymap.set({ 'n', 't' }, '<leader>rr', function()
+--     vim.fn.chansend(floatingTerm.state.job_id, { '' })
+-- end, { desc = 'run recent command in terminal' })
 
 -- Create floating terminal with <leader>tt
 -- local state_floating = {
