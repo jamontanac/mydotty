@@ -2,7 +2,7 @@ return {
     'akinsho/bufferline.nvim',
     version = '*',
     dependencies = {
-        'nvim-tree/nvim-web-devicons',
+        { 'echasnovski/mini.icons', opts = {} },
         'moll/vim-bbye',
         'nvim-lua/plenary.nvim',
     },
@@ -45,11 +45,13 @@ return {
                 show_tab_indicators = true,
                 -- separator_style = "slant", -- style of the separator between buffers
                 -- enforce_regular_tabs = true, -- enforce regular tabs
-                -- get_element_icon = function(element)
-                --     local icon, hl =
-                --         require('nvim-web-devicons').get_icon_by_filetype(element.filetype, { default = false })
-                --     return icon, hl
-                -- end, -- function to get the icon for a buffer element
+                get_element_icon = function(element)
+                    if not MiniIcons then
+                        return
+                    end
+                    local icon, hl, is_default = MiniIcons.get('file', element.path or element.filename)
+                    return icon, hl
+                end, -- function to get the icon for a buffer element
                 -- always_show_bufferline = true, -- always show the bufferline
                 -- filter out the navigation in oil
                 custom_filter = function(buf_number)
@@ -125,6 +127,7 @@ return {
             '<cmd>BufferLineGroupToggle Tests<CR>',
             { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests' }
         )
+        -- enable nerd font icons
         -- vim.keymap.set(
         --     'n',
         --     '<A-.>',
