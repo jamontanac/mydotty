@@ -127,36 +127,36 @@ return {
             '<cmd>BufferLineGroupToggle Tests<CR>',
             { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests' }
         )
-        vim.keymap.set(
-            'n',
-            'gb1',
-            '<cmd>BufferLineGoToBuffer 1<CR>',
-            { silent = true, noremap = true, desc = '[G]o to [B]uffer 1' }
-        )
-        vim.keymap.set(
-            'n',
-            'gb2',
-            '<cmd>BufferLineGoToBuffer 2<CR>',
-            { silent = true, noremap = true, desc = '[G]o to [B]uffer 2' }
-        )
-        vim.keymap.set(
-            'n',
-            'gb3',
-            '<cmd>BufferLineGoToBuffer 3<CR>',
-            { silent = true, noremap = true, desc = '[G]o to [B]uffer 3' }
-        )
-        vim.keymap.set(
-            'n',
-            'gb4',
-            '<cmd>BufferLineGoToBuffer 4<CR>',
-            { silent = true, noremap = true, desc = '[G]o to [B]uffer 4' }
-        )
-        vim.keymap.set(
-            'n',
-            'gb5',
-            '<cmd>BufferLineGoToBuffer 5<CR>',
-            { silent = true, noremap = true, desc = '[G]o to [B]uffer 5' }
-        )
+        -- vim.keymap.set(
+        --     'n',
+        --     'gb1',
+        --     '<cmd>BufferLineGoToBuffer 1<CR>',
+        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 1' }
+        -- )
+        -- vim.keymap.set(
+        --     'n',
+        --     'gb2',
+        --     '<cmd>BufferLineGoToBuffer 2<CR>',
+        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 2' }
+        -- )
+        -- vim.keymap.set(
+        --     'n',
+        --     'gb3',
+        --     '<cmd>BufferLineGoToBuffer 3<CR>',
+        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 3' }
+        -- )
+        -- vim.keymap.set(
+        --     'n',
+        --     'gb4',
+        --     '<cmd>BufferLineGoToBuffer 4<CR>',
+        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 4' }
+        -- )
+        -- vim.keymap.set(
+        --     'n',
+        --     'gb5',
+        --     '<cmd>BufferLineGoToBuffer 5<CR>',
+        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 5' }
+        -- )
         vim.keymap.set(
             'n',
             '<A-S-,>',
