@@ -81,7 +81,7 @@ return {
                             priority = 2,
                             icon = ' ', -- Optional
                             highlight = { underline = true, sp = '#907aa9' },
-                            -- auto_close = true,
+                            auto_close = true,
                             matcher = function(buf) -- Mandatory
                                 return buf.name:match '_test' or buf.name:match 'test_'
                             end,
@@ -91,7 +91,7 @@ return {
                             priority = 1,
                             icon = '󱉟 ',
                             highlight = { underline = true, sp = '#286983' },
-                            -- auto_close = true, -- Automatically close the group when empty
+                            auto_close = true, -- Automatically close the group when empty
                             matcher = function(buf)
                                 return buf.name:match '%.md$' or buf.name:match '%.txt$'
                             end,
@@ -127,18 +127,47 @@ return {
             '<cmd>BufferLineGroupToggle Tests<CR>',
             { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests' }
         )
-        -- enable nerd font icons
+        vim.keymap.set(
+            'n',
+            'gb1',
+            '<cmd>BufferLineGoToBuffer 1<CR>',
+            { silent = true, noremap = true, desc = '[G]o to [B]uffer 1' }
+        )
+        vim.keymap.set(
+            'n',
+            'gb2',
+            '<cmd>BufferLineGoToBuffer 2<CR>',
+            { silent = true, noremap = true, desc = '[G]o to [B]uffer 2' }
+        )
+        vim.keymap.set(
+            'n',
+            'gb3',
+            '<cmd>BufferLineGoToBuffer 3<CR>',
+            { silent = true, noremap = true, desc = '[G]o to [B]uffer 3' }
+        )
+        vim.keymap.set(
+            'n',
+            'gb4',
+            '<cmd>BufferLineGoToBuffer 4<CR>',
+            { silent = true, noremap = true, desc = '[G]o to [B]uffer 4' }
+        )
+        vim.keymap.set(
+            'n',
+            'gb5',
+            '<cmd>BufferLineGoToBuffer 5<CR>',
+            { silent = true, noremap = true, desc = '[G]o to [B]uffer 5' }
+        )
         -- vim.keymap.set(
         --     'n',
         --     '<A-.>',
         --     '<cmd>BufferLineCycleNext<CR>',
         --     { silent = true, noremap = true, desc = 'Cycle to next buffer' }
         -- )
-        -- vim.keymap.set(
-        --     'n',
-        --     '<A-,>',
-        --     '<cmd>BufferLineCyclePrev<CR>',
-        --     { silent = true, noremap = true, desc = 'Cycle to previous buffer' }
-        -- )
+        vim.keymap.set(
+            'n',
+            '<A-,>',
+            '<cmd>BufferLineCycleNext<CR>',
+            { silent = true, noremap = true, desc = 'Cycle to next buffer' }
+        )
     end,
 }
