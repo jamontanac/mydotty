@@ -157,12 +157,12 @@ return {
             '<cmd>BufferLineGoToBuffer 5<CR>',
             { silent = true, noremap = true, desc = '[G]o to [B]uffer 5' }
         )
-        -- vim.keymap.set(
-        --     'n',
-        --     '<A-.>',
-        --     '<cmd>BufferLineCycleNext<CR>',
-        --     { silent = true, noremap = true, desc = 'Cycle to next buffer' }
-        -- )
+        vim.keymap.set(
+            'n',
+            '<A-S-,>',
+            '<cmd>BufferLineCyclePrev<CR>',
+            { silent = true, noremap = true, desc = 'Cycle to previous buffer' }
+        )
         vim.keymap.set(
             'n',
             '<A-,>',
