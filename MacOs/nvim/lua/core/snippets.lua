@@ -22,6 +22,40 @@ vim.api.nvim_exec(
     false
 )
 
+local filetype_vim = vim.api.nvim_create_augroup('filetype_vim', { clear = true })
+--
+-- Vim filetype: foldmethod=marker
+vim.api.nvim_create_autocmd('FileType', {
+    group = filetype_vim,
+    pattern = 'vim',
+    command = 'setlocal foldmethod=marker',
+})
+-- For JSON and YAML
+vim.api.nvim_create_autocmd('FileType', {
+    group = filetype_vim,
+    pattern = { 'json', 'yaml' },
+    callback = function()
+        vim.opt_local.tabstop = 4
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.softtabstop = 4
+        vim.opt_local.expandtab = true
+        vim.opt_local.foldmethod = 'indent'
+    end,
+})
+--
+-- YAML filetype: indentation and folding
+-- vim.api.nvim_create_autocmd('FileType', {
+--     group = filetype_vim,
+--     pattern = 'yaml',
+--     command = 'setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab foldmethod=indent',
+-- })
+-- --
+-- -- JSON filetype: indentation and marker folding with custom markers
+-- vim.api.nvim_create_autocmd('FileType', {
+--     group = filetype_vim,
+--     pattern = 'json',
+--     command = 'setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab foldmethod=indent',
+-- })
 -- Store terminal buffer id
 
 -- -- Bottom terminal for pre-commit checks

@@ -22,10 +22,12 @@ return { -- Autoformat
             ensure_installed = {
                 'checkmake', -- makefile linter
                 'prettier', -- ts/js formatter
+                -- 'prittierd', -- ts/js formatter (alternative)
                 'stylua', -- lua formatter
                 'shfmt', -- shell formatter
                 'ruff', -- python formatter/linter
                 'JuliaFormatter', -- julia formatter
+                'jq', -- JSON formatter
             },
             -- auto-install configured formatters (matching your original setup)
             auto_update = true,
@@ -34,6 +36,7 @@ return { -- Autoformat
         -- Setup conform.nvim
         require('conform').setup {
             notify_on_error = false,
+            format_after_save = { lsp_format = 'fallback' }, -- Use LSP formatting as fallback
             format_on_save = function(bufnr)
                 -- Disable "format_on_save lsp_fallback" for languages that don't
                 -- have a well standardized coding style. You can add additional
@@ -54,10 +57,10 @@ return { -- Autoformat
                 javascript = { 'prettier' },
                 -- typescript = { 'prettier' },
                 html = { 'prettier' },
-                json = { 'prettier' },
+                json = { 'jq' },
                 css = { 'prettier' },
                 markdown = { 'prettier' },
-                yaml = { 'prettier' },
+                yaml = { 'prettier_yaml' },
 
                 -- Lua formatter
                 lua = { 'stylua' },
@@ -88,6 +91,16 @@ return { -- Autoformat
                 --configure ruff
                 ruff_organize_imports = {
                     extra_args = { '--extend-select', 'I' }, -- Include additional checks for imports
+                },
+                prettier_yaml = {
+                    command = 'prettier',
+                    inherit = false,
+                    args = { '--stdin-filepath', '$FILENAME', '--tab-width', '4' }, -- Use 4 spaces for JSON files
+                },
+                jq = {
+                    command = 'jq',
+                    args = { '--indent', '4', '.' }, -- Use 4 spaces for JSON files
+                    stdin = true,
                 },
             },
         }

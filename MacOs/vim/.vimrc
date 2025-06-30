@@ -473,6 +473,7 @@ augroup filetype_vim
         autocmd!
         autocmd FileType vim setlocal foldmethod=marker
         autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
+        autocmd Filetype json setlocal ts=4 sts=4 sw=4 expandtab foldmethod=marker foldmarker={,}
 augroup END
 
 " If Vim version is equal to or greater than 7.3 enable undofile.

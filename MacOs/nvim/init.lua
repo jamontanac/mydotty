@@ -33,9 +33,9 @@ require('lazy').setup {
     require 'plugins.bufferline',
     -- This particular plugins has problems when loading icons
     -- require 'plugins.new_bufferline',
+    require 'plugins.markdown',
     require 'plugins.lualine',
     require 'plugins.treesitter',
-    -- require 'plugins.todo-comments',
     require 'plugins.which-key',
     require 'plugins.registers_management',
     require 'plugins.lsp',
