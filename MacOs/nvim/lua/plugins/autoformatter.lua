@@ -15,8 +15,112 @@ return { -- Autoformat
             mode = '',
             desc = '[F]ormat [F]ile buffer',
         },
+        {
+            '<leader>tf',
+            function()
+                -- If autoformat is currently disabled for this buffer,
+                -- then enable it, otherwise disable it
+                if vim.b.disable_autoformat then
+                    vim.cmd 'FormatEnable'
+                    vim.notify 'Enabled autoformat for current buffer'
+                else
+                    vim.cmd 'FormatDisable!'
+                    vim.notify 'Disabled autoformat for current buffer'
+                end
+            end,
+            desc = '[T]oggle [A]utoformat for current buffer',
+        },
+        {
+            '<leader>tF',
+            function()
+                -- If autoformat is currently disabled globally,
+                -- then enable it globally, otherwise disable it globally
+                if vim.g.disable_autoformat then
+                    vim.cmd 'FormatEnable'
+                    vim.notify 'Enabled autoformat globally'
+                else
+                    vim.cmd 'FormatDisable'
+                    vim.notify 'Disabled autoformat globally'
+                end
+            end,
+            desc = '[T]oggle [A]utoformat globally',
+        },
     },
-    config = function()
+    opts = {
+        notify_on_error = false,
+        format_after_save = { lsp_format = 'fallback' }, -- Use LSP formatting as fallback
+        format_on_save = function(bufnr)
+            -- Disable "format_on_save lsp_fallback" for languages that don't
+            -- have a well standardized coding style. You can add additional
+            -- languages here or re-enable it for the disabled ones.
+            local disable_filetypes = { c = true, cpp = true }
+            if
+                disable_filetypes[vim.bo[bufnr].filetype]
+                or vim.g.disable_autoformat
+                or vim.b[bufnr].disable_autoformat
+            then
+                return nil
+            else
+                return {
+                    timeout_ms = 500,
+                    lsp_format = 'fallback',
+                }
+            end
+        end,
+        -- notify_on_error = false, -- Disable notifications on error
+        formatters_by_ft = {
+            -- Prettier for web technologies
+            javascript = { 'prettier' },
+            -- typescript = { 'prettier' },
+            html = { 'prettier' },
+            json = { 'jq' },
+            css = { 'prettier' },
+            markdown = { 'prettier' },
+            yaml = { 'prettier_yaml' },
+
+            -- Lua formatter
+            lua = { 'stylua' },
+
+            --shell script formatter
+            sh = { 'shfmt' },
+            bash = { 'shfmt' },
+
+            --Terraform formatter
+            terraform = { 'terraform_fmt' },
+            tf = { 'terraform_fmt' },
+            hcl = { 'terraform_fmt' },
+
+            -- python formatter
+            python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
+
+            -- Makefile linter
+            makefile = { 'checkmake' },
+
+            -- Julia formatter
+            julia = { 'JuliaFormatter' }, -- Julia formatter
+        },
+
+        formatters = {
+            --configure shfmt
+            shfmt = { prepend_args = { '-i', '2' } }, -- 2 spaces indentation for shell scripts
+
+            --configure ruff
+            ruff_organize_imports = {
+                extra_args = { '--extend-select', 'I' }, -- Include additional checks for imports
+            },
+            prettier_yaml = {
+                command = 'prettier',
+                inherit = false,
+                args = { '--stdin-filepath', '$FILENAME', '--tab-width', '4' }, -- Use 4 spaces for JSON files
+            },
+            jq = {
+                command = 'jq',
+                args = { '--indent', '4', '.' }, -- Use 4 spaces for JSON files
+                stdin = true,
+            },
+        },
+    },
+    config = function(_, opts)
         -- First, setup mason-tool-installer to ensure formatters are installed
         require('mason-tool-installer').setup {
             ensure_installed = {
@@ -34,76 +138,26 @@ return { -- Autoformat
             run_on_start = true,
         }
         -- Setup conform.nvim
-        require('conform').setup {
-            notify_on_error = false,
-            format_after_save = { lsp_format = 'fallback' }, -- Use LSP formatting as fallback
-            format_on_save = function(bufnr)
-                -- Disable "format_on_save lsp_fallback" for languages that don't
-                -- have a well standardized coding style. You can add additional
-                -- languages here or re-enable it for the disabled ones.
-                local disable_filetypes = { c = true, cpp = true }
-                if disable_filetypes[vim.bo[bufnr].filetype] then
-                    return nil
-                else
-                    return {
-                        timeout_ms = 500,
-                        lsp_format = 'fallback',
-                    }
-                end
-            end,
-            -- notify_on_error = false, -- Disable notifications on error
-            formatters_by_ft = {
-                -- Prettier for web technologies
-                javascript = { 'prettier' },
-                -- typescript = { 'prettier' },
-                html = { 'prettier' },
-                json = { 'jq' },
-                css = { 'prettier' },
-                markdown = { 'prettier' },
-                yaml = { 'prettier_yaml' },
+        require('conform').setup(opts)
+        vim.api.nvim_create_user_command('FormatDisable', function(args)
+            if args.bang then
+                -- :FormatDisable! disables autoformat for this buffer only
+                vim.b.disable_autoformat = true
+            else
+                -- :FormatDisable disables autoformat globally
+                vim.g.disable_autoformat = true
+            end
+        end, {
+            desc = 'Disable autoformat-on-save',
+            bang = true, -- allows the ! variant
+        })
 
-                -- Lua formatter
-                lua = { 'stylua' },
-
-                --shell script formatter
-                sh = { 'shfmt' },
-                bash = { 'shfmt' },
-
-                --Terraform formatter
-                terraform = { 'terraform_fmt' },
-                tf = { 'terraform_fmt' },
-                hcl = { 'terraform_fmt' },
-
-                -- python formatter
-                python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
-
-                -- Makefile linter
-                makefile = { 'checkmake' },
-
-                -- Julia formatter
-                julia = { 'JuliaFormatter' }, -- Julia formatter
-            },
-
-            formatters = {
-                --configure shfmt
-                shfmt = { prepend_args = { '-i', '2' } }, -- 2 spaces indentation for shell scripts
-
-                --configure ruff
-                ruff_organize_imports = {
-                    extra_args = { '--extend-select', 'I' }, -- Include additional checks for imports
-                },
-                prettier_yaml = {
-                    command = 'prettier',
-                    inherit = false,
-                    args = { '--stdin-filepath', '$FILENAME', '--tab-width', '4' }, -- Use 4 spaces for JSON files
-                },
-                jq = {
-                    command = 'jq',
-                    args = { '--indent', '4', '.' }, -- Use 4 spaces for JSON files
-                    stdin = true,
-                },
-            },
-        }
+        vim.api.nvim_create_user_command('FormatEnable', function()
+            vim.b.disable_autoformat = false
+            vim.g.disable_autoformat = false
+        end, {
+            desc = 'Re-enable autoformat-on-save',
+        })
     end,
 }
 --   opts = {
