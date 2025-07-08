@@ -16,34 +16,12 @@ return { -- Autoformat
             desc = '[F]ormat [F]ile buffer',
         },
         {
-            '<leader>tf',
+            '<leader>wf',
             function()
-                -- If autoformat is currently disabled for this buffer,
-                -- then enable it, otherwise disable it
-                if vim.b.disable_autoformat then
-                    vim.cmd 'FormatEnable'
-                    vim.notify 'Enabled autoformat for current buffer'
-                else
-                    vim.cmd 'FormatDisable!'
-                    vim.notify 'Disabled autoformat for current buffer'
-                end
+                vim.cmd 'noautocmd w'
+                vim.notify 'Saved without formatting'
             end,
-            desc = '[T]oggle [A]utoformat for current buffer',
-        },
-        {
-            '<leader>tF',
-            function()
-                -- If autoformat is currently disabled globally,
-                -- then enable it globally, otherwise disable it globally
-                if vim.g.disable_autoformat then
-                    vim.cmd 'FormatEnable'
-                    vim.notify 'Enabled autoformat globally'
-                else
-                    vim.cmd 'FormatDisable'
-                    vim.notify 'Disabled autoformat globally'
-                end
-            end,
-            desc = '[T]oggle [A]utoformat globally',
+            desc = '[S]ave [W]ithout formatting',
         },
     },
     opts = {
@@ -54,11 +32,7 @@ return { -- Autoformat
             -- have a well standardized coding style. You can add additional
             -- languages here or re-enable it for the disabled ones.
             local disable_filetypes = { c = true, cpp = true }
-            if
-                disable_filetypes[vim.bo[bufnr].filetype]
-                or vim.g.disable_autoformat
-                or vim.b[bufnr].disable_autoformat
-            then
+            if disable_filetypes[vim.bo[bufnr].filetype] then
                 return nil
             else
                 return {
@@ -94,10 +68,10 @@ return { -- Autoformat
             python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
 
             -- Makefile linter
-            makefile = { 'checkmake' },
+            make = { 'checkmake' },
 
             -- Julia formatter
-            julia = { 'JuliaFormatter' }, -- Julia formatter
+            julia = { 'juliaformatter' }, -- Julia formatter
         },
 
         formatters = {
@@ -130,7 +104,7 @@ return { -- Autoformat
                 'stylua', -- lua formatter
                 'shfmt', -- shell formatter
                 'ruff', -- python formatter/linter
-                'JuliaFormatter', -- julia formatter
+                'juliaformatter', -- julia formatter
                 'jq', -- JSON formatter
             },
             -- auto-install configured formatters (matching your original setup)
@@ -139,25 +113,6 @@ return { -- Autoformat
         }
         -- Setup conform.nvim
         require('conform').setup(opts)
-        vim.api.nvim_create_user_command('FormatDisable', function(args)
-            if args.bang then
-                -- :FormatDisable! disables autoformat for this buffer only
-                vim.b.disable_autoformat = true
-            else
-                -- :FormatDisable disables autoformat globally
-                vim.g.disable_autoformat = true
-            end
-        end, {
-            desc = 'Disable autoformat-on-save',
-            bang = true, -- allows the ! variant
-        })
-
-        vim.api.nvim_create_user_command('FormatEnable', function()
-            vim.b.disable_autoformat = false
-            vim.g.disable_autoformat = false
-        end, {
-            desc = 'Re-enable autoformat-on-save',
-        })
     end,
 }
 --   opts = {
