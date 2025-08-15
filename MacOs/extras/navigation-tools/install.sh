@@ -57,15 +57,13 @@ alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale --color=al
 alias lt='eza --tree --level=2 --color=always --group-directories-first --icons'
 #List only hidden files in the current directory
 alias l.="eza -a | grep -E '^\.'"
-EOF
 
-cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 if type rg &>/dev/null; then
     # set ripgrep for fzf as default 
     export FZF_DEFAULT_COMMAND="rg --files"
 fi
+
 # Style fzf
-cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
     --style full \
     --multi \
@@ -75,17 +73,13 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
     --bind 'focus:+transform-header:file --brief {} || echo \"No file selected\"' \
     --prompt=» --marker=🔦 \
     --pointer=✸"
-EOF
 
 # Style bat with fuzzy finder
-cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 # Use bat with fzf
 alias fzfbat="fzf --preview 'bat --style=numbers --color=always --line-range:500 {}'"
-EOF
 
 # Create a function to search strings in files
 
-cat << 'EOF' | tee -a ~/.zshrc ~/.bash_profile > /dev/null
 # Interactive ripgrep with dynamic search
 fzfsearch() {
   local RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
