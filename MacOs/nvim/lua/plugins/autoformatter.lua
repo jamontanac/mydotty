@@ -31,7 +31,8 @@ return { -- Autoformat
             -- Disable "format_on_save lsp_fallback" for languages that don't
             -- have a well standardized coding style. You can add additional
             -- languages here or re-enable it for the disabled ones.
-            local disable_filetypes = { c = true, cpp = true }
+            -- local disable_filetypes = { c = true, cpp = true }
+            local disable_filetypes = {}
             if disable_filetypes[vim.bo[bufnr].filetype] then
                 return nil
             else
@@ -70,8 +71,15 @@ return { -- Autoformat
             -- Makefile linter
             make = { 'checkmake' },
 
+            --C/C++ formatter
+            c = { 'clang_format' },
+            cpp = { 'clang_format' },
+
             -- Julia formatter
             julia = { 'juliaformatter' }, -- Julia formatter
+
+            -- rust formatter
+            rust = { 'rustfmt' }, -- Rust formatter
         },
 
         formatters = {
@@ -106,6 +114,7 @@ return { -- Autoformat
                 'ruff', -- python formatter/linter
                 'juliaformatter', -- julia formatter
                 'jq', -- JSON formatter
+                'clang-format', -- C/C++ formatter
             },
             -- auto-install configured formatters (matching your original setup)
             auto_update = true,

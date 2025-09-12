@@ -42,6 +42,20 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.opt_local.foldmethod = 'indent'
     end,
 })
+-- 4. Autocmd to set filetype for .pyx
+-- vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+--     pattern = { '*.pyx', '*.pxd', '*.pxi' },
+--     callback = function()
+--         vim.bo.filetype = 'cython'
+--     end,
+-- })
+-- Treat .pyx files as Python so Pyright attaches
+-- vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+--     pattern = '*.pyx',
+--     callback = function()
+--         vim.bo.filetype = 'python'
+--     end,
+-- })
 --
 -- YAML filetype: indentation and folding
 -- vim.api.nvim_create_autocmd('FileType', {
@@ -220,16 +234,22 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Command and key mappings
 vim.api.nvim_create_user_command('FloatTerminal', floatingTerm.toggle_terminal, {})
 vim.keymap.set({ 'n', 't' }, '<leader>tt', floatingTerm.toggle_terminal, { desc = 'Toggle floating terminal' })
-vim.keymap.set({ 'n', 't' }, '<leader>rpc', function()
-    floatingTerm.send_command 'poetry run pre-commit run -a'
-end, { desc = 'Run poetry python' })
-vim.keymap.set({ 'n', 't' }, '<leader>rc', function()
-    floatingTerm.send_command 'pre-commit run -a'
-end, { desc = 'Run poetry python' })
+-- vim.keymap.set({ 'n', 't' }, '<leader>rpc', function()
+--     floatingTerm.send_command 'poetry run pre-commit run -a'
+-- end, { desc = 'Run poetry python' })
+-- vim.keymap.set({ 'n', 't' }, '<leader>rc', function()
+--     floatingTerm.send_command 'pre-commit run -a'
+-- end, { desc = 'Run poetry python' })
 -- vim.keymap.set({ 'n', 't' }, '<leader>rr', function()
 --     vim.fn.chansend(floatingTerm.state.job_id, { '' })
 -- end, { desc = 'run recent command in terminal' })
-
+vim.filetype.add {
+    extension = {
+        h = 'cpp',
+        tpp = 'cpp',
+        cu = 'cuda',
+    },
+}
 -- Create floating terminal with <leader>tt
 -- local state_floating = {
 --     floating = { buf = -1, win = -1 },

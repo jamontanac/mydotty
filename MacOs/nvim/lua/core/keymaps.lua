@@ -20,9 +20,10 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Quit file
 vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', opts, { desc = 'Quit Neovim' })
 -- Save file
-vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', opts, { desc = 'Save current buffer' })
+-- vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', opts, { desc = 'Save current buffer' })
 -- Save file and quit
 vim.keymap.set('n', '<leader>x', '<cmd>bd<CR>', opts, { desc = 'Close current buffer' })
+vim.keymap.set('n', '<leader>c', '<C-W>c', opts, { desc = 'Close current window' })
 
 -- Keybinds to make split navigation easier.
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', opts, { desc = 'Move focus to the left window' })
@@ -60,8 +61,8 @@ vim.keymap.set('n', '<Right>', '<cmd>vertical resize +2<CR>', opts, { desc = 'Re
 
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>tlw', function()
-  vim.wo.wrap = not vim.wo.wrap
-  print('Line wrapping is now ' .. (vim.wo.wrap and 'enabled' or 'disabled'))
+    vim.wo.wrap = not vim.wo.wrap
+    print('Line wrapping is now ' .. (vim.wo.wrap and 'enabled' or 'disabled'))
 end, opts, { desc = 'Toggle line wrapping' })
 
 -- --  stay in indent mode after indenting
