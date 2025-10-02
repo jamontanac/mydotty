@@ -1,6 +1,6 @@
 ## Setting up theme
 #theme = light:rose-pine-dawn,dark:rose-pine
-theme = rose-pine
+theme = Rose Pine
 
 # font configuration
 font-size = 16
