@@ -40,8 +40,8 @@ vim.keymap.set('n', 'n', 'nzzzv', opts, { desc = 'Find next and center' })
 vim.keymap.set('n', 'N', 'Nzzzv', opts, { desc = 'Find previous and center' })
 
 -- Move selected text up and down
-vim.keymap.set('v', '<A-j>', "<cmd>m '>+1<CR>gv=gv", opts, { desc = 'Move selected text down' })
-vim.keymap.set('v', '<A-k>', "<cmd>m '<-2<CR>gv=gv", opts, { desc = 'Move selected text up' })
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", opts, { desc = 'Move selected text down' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", opts, { desc = 'Move selected text up' })
 
 -- Move lines up and down in normal mode
 vim.keymap.set('n', '<A-j>', '<cmd>m .+1<CR>==', opts, { desc = 'Move current line down' })

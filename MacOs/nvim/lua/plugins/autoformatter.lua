@@ -66,7 +66,8 @@ return { -- Autoformat
             hcl = { 'terraform_fmt' },
 
             -- python formatter
-            python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
+            -- python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
+            python = { 'ruff' },
 
             -- Makefile linter
             make = { 'checkmake' },
