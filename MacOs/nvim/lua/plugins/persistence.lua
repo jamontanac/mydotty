@@ -9,4 +9,18 @@ return -- Lua
     -- pre_save = function()
     --   vim.api.nvim_exec_autocmds('User', { pattern = 'SessionSavePre' })
     -- end,
+    config = function(_, opts)
+        -- Configure sessionoptions to exclude terminal buffers
+        vim.opt.sessionoptions = {
+            'buffers',
+            'curdir',
+            'folds',
+            'help',
+            'tabpages',
+            'winsize',
+            -- "terminal" is intentionally omitted
+        }
+
+        require('persistence').setup(opts)
+    end,
 }

@@ -50,3 +50,5 @@ require('lazy').setup {
     require 'plugins.copilot',
     require 'plugins.avante',
 }
+-- require 'plugins.floating-terminal.floating-terminal'
+require 'plugins.floating-terminal'
