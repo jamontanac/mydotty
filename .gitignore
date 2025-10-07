@@ -1,6 +1,7 @@
 # Compiled Lua sources
 luac.out
 
+
 # luarocks build files
 *.src.rock
 *.zip
@@ -43,3 +44,7 @@ luac.out
 .DS_Store
 # Thumbnails
 ._*
+
+#nvim folders
+backup/
+node_modules/
