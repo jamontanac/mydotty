@@ -257,9 +257,10 @@ return {
             dockerls = {},
             docker_compose_language_service = {},
             lua_ls = {
+                -- cmd = { 'lua-language-server' },
                 -- cmd = { ... },
                 -- filetypes = { ... },
-                -- capabilities = {},
+                capabilities = {},
                 settings = {
                     Lua = {
                         runtime = {
@@ -291,6 +292,11 @@ return {
                         telemetry = { enable = false },
                         -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
                         diagnostics = { disable = { 'missing-fields' }, globals = { 'vim' } },
+                        semantic = {
+                            enable = true,
+                            keyword = true,
+                            variable = true,
+                        },
                     },
                 },
             },

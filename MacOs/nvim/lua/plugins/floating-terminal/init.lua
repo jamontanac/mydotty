@@ -59,7 +59,14 @@ function floatingTerm.create_floating_window(opts)
     local row = math.floor((vim.o.lines - height) / 2)
 
     local buf = vim.api.nvim_buf_is_valid(opts.buf) and opts.buf or vim.api.nvim_create_buf(false, true)
-
+    local terminal_title = ''
+    if opts.term_id == 1 then
+        terminal_title = '🦥〈Terminal〉🦦⌨️'
+    elseif opts.term_id == 2 then
+        terminal_title = '🦥⌨️⎡Terminal⎫🦦'
+    else
+        terminal_title = '💻Terminal ' .. opts.term_id .. '💻'
+    end
     return {
         buf = buf,
         win = vim.api.nvim_open_win(buf, true, {
@@ -70,7 +77,7 @@ function floatingTerm.create_floating_window(opts)
             row = row,
             style = 'minimal',
             border = opts.border or 'rounded',
-            title = opts.title or ('Terminal ' .. (opts.term_id or 1)),
+            title = terminal_title,
             title_pos = 'center',
         }),
     }

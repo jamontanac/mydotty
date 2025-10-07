@@ -1,8 +1,18 @@
+-- somewhere early (e.g., lua/core/keymaps.lua)
+vim.api.nvim_create_user_command('StartPresentation', function()
+    local present = require 'plugins.present'
+    present.setup()
+
+    present.start_presentation { author = 'Jose Montaña' } -- now call this on the module
+    -- match your actual module path
+end, { desc = 'Start Presentation Mode' })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
     desc = 'Highlight when yanking (copying) text',
     group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function()
-        vim.highlight.on_yank { higroup = 'IncSearch', timeout = 150 }
+        -- vim.highlight.on_yank { higroup = 'IncSearch', timeout = 150 }
+        vim.hl.on_yank()
     end,
 })
 
@@ -42,21 +52,6 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.opt_local.foldmethod = 'indent'
     end,
 })
--- 4. Autocmd to set filetype for .pyx
--- vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
---     pattern = { '*.pyx', '*.pxd', '*.pxi' },
---     callback = function()
---         vim.bo.filetype = 'cython'
---     end,
--- })
--- Treat .pyx files as Python so Pyright attaches
--- vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
---     pattern = '*.pyx',
---     callback = function()
---         vim.bo.filetype = 'python'
---     end,
--- })
---
 
 vim.filetype.add {
     extension = {
@@ -65,72 +60,6 @@ vim.filetype.add {
         cu = 'cuda',
     },
 }
--- Create floating terminal with <leader>tt
--- local state_floating = {
---     floating = { buf = -1, win = -1 },
--- }
--- local job_id = 0
--- local function create_floating_window(opts)
---     opts = opts or {}
---     local width = opts.width or math.floor(vim.o.columns * 0.8)
---     local height = opts.height or math.floor(vim.o.lines * 0.8)
---
---     -- calculate the position to center the window
---     local col = math.floor((vim.o.columns - width) / 2)
---     local row = math.floor((vim.o.lines - height) / 2)
---
---     -- create a new buffer
---     local buf = nil
---     if vim.api.nvim_buf_is_valid(opts.buf) then
---         -- If a buffer is provided, use it
---         buf = opts.buf
---     else
---         -- Otherwise, create a new scratch buffer
---         buf = vim.api.nvim_create_buf(false, true) -- no file, just scratch buffer
---     end
---
---     -- define window configuration
---     local win_opts = {
---         relative = 'editor',
---         width = width,
---         height = height,
---         col = col,
---         row = row,
---         style = 'minimal',
---         border = 'rounded',
---     }
---
---     -- Create the floating window
---     local win = vim.api.nvim_open_win(buf, true, win_opts)
---
---     return { buf = buf, win = win }
--- end
---
--- local toggle_terminal = function()
---     if not vim.api.nvim_win_is_valid(state_floating.floating.win) then
---         -- If the floating window is not valid, create a new one
---         state_floating.floating = create_floating_window { buf = state_floating.floating.buf }
---         if vim.bo[state_floating.floating.buf].buftype ~= 'terminal' then
---             vim.cmd.terminal()
---         end
---     else
---         vim.api.nvim_win_hide(state_floating.floating.win)
---     end
---     job_id = vim.bo[state_floating.floating.buf].channel
--- end
---
--- vim.api.nvim_create_user_command('FloatTerminal', toggle_terminal, { desc = 'Open a floating terminal' })
--- vim.keymap.set({ 'n', 't' }, '<leader>tt', toggle_terminal, { desc = 'Toggle floating terminal' })
--- vim.keymap.set({ 'n', 't' }, '<leader><C-c>', function()
---     -- Check if terminal is active
---     if not vim.api.nvim_win_is_valid(state_floating.floating.win) then
---         print 'Floating terminal not active'
---         return
---     end
---     -- send command to the terminal
---     vim.fn.chan_send(job_id, { "ls .\r'" })
--- end, { desc = 'Run precommit hooks' })
-
 -- Setting up the env variables from the .env file
 local function load_env_file(filepath)
     local file = io.open(filepath, 'r')
@@ -149,7 +78,7 @@ local function load_env_file(filepath)
         end
     end
     file:close()
-    vim.notify('.env loaded from ' .. filepath)
+    -- vim.notify('.env loaded from ' .. filepath)
 end
 
 -- Call this function in your config to load ~/.env

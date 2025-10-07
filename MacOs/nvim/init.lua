@@ -52,3 +52,4 @@ require('lazy').setup {
 }
 -- require 'plugins.floating-terminal.floating-terminal'
 require 'plugins.floating-terminal'
+-- require 'plugins.present'

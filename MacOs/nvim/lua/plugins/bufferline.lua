@@ -81,9 +81,10 @@ return {
                             priority = 2,
                             icon = ' ', -- Optional
                             highlight = { underline = true, sp = '#907aa9' },
-                            auto_close = true,
+                            auto_close = false,
                             matcher = function(buf) -- Mandatory
-                                return buf.name:match '_test' or buf.name:match 'test_'
+                                return (buf.name:match '_test' or buf.name:match 'test_')
+                                    and not (buf.name:match '%.md' or buf.name:match '%.txt')
                             end,
                         },
                         {
@@ -91,7 +92,7 @@ return {
                             priority = 1,
                             icon = '󱉟 ',
                             highlight = { underline = true, sp = '#286983' },
-                            auto_close = true, -- Automatically close the group when empty
+                            auto_close = false, -- Automatically close the group when empty
                             matcher = function(buf)
                                 return buf.name:match '%.md$' or buf.name:match '%.txt$'
                             end,

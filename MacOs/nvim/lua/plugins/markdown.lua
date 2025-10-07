@@ -6,11 +6,21 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-    completions = {
-      blink = {enabled = true},
-      lsp = {enabled = true},
-  },
-},
+        completions = {
+            blink = { enabled = true },
+            lsp = { enabled = true },
+        },
+        -- Add this configuration
+        overrides = {
+            buftype = {
+                nofile = {
+                    render_modes = true, -- Enable rendering in all modes
+                    padding = { highlight = 'NormalFloat' },
+                    sign = { enabled = false },
+                },
+            },
+        },
+    },
     config = function(_, opts)
         require('render-markdown').setup(opts)
 

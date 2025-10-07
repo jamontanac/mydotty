@@ -4,8 +4,8 @@ vim.o.backspace = 'indent,eol,start' -- sensible backspace
 vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.mouse = 'a' -- enable the mouse
-vim.cmd("filetype plugin indent on") -- Adding the filedetection
-vim.cmd("syntax on") -- turn syntax highlight
+vim.cmd 'filetype plugin indent on' -- Adding the filedetection
+vim.cmd 'syntax on' -- turn syntax highlight
 vim.wo.number = true -- Make line numbers default
 vim.wo.relativenumber = true -- Set relative numbered lines
 vim.wo.cursorline = true
@@ -31,7 +31,7 @@ vim.o.showmode = false -- Don't show mode since we have a statusline
 vim.o.showmatch = true -- Show matching brackets
 vim.o.wildmenu = true -- Enable wildmenu
 vim.o.wildmode = 'list:longest,list:full' -- Command-line completion mode
-vim.o.wildignore = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"
+vim.o.wildignore = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'
 vim.o.wildignorecase = true -- Ignore case in wildmenu
 -- vim.o.ttimeoutlen = 10 -- Time to wait for a mapped sequence to complete
 vim.o.title = true -- Set the terminal title
@@ -40,25 +40,25 @@ vim.o.hidden = true -- Allow switching to another buffer even if the current one
 vim.o.confirm = true -- Confirm before overwriting a file
 vim.o.swapfile = false -- Disable swap files
 vim.o.fileencoding = 'utf-8' -- Set file encoding to UTF-8
-vim.opt.runtimepath:remove ('~/.vim/') -- Remove the default runtime path for Vim in case vim is still in use
-vim.o.signcolumn = 'yes'-- Keep signcolumn on by default
-vim.o.updatetime = 250-- Decrease update time
-vim.o.timeoutlen = 300-- Decrease mapped sequence wait time
+vim.opt.runtimepath:remove '~/.vim/' -- Remove the default runtime path for Vim in case vim is still in use
+vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
+vim.o.updatetime = 250 -- Decrease update time
+vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
 vim.o.autowrite = true
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
+    vim.o.clipboard = 'unnamedplus'
 end)
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
-local backup_dir = vim.fn.expand('~/.config/nvim/backup')
+local backup_dir = vim.fn.expand '~/.config/nvim/backup'
 -- Create the backup directory if it doesn't exist
 if not vim.fn.isdirectory(backup_dir) then
-  vim.fn.mkdir(backup_dir, 'p')
+    vim.fn.mkdir(backup_dir, 'p')
 end
 -- set undo, backup, and swap directories
 vim.o.undodir = backup_dir
@@ -67,4 +67,4 @@ vim.o.directory = backup_dir
 -- set undo files
 vim.o.undofile = true -- Enable persistent undo
 vim.o.backup = true -- Disable backup files
-vim.opt.undoreload = 500
+vim.opt.undoreload = 10000
