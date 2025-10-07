@@ -180,15 +180,15 @@ local parse_slides = function(lines)
         end
 
         local start_row, _, end_row, _ = node:range()
-
         local heading_line = lines[start_row + 1]
+
+        -- Skip if not an H1 heading
         if not heading_line or not heading_line:match '^#%s' then
             goto continue
         end
 
         -- current_slide.title = heading_line:gsub('^#%s+', '')
         current_slide.title = heading_line
-        ::continue::
 
         local codeblocks = vim.iter(codeblock_query:iter_captures(root, contents, start_row, end_row))
             :map(function(_, n)
@@ -244,12 +244,14 @@ local parse_slides = function(lines)
         for idx = start_of_section, end_row do
             process_line(idx)
         end
+
+        ::continue::
     end
 
     -- Add the last slide, won't happen in the loop
-    --  Could probably switch to do-while loop and make Prime happy,
-    --  but that would make me sad.
-    table.insert(slides.slides, current_slide)
+    if #current_slide.title > 0 then
+        table.insert(slides.slides, current_slide)
+    end
 
     return slides
 end
@@ -337,41 +339,43 @@ M.start_presentation = function(opts)
     state.floats.body = create_floating_window(windows.body, true)
     foreach_float(function(_, float)
         vim.bo[float.buf].filetype = 'markdown'
+        -- disable TS highlighting
+        pcall(require('nvim-treesitter.highlight').detach, float.buf)
     end)
-  vim.api.nvim_set_hl(0, 'PresentationTitle', {
-    fg =   '#c4a7e7',  -- Rose Pine 'iris' color
-    bold = true,
-})
-
+    vim.api.nvim_set_hl(0, 'PresentationTitle', {
+        fg = '#c4a7e7', -- Rose Pine 'iris' color
+        bold = true,
+    })
 
     -- local footer_float = create_floating_window(windows.footer)
 
     local set_slide_content = function(idx)
-        local width =  math.floor(vim.o.columns * 0.9)
+        local width = math.floor(vim.o.columns * 0.9)
 
         local slide = state.slides.slides[idx]
 
-    -- Strip the # from the title first
-    local clean_title = slide.title:gsub('^#%s+', '')
+        -- Strip the # from the title first
+        local clean_title = slide.title:gsub('^#%s+', '')
         local title = string.rep(' ', (width - #clean_title) / 2) .. clean_title
         vim.api.nvim_buf_set_lines(state.floats.header.buf, 0, -1, false, { title })
-    -- Apply the highlight to the entire line
-    vim.api.nvim_buf_add_highlight(
-        state.floats.header.buf,
-        -1,  -- namespace (-1 = default)
-        'PresentationTitle',  -- highlight group
-        0,   -- line number (0 = first line)
-        0,   -- start column (0 = beginning)
-        -1   -- end column (-1 = end of line)
-    )
+        -- Apply the highlight to the entire line
+        vim.api.nvim_buf_add_highlight(
+            state.floats.header.buf,
+            -1, -- namespace (-1 = default)
+            'PresentationTitle', -- highlight group
+            0, -- line number (0 = first line)
+            0, -- start column (0 = beginning)
+            -1 -- end column (-1 = end of line)
+        )
         vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
 
-        local footer_text = string.format('%d / %d - %s - %s', state.current_slide, #state.slides.slides, state.title, opts.author)
+        local footer_text =
+            string.format('%d / %d - %s - %s', state.current_slide, #state.slides.slides, state.title, opts.author)
         vim.api.nvim_buf_set_lines(state.floats.footer.buf, 0, -1, false, { footer_text })
     end
-  -- foreach_float(function(_, float)
-  --   vim.treesitter.start(float.buf, 'markdown')
-  --   end)
+    -- foreach_float(function(_, float)
+    --   vim.treesitter.start(float.buf, 'markdown')
+    --   end)
 
     present_keymap('n', 'n', function()
         state.current_slide = math.min(state.current_slide + 1, #state.slides.slides)
