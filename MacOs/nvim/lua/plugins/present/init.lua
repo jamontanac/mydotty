@@ -348,7 +348,6 @@ M.start_presentation = function(opts)
     state.floats.header = create_floating_window(windows.header)
     state.floats.footer = create_floating_window(windows.footer)
     state.floats.body = create_floating_window(windows.body, true)
-    -- vim.api.nvim_buf_set_name(state.floats.body.buf, state.original_file)
 
     foreach_float(function(_, float)
         vim.bo[float.buf].filetype = 'markdown'
@@ -376,20 +375,25 @@ M.start_presentation = function(opts)
         )
 
         --set body
+        -- set the buffer name to some file in the current directory so snacks can find images
+        -- also to find relavite images
         vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
         if image_render.has_images_in_content(slide.body) then
-            -- Set filetype to markdown so snacks can parse it
-            vim.bo[state.floats.body.buf].filetype = 'markdown'
+            --     -- pcall(vim.api.nvim_buf_set_name, state.floats.body.buf, current_file_dir .. '/.present_body_tmp.md')
+            --     -- Trigger a redraw to let snacks process the buffer
+            --     vim.schedule(function()
+            --         -- Set filetype to markdown so snacks can parse it
+            --         vim.bo[state.floats.body.buf].filetype = 'markdown'
             -- Enable treesitter for markdown
             pcall(vim.treesitter.start, state.floats.body.buf, 'markdown')
-
-            -- Trigger a redraw to let snacks process the buffer
-            vim.schedule(function()
-                vim.cmd 'redraw'
-            end)
+            vim.api.nvim_exec_autocmds('FileType', { buffer = state.floats.body.buf })
+            vim.api.nvim_exec_autocmds('BufEnter', { buffer = state.floats.body.buf })
+            vim.api.nvim_exec_autocmds('TextChanged', { buffer = state.floats.body.buf })
+            --         local snacks = require 'snacks'
+            --         snacks.image.hover()
+            --         vim.cmd 'redraw'
+            --     end)
         end
-        -- vim.bo[state.floats.body.buf].filetype = 'markdown'
-        --set tree sitter to highlight markdown
 
         --set footer
         local footer_text =

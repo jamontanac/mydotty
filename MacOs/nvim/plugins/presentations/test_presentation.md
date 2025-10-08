@@ -13,6 +13,11 @@ this is other WORLD
     - something here
     - something there
 
+# Some image
+
+here some text before image
+![image_from_folder](/Users/jmontana/.config/nvim/plugins/presentations/testing.png)
+
 # Hi again
 
 this is other 3th hi again
@@ -29,7 +34,7 @@ this is other 3th hi again
 print("this is the test from python")
 ```
 
-# Some image
+# Some other image
 
 here some text before image
 ![image_from_folder](/Users/jmontana/.config/nvim/plugins/presentations/testing.png)
