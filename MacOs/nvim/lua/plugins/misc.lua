@@ -97,5 +97,51 @@ return {
     --         }
     --     end,
     -- },
-    -- { 'nvim-mini/mini.align', version = false },
+    { 'nvim-mini/mini.align', version = false },
+    -- In your init.lua, add this plugin:
+    -- {
+    --     '3rd/image.nvim',
+    --     opts = {
+    --         backend = 'kitty',
+    --         integrations = {
+    --             markdown = {
+    --                 enabled = true,
+    --                 clear_in_insert_mode = false,
+    --                 download_remote_images = true,
+    --                 only_render_image_at_cursor = false,
+    --                 filetypes = { 'markdown' },
+    --             },
+    --         },
+    --         max_width = nil,
+    --         max_height = nil,
+    --         max_width_window_percentage = nil,
+    --         max_height_window_percentage = 50,
+    --     },
+    -- },
+
+    {
+        'folke/snacks.nvim',
+        ---@type snacks.Config
+        opts = {
+            -- in order for this to worl we need imagemagic, ghostscript (pdf) and tectonic (math latex)
+            image = {
+                enabled = true,
+                -- Disable file association to prevent BufReadCmd conflicts
+                formats = {
+                    'png',
+                    'jpg',
+                    'jpeg',
+                    'gif',
+                    'bmp',
+                    'webp',
+                },
+                -- Configure to work within markdown context
+                filetypes = { 'markdown', 'norg', 'tex' },
+                doc = {
+                    enabled = true,
+                    inline = true,
+                },
+            },
+        },
+    },
 }

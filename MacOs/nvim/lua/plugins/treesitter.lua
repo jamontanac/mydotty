@@ -39,6 +39,11 @@ return {
                 'vim',
                 'vimdoc',
                 'yaml',
+                'norg',
+                'scss',
+                'svelte',
+                'typst',
+                'vue',
             },
 
             -- Autoinstall languages that are not installed

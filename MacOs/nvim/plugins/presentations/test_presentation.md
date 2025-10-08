@@ -28,3 +28,8 @@ this is other 3th hi again
 ```python
 print("this is the test from python")
 ```
+
+# Some image
+
+here some text before image
+![image_from_folder](/Users/jmontana/.config/nvim/plugins/presentations/testing.png)

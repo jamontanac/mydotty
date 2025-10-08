@@ -1,5 +1,6 @@
 return {
     'MeanderingProgrammer/render-markdown.nvim',
+    ft = { 'markdown' },
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -9,16 +10,6 @@ return {
         completions = {
             blink = { enabled = true },
             lsp = { enabled = true },
-        },
-        -- Add this configuration
-        overrides = {
-            buftype = {
-                nofile = {
-                    render_modes = true, -- Enable rendering in all modes
-                    padding = { highlight = 'NormalFloat' },
-                    sign = { enabled = false },
-                },
-            },
         },
     },
     config = function(_, opts)

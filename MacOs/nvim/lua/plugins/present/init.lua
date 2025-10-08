@@ -1,3 +1,4 @@
+local image_render = require 'plugins.present.image_render'
 local M = {}
 -- TODO: This was returning goofy stuff
 local section_query = vim.treesitter.query.parse('markdown', [[(section) @section]])
@@ -310,8 +311,15 @@ local state = {
     slides = nil,
     current_slide = 1,
     floats = {},
+    current_file_dir = nil,
 }
+------ To render
 
+vim.api.nvim_set_hl(0, 'PresentationTitle', {
+    fg = '#c4a7e7', -- Rose Pine 'iris' color
+    bold = true,
+})
+-------- to render
 local foreach_float = function(cb)
     for name, float in pairs(state.floats) do
         cb(name, float)
@@ -326,6 +334,9 @@ M.start_presentation = function(opts)
     -- Get the current buffer lines
     opts = opts or {}
     opts.bufnr = opts.bufnr or 0
+    local file = vim.api.nvim_buf_get_name(opts.bufnr)
+    local current_file_dir = vim.fn.fnamemodify(file, ':h')
+    state.current_file_dir = current_file_dir
 
     local lines = vim.api.nvim_buf_get_lines(opts.bufnr, 0, -1, false)
     state.slides = parse_slides(lines)
@@ -337,24 +348,20 @@ M.start_presentation = function(opts)
     state.floats.header = create_floating_window(windows.header)
     state.floats.footer = create_floating_window(windows.footer)
     state.floats.body = create_floating_window(windows.body, true)
+    -- vim.api.nvim_buf_set_name(state.floats.body.buf, state.original_file)
+
     foreach_float(function(_, float)
         vim.bo[float.buf].filetype = 'markdown'
-        -- disable TS highlighting
+        --disable treesitter highlighting for now, it is slow
         pcall(require('nvim-treesitter.highlight').detach, float.buf)
     end)
-    vim.api.nvim_set_hl(0, 'PresentationTitle', {
-        fg = '#c4a7e7', -- Rose Pine 'iris' color
-        bold = true,
-    })
-
-    -- local footer_float = create_floating_window(windows.footer)
 
     local set_slide_content = function(idx)
-        local width = math.floor(vim.o.columns * 0.9)
-
         local slide = state.slides.slides[idx]
 
+        -- set header
         -- Strip the # from the title first
+        local width = math.floor(vim.o.columns * 0.9)
         local clean_title = slide.title:gsub('^#%s+', '')
         local title = string.rep(' ', (width - #clean_title) / 2) .. clean_title
         vim.api.nvim_buf_set_lines(state.floats.header.buf, 0, -1, false, { title })
@@ -367,8 +374,24 @@ M.start_presentation = function(opts)
             0, -- start column (0 = beginning)
             -1 -- end column (-1 = end of line)
         )
-        vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
 
+        --set body
+        vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
+        if image_render.has_images_in_content(slide.body) then
+            -- Set filetype to markdown so snacks can parse it
+            vim.bo[state.floats.body.buf].filetype = 'markdown'
+            -- Enable treesitter for markdown
+            pcall(vim.treesitter.start, state.floats.body.buf, 'markdown')
+
+            -- Trigger a redraw to let snacks process the buffer
+            vim.schedule(function()
+                vim.cmd 'redraw'
+            end)
+        end
+        -- vim.bo[state.floats.body.buf].filetype = 'markdown'
+        --set tree sitter to highlight markdown
+
+        --set footer
         local footer_text =
             string.format('%d / %d - %s - %s', state.current_slide, #state.slides.slides, state.title, opts.author)
         vim.api.nvim_buf_set_lines(state.floats.footer.buf, 0, -1, false, { footer_text })
