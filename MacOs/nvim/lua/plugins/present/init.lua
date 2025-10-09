@@ -1,19 +1,7 @@
-local image_render = require 'plugins.present.image_render'
+-- local image_render = require 'plugins.present.image_render'
+local code_execution = require 'plugins.present.code_execution'
+local parse_slides = require 'plugins.present.present_parsing'
 local M = {}
--- TODO: This was returning goofy stuff
-local section_query = vim.treesitter.query.parse('markdown', [[(section) @section]])
--- local section_query = vim.treesitter.query.parse(
---     'markdown',
---     [[
---   (section
---     (atx_heading
---       (atx_h1_marker)) @section)
--- ]]
--- )
-local codeblock_query = vim.treesitter.query.parse('markdown', [[(fenced_code_block) @codeblock]])
--- local language_query =
---   vim.treesitter.query.parse("markdown", [[(fenced_code_block (info_string (language) @language))]])
---
 
 local function create_floating_window(config, enter)
     if enter == nil then
@@ -28,76 +16,17 @@ local function create_floating_window(config, enter)
     }
 end
 
---- Default executor for lua code
----@param block present.Block
-local execute_lua_code = function(block)
-    -- Override the default print function, to capture all of the output
-    -- Store the original print function
-    local original_print = print
-
-    local output = {}
-
-    -- Redefine the print function
-    print = function(...)
-        local args = { ... }
-        local message = table.concat(vim.tbl_map(tostring, args), '\t')
-        table.insert(output, message)
-    end
-
-    -- Call the provided function
-    local chunk = loadstring(block.body)
-    pcall(function()
-        if not chunk then
-            table.insert(output, ' <<<BROKEN CODE>>>')
-        else
-            chunk()
-        end
-
-        return output
-    end)
-
-    -- Restore the original print function
-    print = original_print
-
-    return output
-end
-
---- Default executor for Rust code
---- This is particularly janky, as it requires rustc to be installed
---- we compile and then run the compiled binary
----@param block present.Block
-local execute_rust_code = function(block)
-    local tempfile = vim.fn.tempname() .. '.rs'
-    local outputfile = tempfile:sub(1, -4)
-    vim.fn.writefile(vim.split(block.body, '\n'), tempfile)
-    local result = vim.system({ 'rustc', tempfile, '-o', outputfile }, { text = true }):wait()
-    if result.code ~= 0 then
-        local output = vim.split(result.stderr, '\n')
-        return output
-    end
-    result = vim.system({ outputfile }, { text = true }):wait()
-    return vim.split(result.stdout, '\n')
-end
-
-M.create_system_executor = function(program)
-    return function(block)
-        local tempfile = vim.fn.tempname()
-        vim.fn.writefile(vim.split(block.body, '\n'), tempfile)
-        local result = vim.system({ program, tempfile }, { text = true }):wait()
-        return vim.split(result.stdout, '\n')
-    end
-end
-
 local defaults = {
     syntax = {
         comment = '%%',
         stop = '<!%-%-%s*stop%s*%-%->',
     },
+    -- executors = executors,
     executors = {
-        lua = execute_lua_code,
-        javascript = M.create_system_executor 'node',
-        python = M.create_system_executor 'python3',
-        rust = execute_rust_code,
+        lua = code_execution.execute_lua_code,
+        javascript = code_execution.create_system_executor 'node',
+        python = code_execution.create_system_executor 'python3',
+        rust = code_execution.execute_rust_code,
     },
 }
 
@@ -110,151 +39,12 @@ local defaults = {
 ---@field stop string?: The stop comment, will stop slide when found. Note: Is a Lua Pattern
 
 ---@type present.Options
-local options = {
-    syntax = {
-        comment = '%%',
-        stop = '<!%-%-%s*stop%s*%-%->',
-    },
-    executors = {},
-}
+local options = vim.deepcopy(defaults)
 
 --- Setup the plugin
 ---@param opts present.Options
 M.setup = function(opts)
     options = vim.tbl_deep_extend('force', defaults, opts or {})
-end
-
----@class present.Slides
----@field slides present.Slide[]: The slides of the file
-
----@class present.Slide
----@field title string: The title of the slide
----@field body string[]: The body of slide
----@field blocks present.Block[]: A codeblock inside of a slide
-
----@class present.Block
----@field language string: The language of the codeblock
----@field body string: The body of the codeblock
----@field start_row integer: The start row of the codeblock
----@field end_row integer: The end row of the codeblock
-
---- Takes some lines and parses them
----@param lines string[]: The lines in the buffer
----@return present.Slides
-
-local parse_slides = function(lines)
-    local contents = table.concat(lines, '\n') .. '\n'
-    local parser = vim.treesitter.get_string_parser(contents, 'markdown')
-    local root = parser:parse()[1]:root()
-
-    local slides = { slides = {} }
-
-    local create_empty_slide = function()
-        return { title = '', body = {}, blocks = {} }
-    end
-
-    local add_line_to_block = function(slide, line)
-        if not line then
-            return
-        end
-
-        -- Trim trailing whitespace, it can have weird highlighting and whatnot
-        line = line:gsub('%s*$', '')
-        table.insert(slide.body, line)
-    end
-
-    local get_block = function(codeblocks, idx)
-        for _, codeblock in ipairs(codeblocks) do
-            if idx >= codeblock.start_row and idx <= codeblock.end_row then
-                return codeblock
-            end
-        end
-
-        return nil
-    end
-
-    local current_slide = create_empty_slide()
-    for _, node in section_query:iter_captures(root, contents, 0, -1) do
-        if #current_slide.title > 0 then
-            table.insert(slides.slides, current_slide)
-            current_slide = create_empty_slide()
-        end
-
-        local start_row, _, end_row, _ = node:range()
-        local heading_line = lines[start_row + 1]
-
-        -- Skip if not an H1 heading
-        if not heading_line or not heading_line:match '^#%s' then
-            goto continue
-        end
-
-        -- current_slide.title = heading_line:gsub('^#%s+', '')
-        current_slide.title = heading_line
-
-        local codeblocks = vim.iter(codeblock_query:iter_captures(root, contents, start_row, end_row))
-            :map(function(_, n)
-                local s, _, e, _ = n:range()
-                local language = vim.trim(string.sub(lines[s + 1], 4))
-                return {
-                    language = language,
-                    body = table.concat(vim.list_slice(lines, s + 2, e - 1), '\n'),
-                    start_row = s + 1,
-                    end_row = e,
-                }
-            end)
-            :totable()
-
-        local comment = options.syntax.comment
-        local stop = options.syntax.stop
-
-        local process_line = function(idx)
-            local line = lines[idx]
-            local block = get_block(codeblocks, idx)
-
-            -- Only do our comments/splits/etc if we are not in a codeblock
-            if not block then
-                -- Skip comment lines
-                if comment and vim.startswith(line, comment) then
-                    return
-                end
-
-                -- Split on `stop` comments
-                if stop and line:find(stop) then
-                    line = line:gsub(stop, '')
-                    add_line_to_block(current_slide, line)
-                    table.insert(slides.slides, current_slide)
-                    current_slide = vim.deepcopy(current_slide)
-                    return
-                end
-
-                return add_line_to_block(current_slide, line)
-            end
-
-            -- Only add code blocks to the current slide if we have
-            -- actually reached them (this could not happen because of stop comments)
-            if idx == block.start_row then
-                table.insert(current_slide.blocks, block)
-            end
-
-            -- GIVE ME THE CODE AND GIVE IT TO ME RAW
-            add_line_to_block(current_slide, lines[idx])
-        end
-
-        -- Process the lines: Add one for row->line, add one to skip the header
-        local start_of_section = start_row + 2
-        for idx = start_of_section, end_row do
-            process_line(idx)
-        end
-
-        ::continue::
-    end
-
-    -- Add the last slide, won't happen in the loop
-    if #current_slide.title > 0 then
-        table.insert(slides.slides, current_slide)
-    end
-
-    return slides
 end
 
 local create_window_configurations = function()
@@ -339,7 +129,7 @@ M.start_presentation = function(opts)
     state.current_file_dir = current_file_dir
 
     local lines = vim.api.nvim_buf_get_lines(opts.bufnr, 0, -1, false)
-    state.slides = parse_slides(lines)
+    state.slides = parse_slides.parse_slides(lines, options)
     state.current_slide = 1
     state.title = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(opts.bufnr), ':t')
 
@@ -374,39 +164,14 @@ M.start_presentation = function(opts)
             -1 -- end column (-1 = end of line)
         )
 
-        --set body
-        -- set the buffer name to some file in the current directory so snacks can find images
-        -- also to find relavite images
         vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
         --TODO: we need to handle a way of refresh the buffer so the images are displayed
         -- when we resize it magically works
-        --
-        -- if image_render.has_images_in_content(slide.body) then
-        --     --     -- pcall(vim.api.nvim_buf_set_name, state.floats.body.buf, current_file_dir .. '/.present_body_tmp.md')
-        --     --     -- Trigger a redraw to let snacks process the buffer
-        --     --     vim.schedule(function()
-        --     --         -- Set filetype to markdown so snacks can parse it
-        --     --         vim.bo[state.floats.body.buf].filetype = 'markdown'
-        --     -- Enable treesitter for markdown
-        --     pcall(vim.treesitter.start, state.floats.body.buf, 'markdown')
-        --     vim.api.nvim_exec_autocmds('FileType', { buffer = state.floats.body.buf })
-        --     vim.api.nvim_exec_autocmds('BufEnter', { buffer = state.floats.body.buf })
-        --     vim.api.nvim_exec_autocmds('TextChanged', { buffer = state.floats.body.buf })
-        --     --         local snacks = require 'snacks'
-        --     --         snacks.image.hover()
-        --     --         vim.cmd 'redraw'
-        --     --     end)
-        -- end
 
         --set footer
         local footer_text =
             string.format('%d / %d - %s - %s', state.current_slide, #state.slides.slides, state.title, opts.author)
         vim.api.nvim_buf_set_lines(state.floats.footer.buf, 0, -1, false, { footer_text })
-
-        -- vim.api.nvim_exec_autocmds(
-        --     'User',
-        --     { pattern = 'PresentationSlideChanged', data = { bufnr = state.floats.body.buf } }
-        -- )
     end
     -- foreach_float(function(_, float)
     --   vim.treesitter.start(float.buf, 'markdown')
@@ -516,30 +281,6 @@ M.start_presentation = function(opts)
             end)
         end,
     })
-    -- vim.api.nvim_create_autocmd('User', {
-    --     group = vim.api.nvim_create_augroup('PresentationSlideChanged', { clear = true }),
-    --     pattern = 'PresentationSlideChanged',
-    --     buffer = state.floats.body.buf,
-    --     nested = false,
-    --
-    --     callback = function()
-    --         if not vim.api.nvim_win_is_valid(state.floats.body.win) or state.floats.body.win == nil then
-    --             return
-    --         end
-    --         local body_lines = state.slides.slides[state.current_slide].body
-    --         if not image_render.has_images_in_content(body_lines) then
-    --             return
-    --         else
-    --             local updated = create_window_configurations()
-    --             foreach_float(function(name, _)
-    --                 vim.api.nvim_win_set_config(state.floats[name].win, updated[name])
-    --             end)
-    --             -- re draw the current slide
-    --             -- set_slide_content(state.current_slide)
-    --         end
-    --         vim.cmd 'redraw'
-    --     end,
-    -- })
 
     vim.api.nvim_create_autocmd('VimResized', {
         group = vim.api.nvim_create_augroup('PresentationsResize', {}),

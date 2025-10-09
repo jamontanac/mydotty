@@ -13,6 +13,10 @@ this is other WORLD
     - something here
     - something there
 
+```lua
+print("this is the test from lua")
+```
+
 # Some image
 
 here some text before image
