@@ -378,27 +378,35 @@ M.start_presentation = function(opts)
         -- set the buffer name to some file in the current directory so snacks can find images
         -- also to find relavite images
         vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
-        if image_render.has_images_in_content(slide.body) then
-            --     -- pcall(vim.api.nvim_buf_set_name, state.floats.body.buf, current_file_dir .. '/.present_body_tmp.md')
-            --     -- Trigger a redraw to let snacks process the buffer
-            --     vim.schedule(function()
-            --         -- Set filetype to markdown so snacks can parse it
-            --         vim.bo[state.floats.body.buf].filetype = 'markdown'
-            -- Enable treesitter for markdown
-            pcall(vim.treesitter.start, state.floats.body.buf, 'markdown')
-            vim.api.nvim_exec_autocmds('FileType', { buffer = state.floats.body.buf })
-            vim.api.nvim_exec_autocmds('BufEnter', { buffer = state.floats.body.buf })
-            vim.api.nvim_exec_autocmds('TextChanged', { buffer = state.floats.body.buf })
-            --         local snacks = require 'snacks'
-            --         snacks.image.hover()
-            --         vim.cmd 'redraw'
-            --     end)
-        end
+        --TODO: we need to handle a way of refresh the buffer so the images are displayed
+        -- when we resize it magically works
+        --
+        -- if image_render.has_images_in_content(slide.body) then
+        --     --     -- pcall(vim.api.nvim_buf_set_name, state.floats.body.buf, current_file_dir .. '/.present_body_tmp.md')
+        --     --     -- Trigger a redraw to let snacks process the buffer
+        --     --     vim.schedule(function()
+        --     --         -- Set filetype to markdown so snacks can parse it
+        --     --         vim.bo[state.floats.body.buf].filetype = 'markdown'
+        --     -- Enable treesitter for markdown
+        --     pcall(vim.treesitter.start, state.floats.body.buf, 'markdown')
+        --     vim.api.nvim_exec_autocmds('FileType', { buffer = state.floats.body.buf })
+        --     vim.api.nvim_exec_autocmds('BufEnter', { buffer = state.floats.body.buf })
+        --     vim.api.nvim_exec_autocmds('TextChanged', { buffer = state.floats.body.buf })
+        --     --         local snacks = require 'snacks'
+        --     --         snacks.image.hover()
+        --     --         vim.cmd 'redraw'
+        --     --     end)
+        -- end
 
         --set footer
         local footer_text =
             string.format('%d / %d - %s - %s', state.current_slide, #state.slides.slides, state.title, opts.author)
         vim.api.nvim_buf_set_lines(state.floats.footer.buf, 0, -1, false, { footer_text })
+
+        -- vim.api.nvim_exec_autocmds(
+        --     'User',
+        --     { pattern = 'PresentationSlideChanged', data = { bufnr = state.floats.body.buf } }
+        -- )
     end
     -- foreach_float(function(_, float)
     --   vim.treesitter.start(float.buf, 'markdown')
@@ -508,6 +516,30 @@ M.start_presentation = function(opts)
             end)
         end,
     })
+    -- vim.api.nvim_create_autocmd('User', {
+    --     group = vim.api.nvim_create_augroup('PresentationSlideChanged', { clear = true }),
+    --     pattern = 'PresentationSlideChanged',
+    --     buffer = state.floats.body.buf,
+    --     nested = false,
+    --
+    --     callback = function()
+    --         if not vim.api.nvim_win_is_valid(state.floats.body.win) or state.floats.body.win == nil then
+    --             return
+    --         end
+    --         local body_lines = state.slides.slides[state.current_slide].body
+    --         if not image_render.has_images_in_content(body_lines) then
+    --             return
+    --         else
+    --             local updated = create_window_configurations()
+    --             foreach_float(function(name, _)
+    --                 vim.api.nvim_win_set_config(state.floats[name].win, updated[name])
+    --             end)
+    --             -- re draw the current slide
+    --             -- set_slide_content(state.current_slide)
+    --         end
+    --         vim.cmd 'redraw'
+    --     end,
+    -- })
 
     vim.api.nvim_create_autocmd('VimResized', {
         group = vim.api.nvim_create_augroup('PresentationsResize', {}),
