@@ -15,7 +15,21 @@ local function create_floating_window(config, enter)
         win = win,
     }
 end
+local function has_markdown_table(lines)
+    -- Pattern to match a table header row: at least one pipe with non-empty cells
+    local header_pat = '^%s*|.+|%s*$'
+    -- Pattern to match a divider row: pipes and dashes (and optional colons for alignment)
+    local divider_pat = '^%s*|[%s:|%-]+|%s*$'
 
+    for i = 1, #lines - 1 do
+        local hdr = lines[i]
+        local div = lines[i + 1]
+        if hdr:match(header_pat) and div:match(divider_pat) then
+            return true
+        end
+    end
+    return false
+end
 local defaults = {
     syntax = {
         comment = '%%',
@@ -142,7 +156,7 @@ M.start_presentation = function(opts)
     foreach_float(function(_, float)
         vim.bo[float.buf].filetype = 'markdown'
         --disable treesitter highlighting for now, it is slow
-        pcall(require('nvim-treesitter.highlight').detach, float.buf)
+        -- pcall(require('nvim-treesitter.highlight').detach, float.buf)
     end)
 
     local set_slide_content = function(idx)
@@ -163,7 +177,12 @@ M.start_presentation = function(opts)
             0, -- start column (0 = beginning)
             -1 -- end column (-1 = end of line)
         )
-
+        -- if has_markdown_table(slide.body) then
+        --     -- enable treesitter highlighting for tables
+        --     vim.treesitter.start(state.floats.body.buf, 'markdown')
+        -- else
+        --     pcall(require('nvim-treesitter.highlight').detach, state.float.header)
+        -- end
         vim.api.nvim_buf_set_lines(state.floats.body.buf, 0, -1, false, slide.body)
         --TODO: we need to handle a way of refresh the buffer so the images are displayed
         -- when we resize it magically works

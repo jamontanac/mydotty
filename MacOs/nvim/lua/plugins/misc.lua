@@ -140,6 +140,8 @@ return {
                 doc = {
                     enabled = true,
                     inline = true,
+                    max_width = 50, -- Set maximum width in columns
+                    max_height = 20,
                 },
             },
         },

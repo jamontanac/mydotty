@@ -24,6 +24,7 @@ return {
                 'javascript',
                 'json',
                 'julia',
+                -- 'latex',
                 'lua',
                 'make',
                 'markdown',

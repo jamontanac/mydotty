@@ -53,15 +53,15 @@ end
 
 function floatingTerm.create_floating_window(opts)
     opts = opts or {}
-    local width = opts.width or math.floor(vim.o.columns * 0.7)
-    local height = opts.height or math.floor(vim.o.lines * 0.5)
+    local width = opts.width or math.floor(vim.o.columns * 0.75)
+    local height = opts.height or math.floor(vim.o.lines * 0.65)
     local col = math.floor((vim.o.columns - width) / 2)
     local row = math.floor((vim.o.lines - height) / 2)
 
     local buf = vim.api.nvim_buf_is_valid(opts.buf) and opts.buf or vim.api.nvim_create_buf(false, true)
     local terminal_title = ''
     if opts.term_id == 1 then
-        terminal_title = '🦥〈Terminal〉🦦⌨️'
+        terminal_title = '💻🦥〈Terminal〉🦦⌨️'
     elseif opts.term_id == 2 then
         terminal_title = '🦥⌨️⎡Terminal⎫🦦'
     else

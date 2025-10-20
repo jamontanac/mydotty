@@ -77,13 +77,26 @@ return {
                     },
                     items = {
                         {
-                            name = 'Tests',
+                            name = 'pyTests',
                             priority = 2,
-                            icon = ' ', -- Optional
+                            icon = '󰌠  ', -- Optional
                             highlight = { underline = true, sp = '#907aa9' },
                             auto_close = false,
                             matcher = function(buf) -- Mandatory
                                 return (buf.name:match '_test' or buf.name:match 'test_')
+                                    and (buf.name:match '%.py')
+                                    and not (buf.name:match '%.md' or buf.name:match '%.txt')
+                            end,
+                        },
+                        {
+                            name = 'shTests',
+                            priority = 3,
+                            icon = '  ', -- Optional
+                            highlight = { underline = true, sp = '#907aa9' },
+                            auto_close = false,
+                            matcher = function(buf) -- Mandatory
+                                return (buf.name:match '_test' or buf.name:match 'test_')
+                                    and (buf.name:match '%.sh')
                                     and not (buf.name:match '%.md' or buf.name:match '%.txt')
                             end,
                         },
@@ -125,8 +138,14 @@ return {
         vim.keymap.set(
             'n',
             '<leader>tg2',
-            '<cmd>BufferLineGroupToggle Tests<CR>',
-            { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests' }
+            '<cmd>BufferLineGroupToggle pyTests<CR>',
+            { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests python' }
+        )
+        vim.keymap.set(
+            'n',
+            '<leader>tg3',
+            '<cmd>BufferLineGroupToggle shTests<CR>',
+            { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests bash' }
         )
         -- vim.keymap.set(
         --     'n',

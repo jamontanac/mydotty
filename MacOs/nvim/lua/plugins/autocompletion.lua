@@ -31,6 +31,7 @@ return { -- Autocompletion
         },
         'folke/lazydev.nvim',
         'fang2hou/blink-copilot',
+        { 'joelazar/blink-calc' },
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
@@ -76,8 +77,9 @@ return { -- Autocompletion
         },
 
         sources = {
-            default = { 'lsp', 'path', 'snippets', 'lazydev', 'copilot' },
+            default = { 'lsp', 'path', 'snippets', 'lazydev', 'copilot', 'calc' },
             providers = {
+                calc = { name = 'Calc', module = 'blink-calc' },
                 lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
                 copilot = {
                     name = 'copilot',
