@@ -48,7 +48,7 @@ require('lazy').setup {
     require 'plugins.misc',
     require 'plugins.lazygit',
     require 'plugins.copilot',
-    require 'plugins.opencode',
+    -- require 'plugins.opencode',
     -- require 'plugins.avante',
 }
 -- require 'plugins.floating-terminal.floating-terminal'
