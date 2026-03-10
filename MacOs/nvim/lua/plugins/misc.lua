@@ -44,6 +44,7 @@ return {
     -- { 'tpope/vim-surround' },
     -- { 'tpope/vim-sleuth' },
     { 'tpope/vim-repeat' },
+    { 'tpope/vim-fugitive' },
     -- { 'wgurecky/vimSum' },
     -- {
     --     'sk1418/HowMuch',
