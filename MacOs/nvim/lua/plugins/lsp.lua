@@ -300,15 +300,15 @@ return {
                     },
                 },
             },
-            pyright = {},
+            -- pyright = {},
+            pyrefly = {},
             julials = {},
-            -- cyright = {},
 
             -- pylsp = {
             -- 	settings = {
             -- 		pylsp = {
             -- 			plugins = {
-            -- 				pyflakes = { enabled = false },
+            -- 				pyflakes = { enabled = flse },
             -- 				pycodestyle = { enabled = false },
             -- 				autopep8 = { enabled = false },
             -- 				yapf = { enabled = false },
