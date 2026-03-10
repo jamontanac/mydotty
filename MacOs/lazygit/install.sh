@@ -15,7 +15,7 @@ else
 fi
 #writing a yaml file with the config for the pager of delta
 echo -e '
-git: 
-    paging:
-        pager: delta --dark --paging=never --syntax-theme base16-256 --diff-so-fancy --side-by-side --line-numbers
-' >> ~/Library/Application/ Support/lazygit/config.yml
+git:
+    pagers:
+        - pager: delta --dark --paging=never --syntax-theme base16-256 --diff-so-fancy --side-by-side --line-numbers
+' >> ~/Library/Application\ Support/lazygit/config.yml
