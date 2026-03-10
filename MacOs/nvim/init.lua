@@ -48,6 +48,7 @@ require('lazy').setup {
     require 'plugins.misc',
     require 'plugins.lazygit',
     require 'plugins.copilot',
+    require 'plugins.codecompanion',
     -- require 'plugins.opencode',
     -- require 'plugins.avante',
 }
