@@ -9,12 +9,12 @@ ghostty lazygit docker: homebrew
 # Extra terminal utilities section
 fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh 
-oh-my-zsh:
+oh-my-zsh: navigation-tools
 	@bash oh-my-zsh/install.sh
 vim: homebrew fonts navigation-tools
 	@bash vim/install.sh
 # Group target for terminal utilities
-terminal-utils: ghostty oh-my-zsh lazygit dev-links
+terminal-utils: ghostty oh-my-zsh lazygit navigation-tools dev-links
 	@echo "All terminal utilities have been installed."
 extra-terminal-utils: fonts navigation-tools
 	@echo "All extra terminal utilities have been installed."
