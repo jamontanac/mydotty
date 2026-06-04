@@ -37,7 +37,7 @@ require('lazy').setup {
     require 'plugins.lualine',
     require 'plugins.treesitter',
     require 'plugins.which-key',
-    require 'plugins.registers_management',
+    -- require 'plugins.registers_management',
     require 'plugins.lsp',
     require 'plugins.lsp_nvim',
     require 'plugins.autocompletion',
@@ -48,8 +48,9 @@ require('lazy').setup {
     require 'plugins.misc',
     require 'plugins.lazygit',
     require 'plugins.copilot',
-    require 'plugins.codecompanion',
-    -- require 'plugins.opencode',
+    -- require 'plugins.codecompanion',
+    require 'plugins.opencode',
+    require 'plugins.diagrams',
     -- require 'plugins.avante',
 }
 -- require 'plugins.floating-terminal.floating-terminal'

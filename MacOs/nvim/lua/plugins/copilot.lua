@@ -1,13 +1,17 @@
 return {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
+    requires = {
+        'copilotlsp-nvim/copilot-lsp', -- (optional) for NES functionality
+    },
     build = ':Copilot auth',
     event = 'InsertEnter',
     config = function()
         require('copilot').setup {
-            copilot_model = 'gpt-4o-copilot',
+            -- Kept disabled so blink.cmp can handle the UI
             suggestion = { enabled = false },
             panel = { enabled = false },
+
             filetypes = {
                 markdown = true,
                 help = true,

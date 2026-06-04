@@ -147,36 +147,15 @@ return {
             '<cmd>BufferLineGroupToggle shTests<CR>',
             { silent = true, noremap = true, desc = '[T]oggle [G]roup Tests bash' }
         )
-        -- vim.keymap.set(
-        --     'n',
-        --     'gb1',
-        --     '<cmd>BufferLineGoToBuffer 1<CR>',
-        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 1' }
-        -- )
-        -- vim.keymap.set(
-        --     'n',
-        --     'gb2',
-        --     '<cmd>BufferLineGoToBuffer 2<CR>',
-        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 2' }
-        -- )
-        -- vim.keymap.set(
-        --     'n',
-        --     'gb3',
-        --     '<cmd>BufferLineGoToBuffer 3<CR>',
-        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 3' }
-        -- )
-        -- vim.keymap.set(
-        --     'n',
-        --     'gb4',
-        --     '<cmd>BufferLineGoToBuffer 4<CR>',
-        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 4' }
-        -- )
-        -- vim.keymap.set(
-        --     'n',
-        --     'gb5',
-        --     '<cmd>BufferLineGoToBuffer 5<CR>',
-        --     { silent = true, noremap = true, desc = '[G]o to [B]uffer 5' }
-        -- )
+        for index = 1, 10 do
+            local key = index == 10 and '0' or tostring(index)
+            vim.keymap.set(
+                'n',
+                '<leader>b' .. key,
+                '<cmd>BufferLineGoToBuffer ' .. index .. '<CR>',
+                { silent = true, noremap = true, desc = '[G]o to [B]uffer ' .. index }
+            )
+        end
         vim.keymap.set(
             'n',
             '<A-S-,>',
@@ -189,5 +168,23 @@ return {
             '<cmd>BufferLineCycleNext<CR>',
             { silent = true, noremap = true, desc = 'Cycle to next buffer' }
         )
+        vim.keymap.set(
+            'n',
+            '<leader>bL',
+            '<cmd>BufferLineMovePrev<CR>',
+            { silent = true, noremap = true, desc = '[B]uffer move left' }
+        )
+        vim.keymap.set(
+            'n',
+            '<leader>bR',
+            '<cmd>BufferLineMoveNext<CR>',
+            { silent = true, noremap = true, desc = '[B]uffer move right' }
+        )
+        vim.keymap.set('n', '<leader>mb1', function()
+            require('bufferline').move_to(1)
+        end, { silent = true, noremap = true, desc = '[M]ove [B]uffer move to [1]st' })
+        vim.keymap.set('n', '<leader>mb0', function()
+            require('bufferline').move_to(-1)
+        end, { silent = true, noremap = true, desc = '[M]move [B]uffer move to last [0]' })
     end,
 }
