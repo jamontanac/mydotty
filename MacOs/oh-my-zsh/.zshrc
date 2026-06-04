@@ -74,7 +74,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git ssh aws docker command-time)
 
 # Load navigation-tools only when the plugin is present via dev-links.
-if [[ -f "$ZSH_CUSTOM/plugins/navigation-tools/navigation-tools.plugin.zsh" ]]; then
+ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$ZSH/custom}"
+if [[ -f "$ZSH_CUSTOM_DIR/plugins/navigation-tools/navigation-tools.plugin.zsh" ]]; then
   plugins+=(navigation-tools)
 fi
 # detect if the system is running on a Mac
