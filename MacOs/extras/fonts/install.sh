@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+
 fonts_list=(
 	font-0xproto-nerd-font
 	font-caskaydia-cove-nerd-font
@@ -6,8 +8,7 @@ fonts_list=(
 )
 for font in "${fonts_list[@]}"
 do
-	echo "Installing" $font
+	echo "Installing $font"
 	brew install --cask "$font"
 	echo "--------------"
 done
-exit

@@ -1,4 +1,7 @@
-if brew list spotify &>/dev/null; then
+#!/usr/bin/env bash
+set -euo pipefail
+
+if brew list --cask spotify &>/dev/null; then
     echo "Spotify already installed"
 else
     echo "Installing Spotify..."

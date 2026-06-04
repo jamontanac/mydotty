@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # check if nvim is installed
 if brew list onefetch &>/dev/null; then
     echo "onefetch already installed"

@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # we install homebrew
 #ceck if homebrew is installed
 if command -v brew &>/dev/null; then

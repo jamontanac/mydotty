@@ -9,12 +9,12 @@ ghostty lazygit docker: homebrew
 # Extra terminal utilities section
 fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh 
-oh-my-zsh: navigation-tools
+oh-my-zsh: homebrew navigation-tools
 	@bash oh-my-zsh/install.sh
 vim: homebrew fonts navigation-tools
 	@bash vim/install.sh
 # Group target for terminal utilities
-terminal-utils: ghostty oh-my-zsh lazygit navigation-tools dev-links
+terminal-utils: ghostty oh-my-zsh lazygit navigation-tools
 	@echo "All terminal utilities have been installed."
 extra-terminal-utils: fonts navigation-tools
 	@echo "All extra terminal utilities have been installed."
@@ -22,7 +22,7 @@ extra-terminal-utils: fonts navigation-tools
 pyenv spark uv: homebrew
 	@bash python/$@/install.sh
 
-python-utils: pyenv spark
+python-utils: pyenv spark uv
 	@echo "All Python utilities have been installed."
 dev-links:
 	@bash dev-links/install.sh install
