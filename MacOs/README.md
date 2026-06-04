@@ -14,6 +14,31 @@ For installing the all the tooling you can simply run
 make terminal-utils
 ```
 
+## Live edit workflow (repo as source of truth)
+If you want to edit this repository directly and immediately test those changes in your active local setup, use the symlink workflow:
+
+```bash
+make dev-links
+```
+
+This links the main config files from this repository into your home directory.
+Current managed links include:
+
+- `MacOs/ghostty/config` -> `~/.config/ghostty/config`
+- `MacOs/oh-my-zsh/.zshrc` -> `~/.zshrc`
+- `MacOs/oh-my-zsh/plugins/*` -> `~/.oh-my-zsh/custom/plugins/<plugin>/<file>`
+- `MacOs/vim/.vimrc` -> `~/.vimrc`
+- `MacOs/nvim` -> `~/.config/nvim`
+
+Useful commands:
+
+```bash
+make dev-links-status   # show if links are active / mismatched / missing
+make dev-links-unlink   # remove only links managed by this workflow
+```
+
+Safety note: when a target already exists and is not the expected symlink, it is moved to a timestamped backup folder under `~/.mydotty-backups/`.
+
 this will install all the tools mentioned below.
 ## Specific details
 ### Xcode

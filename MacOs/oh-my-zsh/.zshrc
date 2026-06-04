@@ -92,7 +92,7 @@ ZSH_COMMAND_TIME_MSG="⏱️ Execution Time: %s ⏱️"
 ZSH_COMMAND_TIME_COLOR="#9ccfd8"
 
 # Exclude some commands
-ZSH_COMMAND_TIME_EXCLUDE=(vim nvim)
+ZSH_COMMAND_TIME_EXCLUDE=(vim nvim opencode claude copilot lazygit)
 ### ---------------
 # Configure the plugin for the battery
 #ZSH_BATTERY_CHARGING="⚡️"
@@ -112,11 +112,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"

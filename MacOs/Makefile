@@ -16,7 +16,7 @@ vim: homebrew fonts navigation-tools
 # Group target for terminal utilities
 terminal-utils: ghostty oh-my-zsh lazygit
 	@echo "All terminal utilities have been installed."
-extra-terminal-utils fonts navigation-tools:
+extra-terminal-utils: fonts navigation-tools
 	@echo "All extra terminal utilities have been installed."
 # Python utilities section
 pyenv spark uv: homebrew
@@ -24,4 +24,13 @@ pyenv spark uv: homebrew
 
 python-utils: pyenv spark
 	@echo "All Python utilities have been installed."
-.PHONY: ghostty fonts oh-my-zsh lazygit docker terminal-utils pyenv spark uv homebrew python-utils vim
+dev-links:
+	@bash dev-links/install.sh install
+
+dev-links-status:
+	@bash dev-links/install.sh status
+
+dev-links-unlink:
+	@bash dev-links/install.sh unlink
+
+.PHONY: ghostty fonts oh-my-zsh lazygit docker terminal-utils pyenv spark uv homebrew python-utils vim dev-links dev-links-status dev-links-unlink
