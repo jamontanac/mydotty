@@ -32,13 +32,19 @@ keybind = global:cmd+´=toggle_quick_terminal
 #keybind = shift+ctrl+right_bracket=next_tab
 #keybind = shift+ctrl+physical:left=move_tab:0
 #keybind = shift+ctrl+physical:right=move_tab:+1
-keybind = ctrl+alt+h=goto_split:left
-keybind = ctrl+alt+j=goto_split:down
-keybind = ctrl+alt+k=goto_split:up
-keybind = ctrl+alt+l=goto_split:right
+keybind = ctrl+cmd+key_h=goto_split:left
+keybind = ctrl+cmd+key_j=goto_split:down
+keybind = ctrl+cmd+key_k=goto_split:up
+keybind = ctrl+cmd+key_l=goto_split:right
+keybind = ctrl+cmd+h=goto_split:left
+keybind = ctrl+cmd+j=goto_split:down
+keybind = ctrl+cmd+k=goto_split:up
+keybind = ctrl+cmd+l=goto_split:right
 
-keybind = ctrl+alt+left_bracket=goto_window:previous
-keybind = ctrl+alt+right_bracket=goto_window:next
+#keybind = ctrl+cmd+one=goto_window:previous
+#keybind = ctrl+cmd+zero=goto_window:next
+keybind = ctrl+cmd+key_p=goto_window:previous
+keybind = ctrl+cmd+key_o=goto_window:next
 # shader
 # custom-shader =
 # custom-shader-animation = false
