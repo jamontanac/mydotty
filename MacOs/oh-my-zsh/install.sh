@@ -1,27 +1,32 @@
-#installing oh-my-zsh
+#!/usr/bin/env bash
+set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# ── 1. Install oh-my-zsh ──────────────────────────────────────────────────────
 echo "Installing oh-my-zsh..."
-#check if oh-my-zsh is already installed
-if [ -d "$HOME/.oh-my-zsh" ]; then
-  echo "oh-my-zsh is already installed. Skipping installation."
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+  echo "oh-my-zsh is already installed. Skipping."
 else
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
-#add the plugins to the plugins folder
-echo "Adding plugins to"
-# list all the plugins in the plugins folder and create a folder with the same name
-for plugin in ./oh-my-zsh/plugins/*; do
 
-  plugin_name_file=$(basename "$plugin")
-  #split the file name and get the first part
-  plugin_name="${plugin_name_file%%.*}"
-  echo "Creating folder for $plugin_name"
-  mkdir -p ~/.oh-my-zsh/custom/plugins/"$plugin_name"
-  cp ./oh-my-zsh/plugins/"$plugin_name_file" ~/.oh-my-zsh/custom/plugins/"$plugin_name"/
+# ── 2. Symlink custom plugins ─────────────────────────────────────────────────
+echo "Linking custom plugins..."
+for plugin in "$SCRIPT_DIR/plugins/"*; do
+  [[ -e "$plugin" ]] || continue
+  plugin_file="$(basename "$plugin")"
+  plugin_name="${plugin_file%%.*}"
+  plugin_dir="$HOME/.oh-my-zsh/custom/plugins/$plugin_name"
+
+  mkdir -p "$plugin_dir"
+  ln -sfn "$plugin" "$plugin_dir/$plugin_file"
+  echo "  Linked $plugin_dir/$plugin_file -> $plugin"
 done
-#copy the zshrc file to the home directory
-echo "Copying zshrc file to home directory..."
-cp ./oh-my-zsh/.zshrc ~/
-# # apply the changes
-echo "Applying changes..."
-/bin/zsh -c "source ~/.zshrc"
+
+# ── 3. Symlink .zshrc ─────────────────────────────────────────────────────────
+echo "Linking .zshrc..."
+ln -sfn "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
+echo "  Linked $HOME/.zshrc -> $SCRIPT_DIR/.zshrc"
+
+echo "Done. Edit files in the repo and changes will reflect immediately."
