@@ -14,7 +14,7 @@ oh-my-zsh:
 vim: homebrew fonts navigation-tools
 	@bash vim/install.sh
 # Group target for terminal utilities
-terminal-utils: ghostty oh-my-zsh lazygit
+terminal-utils: ghostty oh-my-zsh lazygit dev-links
 	@echo "All terminal utilities have been installed."
 extra-terminal-utils: fonts navigation-tools
 	@echo "All extra terminal utilities have been installed."

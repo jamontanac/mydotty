@@ -1,8 +1,10 @@
 
-#use homebrew to install ghostty
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Symlinking of ghostty/config is handled by dev-links/install.sh
 echo "Installing Ghostty..."
-# check if ghostty is already installed with cask or it is already in Applications
-if [ -d "/Applications/Ghostty.app" ]; then
+if [[ -d "/Applications/Ghostty.app" ]]; then
     echo "Ghostty is already installed in Applications."
 elif brew list --cask | grep -q ghostty; then
     echo "Ghostty is already installed."
@@ -11,10 +13,4 @@ else
     echo "Ghostty installed successfully."
 fi
 
-echo "Setting up Ghostty..."
-# Set up Ghostty
-# make sure the folder ~/.config/ghostty exists
-mkdir -p ~/.config/ghostty
-# copy the config file to ~/.config/ghostty
-cp ./ghostty/config ~/.config/ghostty/
-echo "Ghostty set up successfully and ready to use."
+echo "Done. Run 'make dev-links' to symlink the Ghostty config."
