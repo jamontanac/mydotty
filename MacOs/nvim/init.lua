@@ -50,7 +50,7 @@ require('lazy').setup {
     require 'plugins.copilot',
     -- require 'plugins.codecompanion',
     require 'plugins.opencode',
-    require 'plugins.diagrams',
+    -- require 'plugins.diagrams',
     -- require 'plugins.avante',
 }
 -- require 'plugins.floating-terminal.floating-terminal'
