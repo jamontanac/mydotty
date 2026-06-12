@@ -12,8 +12,8 @@ return {
             lsp = { enabled = true },
         },
         latex = {
-            enabled = true,
-            converter = { 'latex2text', 'utftex' },
+            enabled = false,
+            converter = { 'utftex', 'latex2text' },
         },
     },
     -- keys = {

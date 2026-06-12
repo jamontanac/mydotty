@@ -15,6 +15,27 @@ else
     brew install neovim
 fi
 
+if brew list node &>/dev/null; then
+    echo "node already installed"
+else
+    echo "Installing node (includes npm)..."
+    brew install node
+fi
+
+if brew list imagemagick &>/dev/null; then
+    echo "imagemagick already installed"
+else
+    echo "Installing imagemagick..."
+    brew install imagemagick
+fi
+
+if brew list librsvg &>/dev/null; then
+    echo "librsvg already installed"
+else
+    echo "Installing librsvg (provides rsvg-convert)..."
+    brew install librsvg
+fi
+
 if brew list utftex &>/dev/null; then
     echo "utftex already installed"
 else
