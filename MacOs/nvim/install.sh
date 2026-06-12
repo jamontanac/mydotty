@@ -35,9 +35,17 @@ else
 
     if ! command -v latex2text &>/dev/null; then
         user_bin="$(python3 -m site --user-base)/bin"
-        if [[ -x "${user_bin}/latex2text" ]]; then
-            echo "latex2text installed at ${user_bin}/latex2text"
-            echo "Add ${user_bin} to PATH if the command is not available in new shells"
+        user_latex2text="${user_bin}/latex2text"
+
+        if [[ -x "${user_latex2text}" ]]; then
+            brew_bin="$(brew --prefix)/bin"
+            if [[ -w "${brew_bin}" ]]; then
+                ln -sf "${user_latex2text}" "${brew_bin}/latex2text"
+                echo "Linked latex2text into ${brew_bin}"
+            else
+                echo "latex2text installed at ${user_latex2text}"
+                echo "Add ${user_bin} to PATH if the command is not available in new shells"
+            fi
         else
             echo "latex2text install failed: command not found" >&2
             exit 1
