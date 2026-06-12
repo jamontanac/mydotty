@@ -45,6 +45,15 @@ vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
 vim.o.updatetime = 250 -- Decrease update time
 vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
 vim.o.autowrite = true
+
+-- Obsidian UI features require conceallevel 1 or 2 in markdown buffers.
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'markdown', 'mdx', 'quarto' },
+    callback = function()
+        vim.opt_local.conceallevel = 2
+    end,
+})
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.

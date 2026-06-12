@@ -11,6 +11,9 @@ return {
             blink = { enabled = true },
             lsp = { enabled = true },
         },
+        latex = {
+            enabled = false,
+        },
     },
     config = function(_, opts)
         require('render-markdown').setup(opts)
