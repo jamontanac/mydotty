@@ -1,3 +1,62 @@
+-- return {
+--     'OXY2DEV/markview.nvim',
+--     lazy = false,
+
+--     dependencies = {
+--         'nvim-treesitter/nvim-treesitter',
+--         -- Completion for `blink.cmp`
+--         'saghen/blink.cmp',
+--     },
+--     opts = {
+--         preview = {
+--             enable = true,
+--             enable_hybrid_mode = true,
+--             filetypes = { 'markdown', 'quarto', 'rmd' },
+--             modes = { 'n', 'no', 'c', 'i' },
+--             hybrid_modes = { 'i' },
+--         },
+--         markdown = {
+--             enable = true,
+--         },
+--         markdown_inline = {
+--             enable = true,
+--         },
+--         latex = {
+--             enable = true,
+--             blocks = {
+--                 enable = true,
+--                 text = ' LaTeX ',
+--             },
+--             inlines = {
+--                 enable = true,
+--             },
+--             commands = {
+--                 enable = true,
+--             },
+--             escapes = {
+--                 enable = true,
+--             },
+--             parenthesis = {
+--                 enable = true,
+--             },
+--             fonts = {
+--                 enable = true,
+--             },
+--             subscripts = {
+--                 enable = true,
+--             },
+--             superscripts = {
+--                 enable = true,
+--             },
+--             symbols = {
+--                 enable = true,
+--             },
+--             texts = {
+--                 enable = true,
+--             },
+--         },
+--     },
+-- };
 return {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = { 'markdown' },
@@ -12,8 +71,8 @@ return {
             lsp = { enabled = true },
         },
         latex = {
-            enabled = false,
-            converter = { 'utftex', 'latex2text' },
+            enabled = true,
+            converter = { 'latex2text', 'utftex', },
         },
     },
     -- keys = {
