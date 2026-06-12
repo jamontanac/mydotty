@@ -127,6 +127,9 @@ return {
             -- in order for this to worl we need imagemagic, ghostscript (pdf) and tectonic (math latex)
             image = {
                 enabled = true,
+                math = {
+                    enabled = false,
+                },
                 -- Disable file association to prevent BufReadCmd conflicts
                 formats = {
                     'png',

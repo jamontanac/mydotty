@@ -14,3 +14,33 @@ else
     echo "Installing neovim..."
     brew install neovim
 fi
+
+if brew list utftex &>/dev/null; then
+    echo "utftex already installed"
+else
+    echo "Installing utftex..."
+    brew install utftex
+fi
+
+if command -v latex2text &>/dev/null; then
+    echo "latex2text already installed"
+else
+    if ! command -v python3 &>/dev/null; then
+        echo "python3 is required to install latex2text (pylatexenc)" >&2
+        exit 1
+    fi
+
+    echo "Installing pylatexenc (provides latex2text)..."
+    python3 -m pip install --user --upgrade pylatexenc
+
+    if ! command -v latex2text &>/dev/null; then
+        user_bin="$(python3 -m site --user-base)/bin"
+        if [[ -x "${user_bin}/latex2text" ]]; then
+            echo "latex2text installed at ${user_bin}/latex2text"
+            echo "Add ${user_bin} to PATH if the command is not available in new shells"
+        else
+            echo "latex2text install failed: command not found" >&2
+            exit 1
+        fi
+    fi
+fi

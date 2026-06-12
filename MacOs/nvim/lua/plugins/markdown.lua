@@ -12,9 +12,19 @@ return {
             lsp = { enabled = true },
         },
         latex = {
-            enabled = false,
+            enabled = true,
+            converter = { 'latex2text', 'utftex' },
         },
     },
+    -- keys = {
+    --     {
+    --         '<leader>te',
+    --         function()
+    --             require('render-markdown').buf_toggle()
+    --         end,
+    --         desc = 'Toggle markdown equation rendering',
+    --     },
+    -- },
     config = function(_, opts)
         require('render-markdown').setup(opts)
 
