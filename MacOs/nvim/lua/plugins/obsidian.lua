@@ -73,13 +73,21 @@ return {
                 action = function()
                     return require('obsidian').util.gf_passthrough()
                 end,
-                opts = { noremap = false, expr = true, buffer = true },
+                opts = { noremap = false, expr = true, buffer = true, desc = 'Obsidian follow link' },
             },
             ['<leader>ch'] = {
                 action = function()
                     return require('obsidian').util.toggle_checkbox()
                 end,
-                opts = { buffer = true },
+                opts = { buffer = true, desc = 'Obsidian toggle checkbox' },
+            },
+            ['<leader>on'] = {
+                action = '<cmd>ObsidianNewFromTemplate<CR>',
+                opts = { buffer = true, desc = 'Obsidian new note from template' },
+            },
+            ['<leader>od'] = {
+                action = '<cmd>ObsidianToday<CR>',
+                opts = { buffer = true, desc = "Obsidian today's daily note" },
             },
         },
     },

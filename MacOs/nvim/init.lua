@@ -34,7 +34,7 @@ require('lazy').setup {
     -- This particular plugins has problems when loading icons
     -- require 'plugins.new_bufferline',
     require 'plugins.markdown',
-    require 'plugins.markdown_preview',
+    -- require 'plugins.markdown_preview',
     -- require 'plugins.nabla',
     require 'plugins.obsidian',
     require 'plugins.lualine',
