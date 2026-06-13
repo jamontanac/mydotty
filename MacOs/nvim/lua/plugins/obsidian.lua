@@ -7,7 +7,7 @@ local function resolve_templates_folder()
         end
     end
 
-    local repo_templates = vim.fn.expand '~/mydotty/templates'
+    local repo_templates = vim.fn.expand '~/mydotty/MacOs/nvim/templates'
     if vim.fn.isdirectory(repo_templates) == 1 then
         return repo_templates
     end
@@ -82,6 +82,7 @@ return {
         daily_notes = {
             folder = 'notes/dailies',
             date_format = '%Y-%m-%d',
+            time_format = '%H:%M',
             template = 'daily.md',
         },
         templates = {
@@ -89,15 +90,35 @@ return {
             date_format = '%Y-%m-%d',
             time_format = '%H:%M',
             substitutions = {
-                daily_title = function()
-                    local value = vim.fn.input 'Daily title (optional): '
+                subject = function()
+                    local value = vim.fn.input 'Subject (optional): '
                     if not value then
                         return ''
                     end
 
                     return vim.trim(value)
                 end,
+                -- daily_title = function()
+                --     local value = vim.fn.input 'Daily title (optional): '
+                --     if not value then
+                --         return ''
+                --     end
+
+                --     return vim.trim(value)
+                -- end,
             },
+        },
+        callbacks = {
+            enter_note = function()
+                vim.keymap.set('x', '<leader>ol', ':ObsidianLink<CR>', {
+                    buffer = true,
+                    desc = 'Obsidian link selection to existing note',
+                })
+                vim.keymap.set('x', '<leader>oL', ':ObsidianLinkNew<CR>', {
+                    buffer = true,
+                    desc = 'Obsidian link selection to new note',
+                })
+            end,
         },
         attachments = {
             img_folder = 'assets/imgs',
@@ -122,6 +143,14 @@ return {
             ['<leader>od'] = {
                 action = '<cmd>ObsidianToday<CR>',
                 opts = { buffer = true, desc = "Obsidian today's daily note" },
+            },
+            ['<leader>oq'] = {
+                action = '<cmd>ObsidianQuickSwitch<CR>',
+                opts = { buffer = true, desc = 'Obsidian quick switch' },
+            },
+            ['<leader>ob'] = {
+                action = '<cmd>ObsidianBacklinks<CR>',
+                opts = { buffer = true, desc = 'Obsidian backlinks' },
             },
         },
     },

@@ -1,6 +1,6 @@
-# Daily - {{date}}
-
-Title: {{daily_title}}
+# {{title}}
+# {{date}} - {{time}}
+----
 
 ## Top 3 priorities
 - [ ]

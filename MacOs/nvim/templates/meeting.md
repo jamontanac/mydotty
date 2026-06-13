@@ -3,13 +3,16 @@
 Date: {{date}} {{time}}
 Attendees:
 
+## Todo list
+- [ ]
+- [ ]
+
 ## Agenda
+- 
 - 
 
 ## Notes
 
 ## Decisions
 - 
-
-## Action items
-- [ ] owner: due:
+- 

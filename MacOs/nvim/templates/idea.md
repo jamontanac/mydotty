@@ -1,14 +1,17 @@
 # Idea - {{title}}
 
 Date: {{date}} {{time}}
+Subject: {{subject}}
 
 ## Problem
 
 ## Proposed solution
 
-## Why now
+## Why
 
 ## First experiment
+- [ ]
+- [ ]
 - [ ]
 
 ## Notes
