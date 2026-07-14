@@ -552,8 +552,8 @@ else
     " Set the background tone for terminal
     set background=dark
    
-    " Try to use the same colorscheme as GUI if available
-    colorscheme rosepine
+    " The installer fetches Rose Pine with vim-plug; avoid blocking first launch before it exists.
+    silent! colorscheme rosepine
     hi Normal guibg=NONE ctermbg=NONE
     " try
     "     " colorscheme molokai

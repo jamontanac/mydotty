@@ -2,6 +2,7 @@
 set -euo pipefail
 
 # Symlinking of .vimrc is handled by dev-links/install.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Create vim folder structure
 # .vim/
@@ -23,12 +24,9 @@ else
     brew install node
 fi
 
-# Install vim plugins (requires .vimrc to be symlinked first via dev-links)
-if [[ -f "$HOME/.vimrc" ]]; then
-    vim +PlugInstall +qall
-else
-    echo "Warning: ~/.vimrc not found. Run 'make dev-links' first, then re-run vim +PlugInstall +qall"
-fi
+# Install vim plugins using the repository configuration so this does not depend
+# on whether dev-links has already created ~/.vimrc.
+vim -u "$SCRIPT_DIR/.vimrc" -n -es '+PlugInstall --sync' '+qa'
 
 # Install copilot.vim
 if [[ ! -d "$HOME/.vim/pack/github/start/copilot.vim" ]]; then

@@ -11,7 +11,7 @@ fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh 
 oh-my-zsh: homebrew navigation-tools
 	@bash oh-my-zsh/install.sh
-vim: homebrew fonts navigation-tools
+vim: homebrew fonts navigation-tools dev-links
 	@bash vim/install.sh
 # Group target for terminal utilities
 terminal-utils: ghostty oh-my-zsh lazygit navigation-tools
