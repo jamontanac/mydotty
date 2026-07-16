@@ -8,11 +8,24 @@
                                             
 ```
 
-# Install terminal tooling
-For installing the all the tooling you can simply run
+# Installation groups
+The default command installs the everyday terminal, editor, and Python tools:
 ```bash
-make terminal-utils
+make
 ```
+
+Install a focused group with one of these commands:
+
+| Group | Command | Includes |
+| --- | --- | --- |
+| Terminal | `make terminal` | Ghostty, Oh My Zsh, Lazygit, navigation tools, btop, and fonts |
+| Editors | `make editors` | Vim, Neovim, and Visual Studio Code |
+| Python | `make python` | pyenv and uv |
+| Data | `make data` | Apache Spark and OpenJDK 17 |
+| Containers | `make containers` | Docker Desktop |
+| Desktop | `make desktop` | Spotify |
+
+`make terminal-utils` and `make python-utils` remain available as compatibility aliases. Individual tools can still be installed directly, for example `make vscode` or `make spark`.
 
 ## Live edit workflow (repo as source of truth)
 If you want to edit this repository directly and immediately test those changes in your active local setup, use the symlink workflow:
@@ -29,6 +42,7 @@ Current managed links include:
 - `MacOs/oh-my-zsh/plugins/*` -> `~/.oh-my-zsh/custom/plugins/<plugin>/<file>`
 - `MacOs/vim/.vimrc` -> `~/.vimrc`
 - `MacOs/nvim` -> `~/.config/nvim`
+- `MacOs/vscode/settings.json` -> `~/Library/Application Support/Code/User/settings.json`
 
 Useful commands:
 
@@ -106,11 +120,13 @@ brew install lazygit
 make fonts
 ```
 here the script of install contains the name of the fonts to install, feel free to modify it and re run the `make`command.
-# Python utils
-To install python and spark you can run the following command
+# Python tools
+To install pyenv and uv, run the following command:
 ```bash
-make python-utils
+make python
 ```
+Install Spark separately with `make data`.
+
 This will install the tools mentioned below.
 ## Details
 ### Pyenv

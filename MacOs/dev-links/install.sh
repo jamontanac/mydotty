@@ -117,6 +117,9 @@ build_mappings() {
   register_mapping "$MACOS_DIR/oh-my-zsh/.zshrc" "$HOME/.zshrc"
   register_mapping "$MACOS_DIR/vim/.vimrc" "$HOME/.vimrc"
   register_mapping "$MACOS_DIR/nvim" "$HOME/.config/nvim"
+  register_mapping \
+    "$MACOS_DIR/vscode/settings.json" \
+    "$HOME/Library/Application Support/Code/User/settings.json"
 
   local plugin
   for plugin in "$MACOS_DIR"/oh-my-zsh/plugins/*; do
