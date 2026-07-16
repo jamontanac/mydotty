@@ -1,5 +1,5 @@
 # Makes the default directory listing more readable and visually informative.
-alias ls='eza --color=always --group-directories-first --icons'
+alias ls='eza --color=always --group-directories-first --icons=always'
 # Detailed listing of all files with group info, directories at the top.
 alias la='eza -la --group --octal-permissions --group-directories-first --icons'
 # Extremely detailed listing with metadata, icons, and Git status.
