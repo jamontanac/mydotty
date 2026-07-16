@@ -6,6 +6,8 @@ homebrew:
 # Terminal utilities section
 ghostty lazygit docker: homebrew
 	@bash $@/install.sh
+nvim: homebrew
+	@bash nvim/install.sh
 # Extra terminal utilities section
 fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh 
@@ -33,4 +35,4 @@ dev-links-status:
 dev-links-unlink:
 	@bash dev-links/install.sh unlink
 
-.PHONY: ghostty fonts oh-my-zsh lazygit docker terminal-utils pyenv spark uv homebrew python-utils vim dev-links dev-links-status dev-links-unlink
+.PHONY: ghostty fonts oh-my-zsh lazygit docker nvim terminal-utils pyenv spark uv homebrew python-utils vim dev-links dev-links-status dev-links-unlink
