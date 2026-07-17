@@ -64,7 +64,6 @@ vim.filetype.add {
 local function load_env_file(filepath)
     local file = io.open(filepath, 'r')
     if not file then
-        vim.notify('.env file not found at ' .. filepath, vim.log.levels.WARN)
         return
     end
 
