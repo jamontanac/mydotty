@@ -143,6 +143,11 @@ if [[ -f "$HOME/.local/bin/env" ]]; then
   source "$HOME/.local/bin/env"
 fi
 
+# Python package managers
+if [[ -x "$HOME/.pixi/bin/pixi" ]]; then
+  export PATH="$HOME/.pixi/bin:$PATH"
+fi
+
 # bun completions
 if [[ -d "$HOME/.bun" ]]; then
   [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

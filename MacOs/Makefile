@@ -34,10 +34,10 @@ development: homebrew
 	@bash development/install.sh
 
 # Languages and data
-pyenv spark uv: homebrew
+pyenv spark uv pixi: homebrew
 	@bash python/$@/install.sh
 
-python: pyenv uv
+python: pyenv uv pixi
 	@echo "Python tools installed."
 
 data: spark
@@ -87,6 +87,6 @@ dev-links-unlink:
 .PHONY: all homebrew \
 	ghostty lazygit fonts navigation-tools btop oh-my-zsh terminal terminal-utils extra-terminal-utils \
 	vim nvim vscode editors development \
-	pyenv uv spark python python-utils data \
+	pyenv uv pixi spark python python-utils data \
 	docker containers spotify obsidian caffeine desktop dygma hardware \
 	dev-links dev-links-status dev-links-unlink

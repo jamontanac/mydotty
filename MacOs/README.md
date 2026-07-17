@@ -21,7 +21,7 @@ Install a focused group with one of these commands:
 | Terminal | `make terminal` | Ghostty, Oh My Zsh, Lazygit, navigation tools, btop, and fonts |
 | Editors | `make editors` | Vim, Neovim, and Visual Studio Code |
 | Development | `make development` | Clang/Clang++, npm, Cargo, and Rust |
-| Python | `make python` | pyenv and uv |
+| Python | `make python` | pyenv, uv, and Pixi |
 | Data | `make data` | Apache Spark and OpenJDK 17 |
 | Containers | `make containers` | Docker Desktop and Docker Compose |
 | Desktop | `make desktop` | Spotify, Obsidian, and Caffeine |
