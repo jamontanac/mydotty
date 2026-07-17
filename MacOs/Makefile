@@ -56,8 +56,18 @@ spotify: homebrew
 obsidian: homebrew
 	@bash obsidian/install.sh
 
-desktop: spotify obsidian
+caffeine: homebrew
+	@bash caffeine/install.sh
+
+desktop: spotify obsidian caffeine
 	@echo "Desktop applications installed."
+
+# Hardware utilities
+dygma: homebrew navigation-tools
+	@bash Dygma/install.sh
+
+hardware: dygma
+	@echo "Hardware utilities installed."
 
 # Backward-compatible group aliases
 terminal-utils: terminal
@@ -78,5 +88,5 @@ dev-links-unlink:
 	ghostty lazygit fonts navigation-tools btop oh-my-zsh terminal terminal-utils extra-terminal-utils \
 	vim nvim vscode editors development \
 	pyenv uv spark python python-utils data \
-	docker containers spotify obsidian desktop \
+	docker containers spotify obsidian caffeine desktop dygma hardware \
 	dev-links dev-links-status dev-links-unlink
