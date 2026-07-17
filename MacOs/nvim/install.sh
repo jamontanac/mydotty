@@ -22,6 +22,14 @@ else
     brew install node
 fi
 
+TREE_SITTER_CLI_VERSION="0.25.10"
+if command -v tree-sitter &>/dev/null && tree-sitter --version | grep -q "${TREE_SITTER_CLI_VERSION}"; then
+    echo "tree-sitter CLI ${TREE_SITTER_CLI_VERSION} already installed"
+else
+    echo "Installing tree-sitter CLI ${TREE_SITTER_CLI_VERSION}..."
+    npm install --global "tree-sitter-cli@${TREE_SITTER_CLI_VERSION}"
+fi
+
 if brew list imagemagick &>/dev/null; then
     echo "imagemagick already installed"
 else
