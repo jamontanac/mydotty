@@ -1,6 +1,6 @@
 
 # This Makefile installs the tools and configuration managed by this repository.
-all: terminal editors python
+all: terminal editors development python
 
 # Package manager
 homebrew:
@@ -28,6 +28,10 @@ vim: homebrew fonts navigation-tools dev-links
 
 editors: vim nvim vscode
 	@echo "Editors installed."
+
+# Development toolchains
+development: homebrew
+	@bash development/install.sh
 
 # Languages and data
 pyenv spark uv: homebrew
@@ -69,7 +73,7 @@ dev-links-unlink:
 
 .PHONY: all homebrew \
 	ghostty lazygit fonts navigation-tools btop oh-my-zsh terminal terminal-utils extra-terminal-utils \
-	vim nvim vscode editors \
+	vim nvim vscode editors development \
 	pyenv uv spark python python-utils data \
 	docker containers spotify desktop \
 	dev-links dev-links-status dev-links-unlink
