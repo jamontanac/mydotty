@@ -24,9 +24,11 @@ Install a focused group with one of these commands:
 | Python | `make python` | pyenv and uv |
 | Data | `make data` | Apache Spark and OpenJDK 17 |
 | Containers | `make containers` | Docker Desktop and Docker Compose |
-| Desktop | `make desktop` | Spotify |
+| Desktop | `make desktop` | Spotify and Obsidian |
 
 `make terminal-utils` and `make python-utils` remain available as compatibility aliases. Individual tools can still be installed directly, for example `make vscode` or `make spark`.
+
+Run `make obsidian` to install only Obsidian. The Neovim Obsidian plugin uses the templates in `MacOs/nvim/templates` through the managed Neovim configuration; set `OBSIDIAN_VAULT` to select the vault it should use.
 
 ## Live edit workflow (repo as source of truth)
 If you want to edit this repository directly and immediately test those changes in your active local setup, use the symlink workflow:

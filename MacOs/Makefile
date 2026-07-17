@@ -53,12 +53,15 @@ containers: docker
 spotify: homebrew
 	@bash spotify/install.sh
 
-desktop: spotify
+obsidian: homebrew
+	@bash obsidian/install.sh
+
+desktop: spotify obsidian
 	@echo "Desktop applications installed."
 
 # Backward-compatible group aliases
 terminal-utils: terminal
-extra-terminal-utils: fonts navigation-tools
+extra-terminal-utils: fonts navigation-tools btop
 python-utils: python
 
 # Configuration links
@@ -75,5 +78,5 @@ dev-links-unlink:
 	ghostty lazygit fonts navigation-tools btop oh-my-zsh terminal terminal-utils extra-terminal-utils \
 	vim nvim vscode editors development \
 	pyenv uv spark python python-utils data \
-	docker containers spotify desktop \
+	docker containers spotify obsidian desktop \
 	dev-links dev-links-status dev-links-unlink
