@@ -9,7 +9,7 @@
 ```
 
 # Installation groups
-The default command installs the everyday terminal, editor, and Python tools:
+The default command installs the everyday terminal, editor, development, and Python tools:
 ```bash
 make
 ```
@@ -20,9 +20,10 @@ Install a focused group with one of these commands:
 | --- | --- | --- |
 | Terminal | `make terminal` | Ghostty, Oh My Zsh, Lazygit, navigation tools, btop, and fonts |
 | Editors | `make editors` | Vim, Neovim, and Visual Studio Code |
+| Development | `make development` | Clang/Clang++, npm, Cargo, and Rust |
 | Python | `make python` | pyenv and uv |
 | Data | `make data` | Apache Spark and OpenJDK 17 |
-| Containers | `make containers` | Docker Desktop |
+| Containers | `make containers` | Docker Desktop and Docker Compose |
 | Desktop | `make desktop` | Spotify |
 
 `make terminal-utils` and `make python-utils` remain available as compatibility aliases. Individual tools can still be installed directly, for example `make vscode` or `make spark`.
