@@ -1,115 +1,126 @@
 -- Highlight, edit, and navigate code
+local languages = {
+    'bash',
+    'c',
+    'cmake',
+    'comment',
+    'css',
+    'dockerfile',
+    'gitignore',
+    'go',
+    'graphql',
+    'groovy',
+    'html',
+    'java',
+    'javascript',
+    'json',
+    'julia',
+    'latex',
+    'lua',
+    'make',
+    'markdown',
+    'markdown_inline',
+    'python',
+    'regex',
+    'rust',
+    'sql',
+    'terraform',
+    'toml',
+    'tsx',
+    'typescript',
+    'vim',
+    'vimdoc',
+    'yaml',
+    'scss',
+    'svelte',
+    'typst',
+    'vue',
+}
+
 return {
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
+    lazy = false,
     build = ':TSUpdate',
     dependencies = {
         {
             'nvim-treesitter/nvim-treesitter-textobjects',
-            branch = 'master',
+            config = function()
+                require('nvim-treesitter-textobjects').setup {
+                    select = { lookahead = true },
+                    move = { set_jumps = true },
+                }
+
+                local select = require 'nvim-treesitter-textobjects.select'
+                local move = require 'nvim-treesitter-textobjects.move'
+                local swap = require 'nvim-treesitter-textobjects.swap'
+
+                for _, mode in ipairs { 'x', 'o' } do
+                    vim.keymap.set(mode, 'aa', function()
+                        select.select_textobject('@parameter.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, 'ia', function()
+                        select.select_textobject('@parameter.inner', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, 'af', function()
+                        select.select_textobject('@function.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, 'if', function()
+                        select.select_textobject('@function.inner', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, 'ac', function()
+                        select.select_textobject('@class.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, 'ic', function()
+                        select.select_textobject('@class.inner', 'textobjects')
+                    end)
+                end
+
+                for _, mode in ipairs { 'n', 'x', 'o' } do
+                    vim.keymap.set(mode, ']f', function()
+                        move.goto_next_start('@function.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, ']c', function()
+                        move.goto_next_start('@class.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, ']F', function()
+                        move.goto_next_end('@function.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, ']C', function()
+                        move.goto_next_end('@class.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, '[f', function()
+                        move.goto_previous_start('@function.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, '[c', function()
+                        move.goto_previous_start('@class.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, '[F', function()
+                        move.goto_previous_end('@function.outer', 'textobjects')
+                    end)
+                    vim.keymap.set(mode, '[C', function()
+                        move.goto_previous_end('@class.outer', 'textobjects')
+                    end)
+                end
+
+                vim.keymap.set('n', '<leader>sp', function()
+                    swap.swap_next '@parameter.inner'
+                end)
+                vim.keymap.set('n', '<leader>sP', function()
+                    swap.swap_previous '@parameter.inner'
+                end)
+            end,
         },
     },
     config = function()
-        require('nvim-treesitter.configs').setup {
-            -- Add languages to be installed here that you want installed for treesitter
-            ensure_installed = {
-                'bash',
-                'c',
-                'cmake',
-                'comment',
-                'css',
-                'dockerfile',
-                'gitignore',
-                'go',
-                'graphql',
-                'groovy',
-                'html',
-                'java',
-                'javascript',
-                'json',
-                'julia',
-                'latex',
-                'lua',
-                'make',
-                'markdown',
-                'markdown_inline',
-                'python',
-                'regex',
-                'rust',
-                'sql',
-                'terraform',
-                'toml',
-                'tsx',
-                'typescript',
-                'vim',
-                'vimdoc',
-                'yaml',
-                'norg',
-                'scss',
-                'svelte',
-                'typst',
-                'vue',
-            },
+        require('nvim-treesitter').setup()
+        require('nvim-treesitter').install(languages)
 
-            -- Autoinstall languages that are not installed
-            auto_install = true,
-
-            highlight = { enable = true, additional_vim_regex_highlighting = false },
-            indent = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<leader>v',
-                    node_incremental = '<leader>v',
-                    scope_incremental = '<leader>V',
-                    node_decremental = '<leader><BS>',
-                },
-            },
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-                    keymaps = {
-                        -- You can use the capture groups defined in textobjects.scm
-                        ['aa'] = '@parameter.outer',
-                        ['ia'] = '@parameter.inner',
-                        ['af'] = '@function.outer',
-                        ['if'] = '@function.inner',
-                        ['ac'] = '@class.outer',
-                        ['ic'] = '@class.inner',
-                    },
-                },
-                move = {
-                    enable = true,
-                    set_jumps = true, -- whether to set jumps in the jumplist
-                    goto_next_start = {
-                        [']f'] = '@function.outer',
-                        [']c'] = '@class.outer',
-                    },
-                    goto_next_end = {
-                        [']F'] = '@function.outer',
-                        [']C'] = '@class.outer',
-                    },
-                    goto_previous_start = {
-                        ['[f'] = '@function.outer',
-                        ['[c'] = '@class.outer',
-                    },
-                    goto_previous_end = {
-                        ['[F'] = '@function.outer',
-                        ['[C'] = '@class.outer',
-                    },
-                },
-                swap = {
-                    enable = true,
-                    swap_next = {
-                        ['<leader>sp'] = '@parameter.inner',
-                    },
-                    swap_previous = {
-                        ['<leader>sP'] = '@parameter.inner',
-                    },
-                },
-            },
-        }
+        vim.api.nvim_create_autocmd('FileType', {
+            pattern = '*',
+            callback = function(args)
+                pcall(vim.treesitter.start, args.buf)
+            end,
+        })
 
         -- Register additional file extension
         vim.filetype.add { extension = { tf = 'terraform' } }
