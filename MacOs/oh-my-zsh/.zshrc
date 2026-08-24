@@ -163,3 +163,6 @@ if [[ -d "$HOME/.bun" ]]; then
     [[ -d "$rustup_bin" ]] && export PATH="$rustup_bin:$PATH"
   fi
 fi
+
+# opencode
+export PATH=/Users/jmontana/.opencode/bin:$PATH
