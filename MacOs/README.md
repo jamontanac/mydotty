@@ -29,7 +29,7 @@ Install a focused group with one of these commands:
 
 `make terminal-utils` and `make python-utils` remain available as compatibility aliases. Individual tools can still be installed directly, for example `make vscode` or `make spark`.
 
-Run `make obsidian` to install only Obsidian. The Neovim Obsidian plugin uses the templates in `MacOs/nvim/templates` through the managed Neovim configuration; set `OBSIDIAN_VAULT` to select the vault it should use.
+Run `make obsidian` to install only Obsidian. The Neovim Obsidian plugin uses the templates in `../config/nvim/templates` through the managed Neovim configuration; set `OBSIDIAN_VAULT` to select the vault it should use.
 
 Run `make dygma` to install Bazecor only. It fetches the latest release from the [Dygmalab/Bazecor releases](https://github.com/Dygmalab/Bazecor/releases/) API and selects the matching Apple Silicon or Intel macOS DMG.
 
@@ -46,8 +46,9 @@ Current managed links include:
 - `MacOs/ghostty/config` -> `~/.config/ghostty/config`
 - `MacOs/oh-my-zsh/.zshrc` -> `~/.zshrc`
 - `MacOs/oh-my-zsh/plugins/*` -> `~/.oh-my-zsh/custom/plugins/<plugin>/<file>`
-- `MacOs/vim/.vimrc` -> `~/.vimrc`
-- `MacOs/nvim` -> `~/.config/nvim`
+- `../config/vim/.vimrc` -> `~/.vimrc`
+- `../config/nvim` -> `~/.config/nvim`
+- `../config/lazygit/config.yml` -> `~/Library/Application Support/lazygit/config.yml`
 - `MacOs/vscode/settings.json` -> `~/Library/Application Support/Code/User/settings.json`
 
 Useful commands:
@@ -276,6 +277,6 @@ Since i use a lot vim keybindings, take a look at the ``.vimrc`` file which is b
 ## VIM
 I have some feelings about vim, i honestly love it but not the editor itself but everything that is behind it, the motions, the way of custoimise the keybindings. It is all about productivity but more over to know the tools you use daily. here i share my vimrc file with the mappings and plugins i use.
 
-You can find it [here](./vim/.vimrc)
+You can find it [here](../config/vim/.vimrc)
 
 ## Nvim

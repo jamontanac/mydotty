@@ -6,6 +6,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MACOS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$MACOS_DIR/.." && pwd)"
 TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP_ROOT="$HOME/.mydotty-backups"
 BACKUP_DIR="$BACKUP_ROOT/$TIMESTAMP"
@@ -115,8 +116,11 @@ status_one() {
 build_mappings() {
   register_mapping "$MACOS_DIR/ghostty/config" "$HOME/.config/ghostty/config"
   register_mapping "$MACOS_DIR/oh-my-zsh/.zshrc" "$HOME/.zshrc"
-  register_mapping "$MACOS_DIR/vim/.vimrc" "$HOME/.vimrc"
-  register_mapping "$MACOS_DIR/nvim" "$HOME/.config/nvim"
+  register_mapping "$REPO_ROOT/config/vim/.vimrc" "$HOME/.vimrc"
+  register_mapping "$REPO_ROOT/config/nvim" "$HOME/.config/nvim"
+  register_mapping \
+    "$REPO_ROOT/config/lazygit/config.yml" \
+    "$HOME/Library/Application Support/lazygit/config.yml"
   register_mapping \
     "$MACOS_DIR/vscode/settings.json" \
     "$HOME/Library/Application Support/Code/User/settings.json"

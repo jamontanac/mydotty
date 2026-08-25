@@ -67,7 +67,7 @@ end)
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
-local backup_dir = vim.fn.expand '~/.config/nvim/backup'
+local backup_dir = vim.fn.stdpath 'config' .. '/backup'
 -- Create the backup directory if it doesn't exist
 if not vim.fn.isdirectory(backup_dir) then
     vim.fn.mkdir(backup_dir, 'p')

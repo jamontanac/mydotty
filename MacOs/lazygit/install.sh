@@ -16,18 +16,3 @@ else
     brew install git-delta
     echo "Git Delta installed successfully."
 fi
-
-LAZYGIT_CONFIG_DIR="$HOME/Library/Application Support/lazygit"
-LAZYGIT_CONFIG_FILE="$LAZYGIT_CONFIG_DIR/config.yml"
-DELTA_PAGER_LINE="        - pager: delta --dark --paging=never --syntax-theme base16-256 --diff-so-fancy --side-by-side --line-numbers"
-
-mkdir -p "$LAZYGIT_CONFIG_DIR"
-
-if ! grep -Fq "$DELTA_PAGER_LINE" "$LAZYGIT_CONFIG_FILE" 2>/dev/null; then
-    cat >> "$LAZYGIT_CONFIG_FILE" <<'EOF'
-
-git:
-    pagers:
-        - pager: delta --dark --paging=never --syntax-theme base16-256 --diff-so-fancy --side-by-side --line-numbers
-EOF
-fi

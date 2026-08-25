@@ -7,12 +7,7 @@ local function resolve_templates_folder()
         end
     end
 
-    local repo_templates = vim.fn.expand '~/mydotty/MacOs/nvim/templates'
-    if vim.fn.isdirectory(repo_templates) == 1 then
-        return repo_templates
-    end
-
-    local config_templates = vim.fn.expand '~/.config/nvim/templates'
+    local config_templates = vim.fn.stdpath 'config' .. '/templates'
     if vim.fn.isdirectory(config_templates) == 1 then
         return config_templates
     end

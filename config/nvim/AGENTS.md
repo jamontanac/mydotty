@@ -10,7 +10,8 @@ This is a **Neovim configuration repository** using:
 - **Primary Language**: Lua (configuration)
 - **Supported Languages**: Python, Rust, Julia, JavaScript, TypeScript, Bash, C/C++, Go, and more
 - **Architecture**: Modular plugin-based structure
-- **Location**: `~/.config/nvim` (not a git repository)
+- **Source**: `config/nvim` in this repository
+- **Active location**: macOS `~/.config/nvim`; Windows `$env:LOCALAPPDATA\nvim`
 
 ---
 

@@ -38,6 +38,10 @@ local function strip_ansi_codes(s)
     return s:gsub('[\27\155][][()#;?%d]*[0-9A-Za-z]', '')
 end
 
+local function config_file_path(relative_path)
+    return vim.fn.stdpath 'config' .. '/' .. relative_path
+end
+
 return {
     'goolord/alpha-nvim',
     dependencies = {
@@ -47,7 +51,7 @@ return {
     init = false,
     enabled = true,
     opts = function()
-        local static_header_content = read_lines(vim.fn.expand '~/.config/nvim/lua/files/wave_dashboard.txt')
+        local static_header_content = read_lines(config_file_path 'lua/files/wave_dashboard.txt')
 
         local dashboard = require 'alpha.themes.dashboard'
 
@@ -157,7 +161,7 @@ return {
             once = true,
             pattern = 'LazyVimStarted',
             callback = function()
-                local footer_content = read_lines(vim.fn.expand '~/.config/nvim/lua/files/footer.txt')
+                local footer_content = read_lines(config_file_path 'lua/files/footer.txt')
                 local stats = require('lazy').stats()
                 local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
 

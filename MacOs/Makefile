@@ -7,8 +7,11 @@ homebrew:
 	@bash homebrew/install.sh
 
 # Terminal tools
-ghostty lazygit: homebrew
+ghostty: homebrew
 	@bash $@/install.sh
+
+lazygit: homebrew dev-links
+	@bash lazygit/install.sh
 
 fonts navigation-tools btop: homebrew
 	@bash extras/$@/install.sh
@@ -20,8 +23,11 @@ terminal: ghostty oh-my-zsh lazygit navigation-tools btop fonts
 	@echo "Terminal tools installed."
 
 # Editors
-nvim vscode: homebrew
-	@bash $@/install.sh
+nvim: homebrew dev-links
+	@bash nvim/install.sh
+
+vscode: homebrew
+	@bash vscode/install.sh
 
 vim: homebrew fonts navigation-tools dev-links
 	@bash vim/install.sh
