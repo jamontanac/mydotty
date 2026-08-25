@@ -17,6 +17,7 @@ The purpose of this documentation is to document every step needed to recreate t
 
 - [macOS](MacOs/README.md)
 - [Windows](Windows/README.md)
+- [Linux](Linux/README.md)
 
 ### Fonts 💯󰍘
 - [font-0xproto-nerd-font](https://github.com/0xType/0xProto)

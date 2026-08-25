@@ -12,6 +12,7 @@ This is a **Neovim configuration repository** using:
 - **Architecture**: Modular plugin-based structure
 - **Source**: `config/nvim` in this repository
 - **Active location**: macOS `~/.config/nvim`; Windows `$env:LOCALAPPDATA\nvim`
+- **Linux active location**: `$XDG_CONFIG_HOME/nvim` (defaults to `~/.config/nvim`)
 
 ---
 
