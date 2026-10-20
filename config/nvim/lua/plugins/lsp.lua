@@ -209,8 +209,12 @@ return {
             -- gopls = {},
             -- pyright = {},
             rust_analyzer = {
-                cargo = {
-                    allFeatures = true, -- Enable all features in the Cargo.toml file
+                settings = {
+                    ['rust-analyzer'] = {
+                        cargo = {
+                            allFeatures = true, -- Enable all features in the Cargo.toml file
+                        },
+                    },
                 },
             },
             -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -221,34 +225,8 @@ return {
             -- But for many setups, the LSP (`ts_ls`) will work just fine
             -- ts_ls = {},
             --
-            ruff = {
-                -- Notes on code actions: https://github.com/astral-sh/ruff-lsp/issues/119#issuecomment-1595628355
-                -- Get isort like behavior: https://github.com/astral-sh/ruff/issues/8926#issuecomment-1834048218
-                commands = {
-                    RuffAutofix = {
-                        function()
-                            vim.lsp.buf.execute_command {
-                                command = 'ruff.applyAutofix',
-                                arguments = {
-                                    { uri = vim.uri_from_bufnr(0) },
-                                },
-                            }
-                        end,
-                        description = 'Ruff: Fix all auto-fixable problems',
-                    },
-                    RuffOrganizeImports = {
-                        function()
-                            vim.lsp.buf.execute_command {
-                                command = 'ruff.applyOrganizeImports',
-                                arguments = {
-                                    { uri = vim.uri_from_bufnr(0) },
-                                },
-                            }
-                        end,
-                        description = 'Ruff: Format imports',
-                    },
-                },
-            },
+            -- :RuffAutofix and :RuffOrganizeImports are defined below the servers table
+            ruff = {},
             jsonls = {},
             sqlls = {},
             terraformls = {},
@@ -341,19 +319,24 @@ return {
         })
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+        -- Ruff exposes fix-all and organize-imports as source code actions
+        local function ruff_action(kind)
+            return function()
+                vim.lsp.buf.code_action { context = { only = { kind }, diagnostics = {} }, apply = true }
+            end
+        end
+        vim.api.nvim_create_user_command('RuffAutofix', ruff_action 'source.fixAll.ruff', { desc = 'Ruff: Fix all auto-fixable problems' })
+        vim.api.nvim_create_user_command('RuffOrganizeImports', ruff_action 'source.organizeImports.ruff', { desc = 'Ruff: Organize imports' })
+
+        -- mason-lspconfig v2 dropped `handlers`: register each server's config with
+        -- vim.lsp.config and let mason-lspconfig's automatic_enable start them.
+        for server_name, server in pairs(servers) do
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            vim.lsp.config(server_name, server)
+        end
+
         require('mason-lspconfig').setup {
             ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-            automatic_installation = false,
-            handlers = {
-                function(server_name)
-                    local server = servers[server_name] or {}
-                    -- This handles overriding only values explicitly passed
-                    -- by the server configuration above. Useful when disabling
-                    -- certain features of an LSP (for example, turning off formatting for ts_ls)
-                    server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                    require('lspconfig')[server_name].setup(server)
-                end,
-            },
         }
     end,
 }
