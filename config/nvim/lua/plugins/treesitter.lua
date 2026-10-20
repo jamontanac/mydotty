@@ -6,6 +6,7 @@ local languages = {
     'comment',
     'css',
     'dockerfile',
+    'fortran',
     'gitignore',
     'go',
     'graphql',
