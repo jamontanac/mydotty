@@ -201,6 +201,19 @@ return {
         --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
         local capabilities = require('blink.cmp').get_lsp_capabilities()
 
+        -- CUDA on macOS is read/format only (code is built on a Linux server): there is no
+        -- CUDA toolkit here, so clangd flags every CUDA name as an error. Hide diagnostics in
+        -- cuda buffers but keep clangd's navigation (definitions, references, symbols).
+        if vim.fn.has 'mac' == 1 then
+            vim.api.nvim_create_autocmd('FileType', {
+                group = vim.api.nvim_create_augroup('cuda-mac-no-diagnostics', { clear = true }),
+                pattern = 'cuda',
+                callback = function(ev)
+                    vim.diagnostic.enable(false, { bufnr = ev.buf })
+                end,
+            })
+        end
+
         -- Enable the following language servers
         --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
         --

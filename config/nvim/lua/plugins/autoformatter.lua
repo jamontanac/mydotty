@@ -67,9 +67,10 @@ return { -- Autoformat
             --  use :RuffAutofix for that)
             python = { 'ruff_organize_imports', 'ruff_format' },
 
-            --C/C++ formatter
+            --C/C++/CUDA formatter
             c = { 'clang_format' },
             cpp = { 'clang_format' },
+            cuda = { 'clang_format' },
 
             -- Julia formatter
             julia = { 'juliaformatter' }, -- Julia formatter
