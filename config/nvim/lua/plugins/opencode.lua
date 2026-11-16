@@ -57,22 +57,9 @@ return {
         -- vim.keymap.set('n', '<leader>oc', function()
         --     require('opencode').command()
         -- end, { desc = 'Select command' })
-        --
-        -- vim.keymap.set('n', '<leader>on', function()
-        --     require('opencode').command 'session_new'
-        -- end, { desc = 'New session' })
 
         -- vim.keymap.set('n', '<leader>oi', function()
         --     require('opencode').command 'session_interrupt'
         -- end, { desc = 'Interrupt session' })
-        --
-        -- vim.keymap.set('n', '<leader>oA', function()
-        --     require('opencode').command 'agent_cycle'
-        -- end, { desc = 'Cycle selected agent' })
-        --
-        -- -- Toggle terminal directly
-        -- vim.keymap.set('n', '<leader>ot', function()
-        --     opTerminal.toggle()
-        -- end, { desc = 'Toggle opencode terminal' })
     end,
 }

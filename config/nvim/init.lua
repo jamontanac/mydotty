@@ -56,6 +56,5 @@ require('lazy').setup {
     -- require 'plugins.diagrams',
     -- require 'plugins.avante',
 }
--- require 'plugins.floating-terminal.floating-terminal'
 require 'plugins.floating-terminal'
 -- require 'plugins.present'

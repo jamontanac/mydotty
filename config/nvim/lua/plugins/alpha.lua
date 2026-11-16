@@ -135,28 +135,6 @@ return {
             once = true,
         })
 
-        --
-        -- vim.api.nvim_create_autocmd({ "User" }, {
-        --   group = "alpha_dynamic_header",
-        --   pattern = "AlphaReady",
-        --   callback = function()
-        --     if vim.fn.executable("onefetch") == 1 then
-        --       -- Check if we're in a Git repo first
-        --       local handle = io.popen("git rev-parse --is-inside-work-tree 2>/dev/null")
-        --       local is_git = handle:read("*a") ~= ""
-        --       local handle = io.popen("onefetch 2>/dev/null")
-        --       local output = handle:read("*a")
-        --       handle:close()
-        --       output = strip_ansi_codes(output)
-        --       local header = vim.split(output:gsub("\n\n+", "\n"), "\n")
-        --       if next(header) ~= nil then
-        --         dashboard.section.header.val = header
-        --         pcall(vim.cmd.AlphaRedraw)
-        --       end
-        --     end
-        --   end,
-        --   once = true,
-        -- })
         vim.api.nvim_create_autocmd('User', {
             once = true,
             pattern = 'LazyVimStarted',
