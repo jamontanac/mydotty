@@ -102,7 +102,10 @@ return {
                 --
                 -- When you move your cursor, the highlights will be cleared (the second autocommand).
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
-                if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+                if
+                    client
+                    and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+                then
                     local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
                     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                         buffer = event.buf,
@@ -320,8 +323,16 @@ return {
                 vim.lsp.buf.code_action { context = { only = { kind }, diagnostics = {} }, apply = true }
             end
         end
-        vim.api.nvim_create_user_command('RuffAutofix', ruff_action 'source.fixAll.ruff', { desc = 'Ruff: Fix all auto-fixable problems' })
-        vim.api.nvim_create_user_command('RuffOrganizeImports', ruff_action 'source.organizeImports.ruff', { desc = 'Ruff: Organize imports' })
+        vim.api.nvim_create_user_command(
+            'RuffAutofix',
+            ruff_action 'source.fixAll.ruff',
+            { desc = 'Ruff: Fix all auto-fixable problems' }
+        )
+        vim.api.nvim_create_user_command(
+            'RuffOrganizeImports',
+            ruff_action 'source.organizeImports.ruff',
+            { desc = 'Ruff: Organize imports' }
+        )
 
         -- mason-lspconfig v2 dropped `handlers`: register each server's config with
         -- vim.lsp.config and let mason-lspconfig's automatic_enable start them.

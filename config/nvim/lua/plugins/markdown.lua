@@ -72,7 +72,7 @@ return {
         },
         latex = {
             enabled = true,
-            converter = { 'latex2text', 'utftex', },
+            converter = { 'latex2text', 'utftex' },
         },
     },
     -- keys = {

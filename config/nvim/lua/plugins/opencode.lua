@@ -41,11 +41,11 @@ return {
         end, { desc = 'Cycle selected agent' })
 
         vim.keymap.set('n', '<leader>ac', function()
-            require('opencode').command('session.select')
+            require('opencode').command 'session.select'
         end, { desc = 'Choose session' })
 
         vim.keymap.set('n', '<leader>an', function()
-            require('opencode').command('session.new')
+            require('opencode').command 'session.new'
         end, { desc = 'New session' })
 
         -- vim.keymap.set({ 'n', 't' }, '<leader>oc', function()

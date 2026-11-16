@@ -17,16 +17,31 @@ return {
             end
         end
 
-        vim.keymap.set('n', '<leader>mp', with_parser(function()
-            require('nabla').popup { border = 'rounded' }
-        end), { desc = '[M]ath [P]opup (nabla)' })
+        vim.keymap.set(
+            'n',
+            '<leader>mp',
+            with_parser(function()
+                require('nabla').popup { border = 'rounded' }
+            end),
+            { desc = '[M]ath [P]opup (nabla)' }
+        )
 
-        vim.keymap.set('n', '<leader>mv', with_parser(function()
-            require('nabla').toggle_virt()
-        end), { desc = '[M]ath [V]irtual toggle (nabla)' })
+        vim.keymap.set(
+            'n',
+            '<leader>mv',
+            with_parser(function()
+                require('nabla').toggle_virt()
+            end),
+            { desc = '[M]ath [V]irtual toggle (nabla)' }
+        )
 
-        vim.keymap.set('n', '<leader>ma', with_parser(function()
-            require('nabla').toggle_virt { autogen = true }
-        end), { desc = '[M]ath [A]utogen toggle (nabla)' })
+        vim.keymap.set(
+            'n',
+            '<leader>ma',
+            with_parser(function()
+                require('nabla').toggle_virt { autogen = true }
+            end),
+            { desc = '[M]ath [A]utogen toggle (nabla)' }
+        )
     end,
 }

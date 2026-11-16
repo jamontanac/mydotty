@@ -273,17 +273,24 @@ return {
         },
         callbacks = {
             enter_note = function()
-
-                map_visual_obsidian_command('<leader>ol', link_visual_selection_to_existing_note, 'Obsidian link selection to existing note')
-                map_visual_obsidian_command('<leader>oL', link_visual_selection_to_new_note, 'Obsidian new link selection to new note')
-            --    vim.keymap.set('x', '<leader>ol', ':ObsidianLink<CR>', {
-            --         buffer = true,
-            --         desc = 'Obsidian link selection to existing note',
-            --     })
-            --     vim.keymap.set('x', '<leader>oL', ':ObsidianLinkNew<CR>', {
-            --         buffer = true,
-            --         desc = 'Obsidian link selection to new note',
-            --     }) 
+                map_visual_obsidian_command(
+                    '<leader>ol',
+                    link_visual_selection_to_existing_note,
+                    'Obsidian link selection to existing note'
+                )
+                map_visual_obsidian_command(
+                    '<leader>oL',
+                    link_visual_selection_to_new_note,
+                    'Obsidian new link selection to new note'
+                )
+                --    vim.keymap.set('x', '<leader>ol', ':ObsidianLink<CR>', {
+                --         buffer = true,
+                --         desc = 'Obsidian link selection to existing note',
+                --     })
+                --     vim.keymap.set('x', '<leader>oL', ':ObsidianLinkNew<CR>', {
+                --         buffer = true,
+                --         desc = 'Obsidian link selection to new note',
+                --     })
             end,
         },
         attachments = {
