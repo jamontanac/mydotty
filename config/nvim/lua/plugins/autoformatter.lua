@@ -72,8 +72,8 @@ return { -- Autoformat
             cpp = { 'clang_format' },
             cuda = { 'clang_format' },
 
-            -- Julia formatter
-            julia = { 'juliaformatter' }, -- Julia formatter
+            -- Julia: no conform entry on purpose ('juliaformatter' is not a conform formatter and
+            -- was ignored); julia buffers use julials' formatting (JuliaFormatter) via lsp_format fallback
 
             -- rust formatter
             rust = { 'rustfmt' }, -- Rust formatter

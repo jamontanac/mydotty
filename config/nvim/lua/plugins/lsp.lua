@@ -85,7 +85,15 @@ return {
 
                 -- Fuzzy find all the symbols in your current document.
                 --  Symbols are things like variables, functions, types, etc.
-                map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+                --  Only for servers that provide symbols: render-markdown's in-process LSP attaches
+                --  to markdown and would otherwise replace the built-in gO heading outline.
+                local attached = vim.lsp.get_client_by_id(event.data.client_id)
+                if
+                    attached
+                    and attached:supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol, event.buf)
+                then
+                    map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+                end
 
                 -- Fuzzy find all the symbols in your current workspace.
                 --  Similar to document symbols, except searches over your entire project.

@@ -69,4 +69,3 @@ vim.o.directory = backup_dir
 -- set undo files
 vim.o.undofile = true -- Enable persistent undo
 vim.o.backup = true -- Keep a copy of the previous version on every write
-vim.opt.undoreload = 10000
