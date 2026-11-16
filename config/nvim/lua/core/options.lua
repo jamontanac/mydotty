@@ -65,18 +65,16 @@ vim.schedule(function()
     vim.o.clipboard = 'unnamedplus'
 end)
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true -- Ghostty uses "0x Proto Nerd Font"
 
 local backup_dir = vim.fn.stdpath 'config' .. '/backup'
--- Create the backup directory if it doesn't exist
-if not vim.fn.isdirectory(backup_dir) then
-    vim.fn.mkdir(backup_dir, 'p')
-end
+-- Create the backup directory if it doesn't exist ('p' makes this a no-op when it does)
+vim.fn.mkdir(backup_dir, 'p')
 -- set undo, backup, and swap directories
 vim.o.undodir = backup_dir
 vim.o.backupdir = backup_dir
 vim.o.directory = backup_dir
 -- set undo files
 vim.o.undofile = true -- Enable persistent undo
-vim.o.backup = true -- Disable backup files
+vim.o.backup = true -- Keep a copy of the previous version on every write
 vim.opt.undoreload = 10000

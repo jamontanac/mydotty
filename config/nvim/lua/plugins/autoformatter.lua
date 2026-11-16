@@ -1,9 +1,6 @@
 return { -- Autoformat
     'stevearc/conform.nvim',
-    dependencies = {
-        'williamboman/mason.nvim',
-        'WhoIsSethDaniel/mason-tool-installer.nvim',
-    },
+    -- Formatter binaries are installed by mason-tool-installer in lsp.lua
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
@@ -26,7 +23,6 @@ return { -- Autoformat
     },
     opts = {
         notify_on_error = false,
-        format_after_save = { lsp_format = 'fallback' }, -- Use LSP formatting as fallback
         format_on_save = function(bufnr)
             -- Disable "format_on_save lsp_fallback" for languages that don't
             -- have a well standardized coding style. You can add additional
@@ -66,11 +62,10 @@ return { -- Autoformat
             hcl = { 'terraform_fmt' },
 
             -- python formatter
-            -- python = { 'ruff', 'ruff_format' }, -- Use ruff for Python formatting
-            python = { 'ruff' },
-
-            -- Makefile linter
-            make = { 'checkmake' },
+            -- python formatter: sort imports, then `ruff format`
+            -- (`'ruff'` is conform's deprecated alias for ruff_fix, which only applies lint fixes;
+            --  use :RuffAutofix for that)
+            python = { 'ruff_organize_imports', 'ruff_format' },
 
             --C/C++ formatter
             c = { 'clang_format' },
@@ -103,27 +98,7 @@ return { -- Autoformat
             },
         },
     },
-    config = function(_, opts)
-        -- First, setup mason-tool-installer to ensure formatters are installed
-        require('mason-tool-installer').setup {
-            ensure_installed = {
-                'checkmake', -- makefile linter
-                'prettier', -- ts/js formatter
-                -- 'prittierd', -- ts/js formatter (alternative)
-                'stylua', -- lua formatter
-                'shfmt', -- shell formatter
-                'ruff', -- python formatter/linter
-                'juliaformatter', -- julia formatter
-                'jq', -- JSON formatter
-                'clang-format', -- C/C++ formatter
-            },
-            -- auto-install configured formatters (matching your original setup)
-            auto_update = true,
-            run_on_start = true,
-        }
-        -- Setup conform.nvim
-        require('conform').setup(opts)
-    end,
+    -- lazy.nvim calls require('conform').setup(opts) automatically
 }
 --   opts = {
 --     notify_on_error = false,

@@ -3,22 +3,9 @@ return {
     dependencies = {
         { 'folke/snacks.nvim', opts = { input = {}, picker = {} } },
     },
-    -- We use 'init' because opencode.nvim explicitly reads from the global
-    -- vim.g.opencode_opts variable during its internal initialization phase.
-    init = function()
-        local opTerminal = require 'plugins.opencode-terminal'
-
-        vim.g.opencode_opts = {
-            auto_reload = true,
-            on_opencode_not_found = function()
-                -- Ensure backend connection is active
-                opTerminal.ensure_opencode()
-                vim.defer_fn(function()
-                    vim.notify('OpenCode terminal ready. Connect with: opencode --port', vim.log.levels.INFO)
-                end, 500)
-            end,
-        }
-    end,
+    -- No vim.g.opencode_opts needed: the old `auto_reload` / `on_opencode_not_found` keys no
+    -- longer exist in opencode.nvim (reload is now `events.reload`, on by default), and
+    -- plugins/opencode-terminal.lua is fully commented out.
     config = function()
         -- Initialize the plugin options safely
         -- require('opencode').setup(opts)

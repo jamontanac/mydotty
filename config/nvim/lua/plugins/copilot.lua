@@ -1,10 +1,7 @@
 return {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
-    requires = {
-        'copilotlsp-nvim/copilot-lsp', -- (optional) for NES functionality
-    },
-    build = ':Copilot auth',
+    -- First-time setup: run :Copilot auth once
     event = 'InsertEnter',
     config = function()
         require('copilot').setup {

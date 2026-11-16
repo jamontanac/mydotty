@@ -53,30 +53,34 @@ return {
             --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
             --   },
             -- },
-            pickers = {
-                find_files = {
-                    file_ignore_patterns = { 'node_modules', '.git', '.venv', 'backup' },
-                    hidden = true,
+            defaults = {
+                path_display = {
+                    filename_first = {
+                        reverse_directories = true,
+                    },
                 },
             },
-            live_grep = {
-                file_ignore_patterns = { 'node_modules', '.git', '.venv', 'backup' },
-                additional_args = function(_)
-                    return { '--hidden' }
-                end,
-            },
-            path_display = {
-                filename_first = {
-                    reverse_directories = true,
+            -- Lua patterns: '.' matches any char, so '.git' also hid e.g. lazygit/ — escape it.
+            -- [/\\] matches both separators (rg prints '\' on Windows).
+            pickers = {
+                find_files = {
+                    file_ignore_patterns = { 'node_modules[/\\]', '%.git[/\\]', '%.venv[/\\]', 'backup[/\\]' },
+                    hidden = true,
+                },
+                live_grep = {
+                    file_ignore_patterns = { 'node_modules[/\\]', '%.git[/\\]', '%.venv[/\\]', 'backup[/\\]' },
+                    additional_args = function(_)
+                        return { '--hidden' }
+                    end,
+                },
+                git_files = {
+                    previewer = false,
                 },
             },
             extensions = {
                 ['ui-select'] = {
                     require('telescope.themes').get_dropdown(),
                 },
-            },
-            git_files = {
-                previewer = false,
             },
         }
 
@@ -113,12 +117,13 @@ return {
 
         -- It's also possible to pass additional configuration options.
         --  See `:help telescope.builtin.live_grep()` for information about particular keys
-        vim.keymap.set('n', '<leader>sg', function()
+        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep (whole project)' })
+        vim.keymap.set('n', '<leader>s/', function()
             builtin.live_grep {
                 grep_open_files = true,
                 prompt_title = 'Live Grep in Open Files',
             }
-        end, { desc = '[S]earch [G]rep in Open Files' })
+        end, { desc = '[S]earch [/] in Open Files' })
 
         -- Shortcut for searching your Neovim configuration file
         vim.keymap.set('n', '<leader>sn', function()

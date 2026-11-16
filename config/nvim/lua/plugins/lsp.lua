@@ -165,6 +165,12 @@ return {
         vim.diagnostic.config {
             severity_sort = true,
             float = { border = 'rounded', source = 'if_many' },
+            -- Built-in [d / ]d: show the message float after jumping
+            jump = {
+                on_jump = function(_, bufnr)
+                    vim.diagnostic.open_float { bufnr = bufnr, scope = 'cursor', focus = false }
+                end,
+            },
             underline = { severity = vim.diagnostic.severity.ERROR },
             signs = vim.g.have_nerd_font and {
                 text = {
@@ -314,8 +320,16 @@ return {
         -- You can add other tools here that you want Mason to install
         -- for you, so that they are available from within Neovim.
         local ensure_installed = vim.tbl_keys(servers or {})
+        -- Formatters used by conform (autoformatter.lua). They must be listed here:
+        -- mason-tool-installer installs on VimEnter, so a setup() call made later
+        -- (e.g. when conform lazy-loads on first save) never installs anything.
+        -- JuliaFormatter is not in the Mason registry: install it from Julia instead.
         vim.list_extend(ensure_installed, {
-            'stylua', -- Used to format Lua code
+            'stylua',
+            'prettier',
+            'shfmt',
+            'jq',
+            'clang-format',
         })
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

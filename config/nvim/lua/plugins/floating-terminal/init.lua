@@ -240,19 +240,26 @@ end, {
 })
 
 -- Key mappings for easy access
-vim.keymap.set({ 'n', 't' }, '<leader>tt', function()
+-- Only <M-t> works inside the terminal: <leader> (Space) maps in terminal mode
+-- made every typed space wait for 'timeoutlen' and could fire on text like "ls tc".
+-- macOS Ghostty + Latin American layout: Option+t types '†' (macos-option-as-alt is off on
+-- purpose), so there use <leader>tt from normal mode (<Esc><Esc> leaves terminal mode).
+vim.keymap.set({ 'n', 't' }, '<M-t>', function()
     floatingTerm.toggle_terminal()
 end, { desc = 'Toggle floating terminal' })
-vim.keymap.set({ 'n', 't' }, '<leader>t1', function()
+vim.keymap.set('n', '<leader>tt', function()
+    floatingTerm.toggle_terminal()
+end, { desc = 'Toggle floating terminal' })
+vim.keymap.set('n', '<leader>t1', function()
     floatingTerm.toggle_terminal(1)
 end, { desc = 'Toggle terminal 1' })
-vim.keymap.set({ 'n', 't' }, '<leader>t2', function()
+vim.keymap.set('n', '<leader>t2', function()
     floatingTerm.toggle_terminal(2)
 end, { desc = 'Toggle terminal 2' })
--- vim.keymap.set({ 'n', 't' }, '<leader>t3', function()
+-- vim.keymap.set('n', '<leader>t3', function()
 --     floatingTerm.toggle_terminal(3)
 -- end, { desc = 'Toggle terminal 3' })
-vim.keymap.set({ 'n', 't' }, '<leader>tc', function()
+vim.keymap.set('n', '<leader>tc', function()
     floatingTerm.cycle_terminals()
 end, { desc = 'Cycle between terminals' })
 
