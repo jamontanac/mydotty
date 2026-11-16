@@ -2,7 +2,7 @@ return {
     'akinsho/bufferline.nvim',
     version = '*',
     dependencies = {
-        { 'echasnovski/mini.icons', opts = {} },
+        { 'nvim-mini/mini.icons', opts = {} },
         'moll/vim-bbye',
         'nvim-lua/plenary.nvim',
     },

@@ -9,8 +9,8 @@ return {
     config = function()
         -- Initialize the plugin options safely
         -- require('opencode').setup(opts)
+        -- (autoread, needed for events.reload, is on by default in Neovim)
 
-        vim.opt.autoread = true
         -- [KEYMAP RESTRUCTURING]
         -- Moving off <C-a> / <C-x> to keep math increments intact
         -- Using an ergonomic and highly clear leader setup

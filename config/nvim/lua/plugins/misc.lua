@@ -57,7 +57,9 @@ return {
     --         -- vim.g.HowMuch_no_mappings = 0 -- use default mappings
     --     end,
     -- },
-    { 'norcalli/nvim-colorizer.lua' },
+    -- Inactive: setup() was never called, so it never highlighted anything.
+    -- To enable: { 'norcalli/nvim-colorizer.lua', config = true } (the plugin is unmaintained)
+    -- { 'norcalli/nvim-colorizer.lua' },
     {
         'folke/todo-comments.nvim',
         event = 'VimEnter',
@@ -98,7 +100,6 @@ return {
     --         }
     --     end,
     -- },
-    { 'nvim-mini/mini.align', version = false },
     -- In your init.lua, add this plugin:
     -- {
     --     '3rd/image.nvim',

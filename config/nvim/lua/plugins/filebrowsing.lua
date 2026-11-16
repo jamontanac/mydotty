@@ -1,5 +1,5 @@
 
-oil_table_content = {
+local oil_table_content = {
   'stevearc/oil.nvim',
   ---@module 'oil'
   ---@type oil.SetupOpts
@@ -95,7 +95,7 @@ oil_table_content = {
     
   },
   -- Optional dependencies
-  dependencies = { { "echasnovski/mini.icons", opts = {} } },
+  dependencies = { { "nvim-mini/mini.icons", opts = {} } },
   -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
   -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
   lazy = false,
@@ -105,7 +105,7 @@ oil_table_content = {
   }
 }
 
-git_oil_status_table_content = {
+local git_oil_status_table_content = {
   "refractalize/oil-git-status.nvim",
 
   dependencies = {

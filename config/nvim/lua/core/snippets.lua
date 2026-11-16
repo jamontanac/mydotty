@@ -16,21 +16,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- makes * and # work on visual mode too.
-vim.api.nvim_exec(
-    [[
-  function! g:VSetSearch(cmdtype)
-    let temp = @s
-    norm! gv"sy
-    let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-    let @s = temp
-  endfunction
-
-  xnoremap * :<C-u>call g:VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
-  xnoremap # :<C-u>call g:VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
-]],
-    false
-)
+-- Visual-mode * and # (search for the selection) are built into Neovim 0.10+
 
 local filetype_vim = vim.api.nvim_create_augroup('filetype_vim', { clear = true })
 --
